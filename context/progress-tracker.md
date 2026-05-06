@@ -5,7 +5,7 @@ change.
 
 ## Current Phase
 
-- Backend — Admin Module Complete
+- Backend — Architecture Alignment Complete
 
 ## Current Goal
 
@@ -13,7 +13,12 @@ change.
 
 ## Completed
 
-- `01-user-endpoint.md` — Full implementation
+- `01-user-endpoint.md` — Full implementation:
+  - Auth: `POST /auth/register`, `POST /auth/login`, `POST /auth/logout`, `GET /auth/me`
+  - Profile: `GET /users/me`, `PUT /users/me`, `POST /users/profile-image`
+  - System: `GET /users`, `GET /users/:id`, `PUT /users/:id`, `DELETE /users/:id`
+  - Password hashing with Bcrypt, JWT in HTTP-only cookies
+  - Address: `GET /addresses`, `POST /addresses`, `PUT /addresses/:id`, `DELETE /addresses/:id` (Ownership enforced)
 - `02-resturant-endpoint.md` — Full implementation:
   - `POST /restaurant` — create restaurant
   - `GET /restaurant` — fetch all restaurants
@@ -41,6 +46,7 @@ change.
   - `GET /restaurants/:id/menu` — fetch restaurant menu
   - Cart Module (`/cart`, `/cart/add`, `/cart/update`, `/cart/remove`, `/cart/clear`)
   - Order Module (`POST /orders`, `GET /orders`, `GET /orders/:id`)
+  - Checkout Module (`POST /checkout`) — Dedicated entry point for cart-to-order creation
   - Payment Module (`POST /payment/webhook`)
   - `models/Cart.ts` and `models/Payment.ts` created
 - `05-admin-endpoint.md` — Full implementation:
@@ -77,5 +83,6 @@ change.
 ## Session Notes
 - Admin module is fully implemented according to `05-admin-endpoint.md`.
 - Restricted all endpoints under `/admin` using `authenticate` and `authorize('admin')` middleware.
-- Fixed minor TypeScript implicit `any` and typing bugs for `req.params`.
-- The backend API suite matches all defined architectural requirements.
+- Aligned implementation with `backend-architecture.md` by adding missing `/auth/logout`, `/auth/me`, `/users/me`, `/users/profile-image`, and `/checkout` endpoints.
+- Verified system integrity with `tsc --noEmit`; all type checks pass.
+- The backend API suite now 100% matches all defined architectural requirements.
