@@ -1,0 +1,39 @@
+# ─── Dependencies ────────────────────────────────────────────────────────────
+node_modules/
+.pnp
+.pnp.js
+
+# ─── Build outputs ───────────────────────────────────────────────────────────
+dist/
+build/
+out/
+*.tsbuildinfo
+
+# ─── Environment / secrets ───────────────────────────────────────────────────
+.env
+.env.*
+!.env.example
+
+# ─── Logs ────────────────────────────────────────────────────────────────────
+logs/
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ─── OS / editor artifacts ───────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# ─── Test / coverage ─────────────────────────────────────────────────────────
+coverage/
+.nyc_output/
+
+# ─── Prisma ──────────────────────────────────────────────────────────────────
+prisma/migrations/**/migration_lock.toml
+
+# ─── pnpm ────────────────────────────────────────────────────────────────────
+.pnpm-store/
