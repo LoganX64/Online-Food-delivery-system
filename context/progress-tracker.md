@@ -5,7 +5,7 @@ change.
 
 ## Current Phase
 
-- Backend — Restaurant Module Complete
+- Backend — Menu Module Complete
 
 ## Current Goal
 
@@ -27,6 +27,14 @@ change.
   - `PUT /restaurant/orders/:id/reject` — reject order
   - `PUT /restaurant/orders/:id/status` — update order status
   - `models/Order.ts` — created Order model with schema and status enums
+- `03-menu-endpoint.md` — Full implementation:
+  - `POST /menu` — create menu item (with Cloudinary upload)
+  - `GET /menu` — fetch all menu items
+  - `GET /menu/:id` — fetch single menu item
+  - `PUT /menu/:id` — update menu item (and Cloudinary image)
+  - `DELETE /menu/:id` — soft delete menu item and remove image from Cloudinary
+  - `models/MenuItem.ts` — created MenuItem model
+  - Added Cloudinary configuration and Multer upload middleware
   - Architectural Improvements:
     - Centralized error handling with `AppError` class
     - Standardized response format `{ success, data/error }`
@@ -50,8 +58,9 @@ change.
 - **JWT Storage**: JWTs are now stored in **HTTP-only cookies** for better security against XSS, as per the project architecture guidelines.
 - **Zod Validation**: Standardized validation at the route level using a reusable `validate` middleware, ensuring all inputs are checked before reaching services.
 - **Address Ownership**: Implemented user-scoped logic in `address.service.ts` to ensure users can only manage their own addresses.
+- **Cloudinary Integration**: Used Cloudinary and Multer for uploading and managing menu item images.
 
 ## Session Notes
-- Restaurant module is fully implemented according to `02-resturant-endpoint.md`.
-- Order model has been created, and basic status-update endpoints are functional for Restaurant Owners.
-- Next phase might be Menu Management or Customer checkout flow.
+- Menu module is fully implemented according to `03-menu-endpoint.md`.
+- Integrated Cloudinary for image uploads and deletions, using Multer for memory buffer parsing.
+- Next phase might be Cart/Checkout flow or UI implementation.

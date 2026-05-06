@@ -112,3 +112,25 @@ export const orderStatusUpdateSchema = z.object({
   }),
 });
 
+// ─── Menu Schemas ────────────────────────────────────────────
+
+export const menuCreateSchema = z.object({
+  body: z.object({
+    restaurantId: z.string().regex(/^[0-9a-fA-F]{24}$/, 'Invalid restaurant ID'),
+    name: z.string().trim().min(1, 'Menu item name is required'),
+    description: z.string().trim().optional(),
+    price: z.coerce.number().min(0, 'Price must be a positive number'),
+    category: z.string().trim().min(1, 'Category is required'),
+    isAvailable: z.coerce.boolean().default(true),
+  }),
+});
+
+export const menuUpdateSchema = z.object({
+  body: z.object({
+    name: z.string().trim().min(1, 'Menu item name cannot be empty').optional(),
+    description: z.string().trim().optional(),
+    price: z.coerce.number().min(0, 'Price must be a positive number').optional(),
+    category: z.string().trim().min(1, 'Category cannot be empty').optional(),
+    isAvailable: z.coerce.boolean().optional(),
+  }),
+});

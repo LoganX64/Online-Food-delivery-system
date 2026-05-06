@@ -8,6 +8,7 @@ import userRoutes from './routes/user.routes.js';
 import authRoutes from './routes/auth.routes.js';
 import addressRoutes from './routes/address.routes.js';
 import restaurantRoutes from './routes/restaurant.routes.js';
+import menuRoutes from './routes/menu.routes.js';
 import { errorHandler } from './middleware/error.middleware.js';
 
 dotenv.config();
@@ -44,6 +45,7 @@ app.use('/users', userRoutes);
 app.use('/auth', authRoutes);
 app.use('/addresses', addressRoutes);
 app.use('/restaurant', restaurantRoutes);
+app.use('/menu', menuRoutes);
 
 // Error Handler Middleware (must be last)
 app.use(errorHandler);
