@@ -1,10 +1,15 @@
 import bcrypt from 'bcryptjs';
 import { User, IUser } from '../models/User.js';
+import { AppError } from '../utils/AppError.js';
 
+/**
+ * Create a new user. Hashes password before storing.
+ * Returns the user object without the password field.
+ */
 export const createUser = async (userData: Partial<IUser>) => {
   const existingUser = await User.findOne({ email: userData.email });
   if (existingUser) {
-    throw new Error('User with this email already exists');
+    throw new AppError('User with this email already exists', 409);
   }
 
   const salt = await bcrypt.genSalt(10);
@@ -18,16 +23,26 @@ export const createUser = async (userData: Partial<IUser>) => {
   return userObject;
 };
 
+/**
+ * Fetch all users with passwords excluded.
+ */
 export const getAllUsers = async () => {
   return User.find().select('-password').lean();
 };
 
+/**
+ * Fetch a single user by ID. Throws 404 if not found.
+ */
 export const getUserById = async (id: string) => {
   const user = await User.findById(id).select('-password').lean();
-  if (!user) throw new Error('USER_NOT_FOUND');
+  if (!user) throw new AppError('User not found', 404);
   return user;
 };
 
+/**
+ * Update a user by ID. Only whitelisted fields are accepted.
+ * Password updates are NOT allowed through this endpoint.
+ */
 export const updateUser = async (id: string, updates: Partial<IUser>) => {
   const ALLOWED_FIELDS: (keyof IUser)[] = ['name', 'phone', 'profileImage', 'role', 'isActive'];
 
@@ -38,16 +53,20 @@ export const updateUser = async (id: string, updates: Partial<IUser>) => {
     }
   }
 
-  const user = await User.findByIdAndUpdate(id, safeUpdates, { new: true })
+  const user = await User.findByIdAndUpdate(id, safeUpdates, { new: true, runValidators: true })
     .select('-password')
     .lean();
 
-  if (!user) throw new Error('USER_NOT_FOUND');
+  if (!user) throw new AppError('User not found', 404);
   return user;
 };
 
+/**
+ * Soft-delete a user by setting isActive = false.
+ * Does NOT remove the document from the database.
+ */
 export const deleteUser = async (id: string) => {
   const user = await User.findByIdAndUpdate(id, { isActive: false }, { new: true });
-  if (!user) throw new Error('USER_NOT_FOUND');
+  if (!user) throw new AppError('User not found', 404);
   return { message: 'User deactivated successfully' };
 };

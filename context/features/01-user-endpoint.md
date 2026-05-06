@@ -31,42 +31,6 @@ Create a backend application that includes the following:
 
 Create a user feature with model, validation, and endpoint support.
 
-#### User Schema
-
-Use this structure for the `User` model:
-
-```ts
-User {
-  _id: ObjectId,
-  name: string,
-  email: string,
-  password: string,
-  role: "customer" | "restaurantOwner" | "admin",
-  profileImage?: string,
-  phone?: string,
-  isActive: boolean,
-  createdAt: Date,
-  updatedAt: Date
-}
-```
-
-#### Address Schema
-
-Use this structure for the `Address` model:
-
-```ts
-Address {
-  _id: ObjectId,
-  userId: ObjectId,
-  label: string, // home/work/other
-  addressLine: string,
-  city: string,
-  state: string,
-  pincode: string,
-  isDefault: boolean,
-  createdAt: Date
-}
-```
 
 ### 4) Validation
 
@@ -142,7 +106,7 @@ For `Address`:
     * `role`
   * Set expiration time of `7d` (or configurable via `.env`)
 
-### 6) Code Structure
+### 3) Code Structure
 
 Organize the code properly with separate files for:
 
@@ -153,7 +117,7 @@ Organize the code properly with separate files for:
 * routes
 * controllers or services
 
-### 7) Output Expectations
+### 4) Output Expectations
 
 Generate production-friendly code with:
 

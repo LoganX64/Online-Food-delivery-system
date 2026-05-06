@@ -1,22 +1,43 @@
 import { Request, Response, NextFunction } from 'express';
+import { AppError } from '../utils/AppError.js';
 
+/**
+ * Centralized error handler middleware.
+ * Catches AppError instances for known errors, and falls back
+ * to a generic 500 for unexpected failures.
+ */
 export const errorHandler = (err: any, req: Request, res: Response, next: NextFunction) => {
-  console.error(err.stack);
+  console.error(err.stack || err.message);
 
-  if (err.message === 'USER_NOT_FOUND') {
-    res.status(404).json({ message: 'User not found' });
+  if (err instanceof AppError) {
+    res.status(err.statusCode).json({
+      success: false,
+      error: err.message,
+    });
     return;
   }
 
-  if (err.message === 'INVALID_CREDENTIALS') {
-    res.status(401).json({ message: 'Invalid email or password' });
+  // MongoDB duplicate key error (e.g. unique email)
+  if (err.code === 11000) {
+    const field = Object.keys(err.keyValue || {})[0] || 'field';
+    res.status(409).json({
+      success: false,
+      error: `A record with this ${field} already exists`,
+    });
     return;
   }
 
-  if (err.message === 'User with this email already exists') {
-    res.status(409).json({ message: err.message });
+  // Mongoose CastError (invalid ObjectId, etc.)
+  if (err.name === 'CastError') {
+    res.status(400).json({
+      success: false,
+      error: 'Invalid ID format',
+    });
     return;
   }
 
-  res.status(500).json({ message: err.message || 'Internal Server Error' });
+  res.status(500).json({
+    success: false,
+    error: 'Internal Server Error',
+  });
 };
