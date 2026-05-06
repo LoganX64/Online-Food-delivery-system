@@ -230,6 +230,7 @@ This document defines the backend architecture of the multi-restaurant food orde
 
 ## Orders (Customer)
 
+- POST `/orders`
 - GET `/orders`
 - GET `/orders/:id`
 

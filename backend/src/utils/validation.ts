@@ -134,3 +134,46 @@ export const menuUpdateSchema = z.object({
     isAvailable: z.coerce.boolean().optional(),
   }),
 });
+export const orderUpdateSchema = z.object({
+  body: z.object({
+    status: z.enum(['created', 'placed', 'accepted', 'preparing', 'out_for_delivery', 'delivered', 'rejected', 'cancelled']),
+  }),
+});
+
+export const orderCreateSchema = z.object({
+  body: z.object({
+    items: z.array(z.object({
+      menuItemId: z.string().regex(/^[0-9a-fA-F]{24}$/, 'Invalid menu item ID'),
+      restaurantId: z.string().regex(/^[0-9a-fA-F]{24}$/, 'Invalid restaurant ID'),
+      name: z.string().min(1, 'Item name is required'),
+      priceAtOrder: z.number().min(0, 'Price must be positive'),
+      quantity: z.number().int().min(1, 'Quantity must be at least 1'),
+    })).min(1, 'Order must have at least one item'),
+    addressSnapshot: z.object({
+      addressLine: z.string().min(1, 'Address line is required'),
+      city: z.string().min(1, 'City is required'),
+      pincode: z.string().min(1, 'Pincode is required'),
+    }),
+    totalAmount: z.number().min(0, 'Total amount must be positive'),
+  }),
+});
+export const orderFromCartSchema = z.object({
+  body: z.object({
+    addressId: z.string().regex(/^[0-9a-fA-F]{24}$/, 'Invalid address ID'),
+  }),
+});
+
+// ─── Cart Schemas ────────────────────────────────────────────
+
+export const cartItemSchema = z.object({
+  body: z.object({
+    menuItemId: z.string().regex(/^[0-9a-fA-F]{24}$/, 'Invalid menu item ID'),
+    quantity: z.number().int().min(1, 'Quantity must be at least 1'),
+  }),
+});
+
+export const cartRemoveSchema = z.object({
+  body: z.object({
+    menuItemId: z.string().regex(/^[0-9a-fA-F]{24}$/, 'Invalid menu item ID'),
+  }),
+});

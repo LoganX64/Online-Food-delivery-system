@@ -11,7 +11,9 @@ import {
   acceptOrder,
   rejectOrder,
   updateOrderStatus,
+  getRestaurantsByPincode,
 } from '../services/restaurant.service.js';
+import { getAllMenuItems } from '../services/menu.service.js';
 import { AppError } from '../utils/AppError.js';
 
 // ─── General Restaurant CRUD ────────────────────────────────
@@ -140,6 +142,29 @@ export const updateRestaurantOrderStatus = async (req: Request, res: Response, n
     const restaurant = await getRestaurantByOwnerId(ownerId as string);
     const order = await updateOrderStatus(req.params.id as string, restaurant._id.toString(), req.body.status);
     res.status(200).json({ success: true, data: order });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// ─── Customer Endpoints ─────────────────────────────────────
+
+export const fetchCustomerRestaurants = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { pincode } = req.query;
+    const restaurants = await getRestaurantsByPincode(pincode as string);
+    res.status(200).json({ success: true, data: restaurants });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const fetchRestaurantMenu = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    // verify restaurant exists
+    await getRestaurantById(req.params.id as string);
+    const menuItems = await getAllMenuItems(req.params.id as string);
+    res.status(200).json({ success: true, data: menuItems });
   } catch (error) {
     next(error);
   }

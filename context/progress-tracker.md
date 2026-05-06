@@ -5,7 +5,7 @@ change.
 
 ## Current Phase
 
-- Backend — Menu Module Complete
+- Backend — Customer Module Complete
 
 ## Current Goal
 
@@ -35,6 +35,14 @@ change.
   - `DELETE /menu/:id` — soft delete menu item and remove image from Cloudinary
   - `models/MenuItem.ts` — created MenuItem model
   - Added Cloudinary configuration and Multer upload middleware
+- `04-customer-endpoint.md` — Full implementation:
+  - `GET /restaurants?pincode=` — fetch restaurants by pincode
+  - `GET /restaurants/:id` — fetch single restaurant
+  - `GET /restaurants/:id/menu` — fetch restaurant menu
+  - Cart Module (`/cart`, `/cart/add`, `/cart/update`, `/cart/remove`, `/cart/clear`)
+  - Order Module (`POST /orders`, `GET /orders`, `GET /orders/:id`)
+  - Payment Module (`POST /payment/webhook`)
+  - `models/Cart.ts` and `models/Payment.ts` created
   - Architectural Improvements:
     - Centralized error handling with `AppError` class
     - Standardized response format `{ success, data/error }`
@@ -61,6 +69,7 @@ change.
 - **Cloudinary Integration**: Used Cloudinary and Multer for uploading and managing menu item images.
 
 ## Session Notes
-- Menu module is fully implemented according to `03-menu-endpoint.md`.
-- Integrated Cloudinary for image uploads and deletions, using Multer for memory buffer parsing.
-- Next phase might be Cart/Checkout flow or UI implementation.
+- Customer module is fully implemented according to `04-customer-endpoint.md`.
+- Added Cart logic and a refined checkout process that splits orders per restaurant.
+- Integrated a mock Payment webhook to verify and update order statuses.
+- Resolved TypeScript errors regarding implicit `any` types and faulty extensions.

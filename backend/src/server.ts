@@ -8,7 +8,11 @@ import userRoutes from './routes/user.routes.js';
 import authRoutes from './routes/auth.routes.js';
 import addressRoutes from './routes/address.routes.js';
 import restaurantRoutes from './routes/restaurant.routes.js';
+import restaurantsRoutes from './routes/restaurants.routes.js';
 import menuRoutes from './routes/menu.routes.js';
+import orderRoutes from './routes/order.routes.js';
+import cartRoutes from './routes/cart.routes.js';
+import paymentRoutes from './routes/payment.routes.js';
 import { errorHandler } from './middleware/error.middleware.js';
 
 dotenv.config();
@@ -45,7 +49,11 @@ app.use('/users', userRoutes);
 app.use('/auth', authRoutes);
 app.use('/addresses', addressRoutes);
 app.use('/restaurant', restaurantRoutes);
+app.use('/restaurants', restaurantsRoutes);
 app.use('/menu', menuRoutes);
+app.use('/orders', orderRoutes);
+app.use('/cart', cartRoutes);
+app.use('/payment', paymentRoutes);
 
 // Error Handler Middleware (must be last)
 app.use(errorHandler);

@@ -123,3 +123,17 @@ export const updateOrderStatus = async (orderId: string, restaurantId: string, s
   if (!order) throw new AppError('Order not found', 404);
   return order;
 };
+
+// ─── Customer Service Methods ─────────────────────────────────
+
+/**
+ * Fetch all restaurants, optionally filtering by pincode.
+ */
+export const getRestaurantsByPincode = async (pincode?: string) => {
+  const query: any = { isActive: true, isApproved: true };
+  if (pincode) {
+    query.pincode = pincode;
+  }
+  return Restaurant.find(query).lean();
+};
+
