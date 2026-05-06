@@ -70,3 +70,45 @@ export const addressUpdateSchema = z.object({
     isDefault: z.boolean().optional(),
   }),
 });
+
+// ─── Restaurant Schemas ──────────────────────────────────────
+
+export const restaurantCreateSchema = z.object({
+  body: z.object({
+    name: z.string().trim().min(1, 'Restaurant name is required'),
+    description: z.string().trim().optional(),
+    addressLine: z.string().trim().min(1, 'Address line is required'),
+    city: z.string().trim().min(1, 'City is required'),
+    pincode: z.string().trim().min(1, 'Pincode is required'),
+    isActive: z.boolean().default(true),
+  }),
+});
+
+export const restaurantUpdateSchema = z.object({
+  body: z.object({
+    name: z.string().trim().min(1, 'Restaurant name cannot be empty').optional(),
+    description: z.string().trim().optional(),
+    addressLine: z.string().trim().min(1, 'Address line cannot be empty').optional(),
+    city: z.string().trim().min(1, 'City cannot be empty').optional(),
+    pincode: z.string().trim().min(1, 'Pincode cannot be empty').optional(),
+    isActive: z.boolean().optional(),
+  }),
+});
+
+// ─── Order Schemas ───────────────────────────────────────────
+
+export const orderStatusUpdateSchema = z.object({
+  body: z.object({
+    status: z.enum([
+      'created',
+      'placed',
+      'accepted',
+      'preparing',
+      'out_for_delivery',
+      'delivered',
+      'rejected',
+      'cancelled',
+    ]),
+  }),
+});
+

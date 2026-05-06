@@ -5,7 +5,7 @@ change.
 
 ## Current Phase
 
-- Backend — Auth & User Module Complete
+- Backend — Restaurant Module Complete
 
 ## Current Goal
 
@@ -13,19 +13,20 @@ change.
 
 ## Completed
 
-- `01-user-endpoint.md` — Full implementation:
-  - `GET /health` — health check with MongoDB status
-  - `POST /users` — register user (hashed password, no password in response)
-  - `GET /users` — fetch all users (passwords excluded)
-  - `GET /users/:id` — fetch single user (404 if not found)
-  - `PUT /users/:id` — update whitelisted fields only
-  - `DELETE /users/:id` — soft delete (`isActive = false`)
-  - `POST /auth/login` — validate credentials, return JWT in HTTP-only cookie + user info
-  - Address Module:
-    - `POST /addresses` — create address
-    - `GET /addresses` — fetch user addresses
-    - `PUT /addresses/:id` — update address
-    - `DELETE /addresses/:id` — delete address
+- `01-user-endpoint.md` — Full implementation
+- `02-resturant-endpoint.md` — Full implementation:
+  - `POST /restaurant` — create restaurant
+  - `GET /restaurant` — fetch all restaurants
+  - `GET /restaurant/:id` — fetch single restaurant
+  - `PUT /restaurant/:id` — update restaurant
+  - `DELETE /restaurant/:id` — soft delete restaurant
+  - `GET /restaurant/me` — fetch owner's restaurant
+  - `PUT /restaurant/me` — update owner's restaurant
+  - `GET /restaurant/orders` — fetch all orders for owner's restaurant
+  - `PUT /restaurant/orders/:id/accept` — accept order
+  - `PUT /restaurant/orders/:id/reject` — reject order
+  - `PUT /restaurant/orders/:id/status` — update order status
+  - `models/Order.ts` — created Order model with schema and status enums
   - Architectural Improvements:
     - Centralized error handling with `AppError` class
     - Standardized response format `{ success, data/error }`
@@ -51,6 +52,6 @@ change.
 - **Address Ownership**: Implemented user-scoped logic in `address.service.ts` to ensure users can only manage their own addresses.
 
 ## Session Notes
-- User and Auth modules are fully implemented according to `01-user-endpoint.md`.
-- Address CRUD is implemented but auth middleware integration in `address.routes.ts` is pending the next phase.
-- The system is ready for the next feature (Restaurant or Menu management).
+- Restaurant module is fully implemented according to `02-resturant-endpoint.md`.
+- Order model has been created, and basic status-update endpoints are functional for Restaurant Owners.
+- Next phase might be Menu Management or Customer checkout flow.
