@@ -5,7 +5,7 @@ change.
 
 ## Current Phase
 
-- Backend — Customer Module Complete
+- Backend — Admin Module Complete
 
 ## Current Goal
 
@@ -43,6 +43,12 @@ change.
   - Order Module (`POST /orders`, `GET /orders`, `GET /orders/:id`)
   - Payment Module (`POST /payment/webhook`)
   - `models/Cart.ts` and `models/Payment.ts` created
+- `05-admin-endpoint.md` — Full implementation:
+  - `GET /admin/restaurants` — paginated restaurant fetching with approval filtering
+  - `POST /admin/restaurants/:id/approve` — approve a restaurant
+  - `POST /admin/restaurants/:id/reject` — reject a restaurant
+  - `PUT /admin/restaurants/:id/deactivate` — deactivate a restaurant
+  - Applied `authenticate` and `authorize('admin')` middleware to all admin endpoints
   - Architectural Improvements:
     - Centralized error handling with `AppError` class
     - Standardized response format `{ success, data/error }`
@@ -69,7 +75,7 @@ change.
 - **Cloudinary Integration**: Used Cloudinary and Multer for uploading and managing menu item images.
 
 ## Session Notes
-- Customer module is fully implemented according to `04-customer-endpoint.md`.
-- Added Cart logic and a refined checkout process that splits orders per restaurant.
-- Integrated a mock Payment webhook to verify and update order statuses.
-- Resolved TypeScript errors regarding implicit `any` types and faulty extensions.
+- Admin module is fully implemented according to `05-admin-endpoint.md`.
+- Restricted all endpoints under `/admin` using `authenticate` and `authorize('admin')` middleware.
+- Fixed minor TypeScript implicit `any` and typing bugs for `req.params`.
+- The backend API suite matches all defined architectural requirements.

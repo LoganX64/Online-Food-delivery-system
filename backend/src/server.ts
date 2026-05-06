@@ -13,6 +13,7 @@ import menuRoutes from './routes/menu.routes.js';
 import orderRoutes from './routes/order.routes.js';
 import cartRoutes from './routes/cart.routes.js';
 import paymentRoutes from './routes/payment.routes.js';
+import adminRoutes from './routes/admin.routes.js';
 import { errorHandler } from './middleware/error.middleware.js';
 
 dotenv.config();
@@ -54,6 +55,7 @@ app.use('/menu', menuRoutes);
 app.use('/orders', orderRoutes);
 app.use('/cart', cartRoutes);
 app.use('/payment', paymentRoutes);
+app.use('/admin', adminRoutes);
 
 // Error Handler Middleware (must be last)
 app.use(errorHandler);
