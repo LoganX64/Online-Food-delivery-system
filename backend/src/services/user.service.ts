@@ -66,7 +66,19 @@ export const updateUser = async (id: string, updates: Partial<IUser>) => {
  * Does NOT remove the document from the database.
  */
 export const deleteUser = async (id: string) => {
-  const user = await User.findByIdAndUpdate(id, { isActive: false }, { new: true });
+    const user = await User.findByIdAndUpdate(id, { isActive: false }, { new: true });
   if (!user) throw new AppError('User not found', 404);
   return { message: 'User deactivated successfully' };
 };
+
+/**
+ * Update user's profile image URL.
+ */
+export const updateUserProfileImage = async (id: string, imageUrl: string) => {
+  const user = await User.findByIdAndUpdate(id, { profileImage: imageUrl }, { new: true })
+    .select('-password')
+    .lean();
+  if (!user) throw new AppError('User not found', 404);
+  return user;
+};
+

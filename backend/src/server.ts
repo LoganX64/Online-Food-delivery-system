@@ -12,6 +12,7 @@ import restaurantsRoutes from './routes/restaurants.routes.js';
 import menuRoutes from './routes/menu.routes.js';
 import orderRoutes from './routes/order.routes.js';
 import cartRoutes from './routes/cart.routes.js';
+import checkoutRoutes from './routes/checkout.routes.js';
 import paymentRoutes from './routes/payment.routes.js';
 import adminRoutes from './routes/admin.routes.js';
 import { errorHandler } from './middleware/error.middleware.js';
@@ -54,6 +55,7 @@ app.use('/restaurants', restaurantsRoutes);
 app.use('/menu', menuRoutes);
 app.use('/orders', orderRoutes);
 app.use('/cart', cartRoutes);
+app.use('/checkout', checkoutRoutes);
 app.use('/payment', paymentRoutes);
 app.use('/admin', adminRoutes);
 
