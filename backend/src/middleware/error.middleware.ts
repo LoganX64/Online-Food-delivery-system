@@ -7,7 +7,8 @@ import { AppError } from '../utils/AppError.js';
  * to a generic 500 for unexpected failures.
  */
 export const errorHandler = (err: any, req: Request, res: Response, next: NextFunction) => {
-  console.error(err.stack || err.message);
+  console.log('❌ ERROR OCCURRED:', err.message || err);
+  if (err.stack) console.log(err.stack);
 
   if (err instanceof AppError) {
     res.status(err.statusCode).json({

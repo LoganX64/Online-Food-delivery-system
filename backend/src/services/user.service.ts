@@ -53,7 +53,7 @@ export const updateUser = async (id: string, updates: Partial<IUser>) => {
     }
   }
 
-  const user = await User.findByIdAndUpdate(id, safeUpdates, { new: true, runValidators: true })
+  const user = await User.findByIdAndUpdate(id, safeUpdates, { returnDocument: 'after', runValidators: true })
     .select('-password')
     .lean();
 
@@ -66,7 +66,7 @@ export const updateUser = async (id: string, updates: Partial<IUser>) => {
  * Does NOT remove the document from the database.
  */
 export const deleteUser = async (id: string) => {
-    const user = await User.findByIdAndUpdate(id, { isActive: false }, { new: true });
+    const user = await User.findByIdAndUpdate(id, { isActive: false }, { returnDocument: 'after' });
   if (!user) throw new AppError('User not found', 404);
   return { message: 'User deactivated successfully' };
 };
@@ -75,7 +75,7 @@ export const deleteUser = async (id: string) => {
  * Update user's profile image URL.
  */
 export const updateUserProfileImage = async (id: string, imageUrl: string) => {
-  const user = await User.findByIdAndUpdate(id, { profileImage: imageUrl }, { new: true })
+  const user = await User.findByIdAndUpdate(id, { profileImage: imageUrl }, { returnDocument: 'after' })
     .select('-password')
     .lean();
   if (!user) throw new AppError('User not found', 404);

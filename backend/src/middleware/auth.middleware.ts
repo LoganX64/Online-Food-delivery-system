@@ -16,12 +16,17 @@ export interface JwtPayload {
  */
 export const authenticate = (req: Request, res: Response, next: NextFunction) => {
   try {
-    // Try cookie first, then Authorization header
     const token =
       req.cookies?.token ||
       (req.headers.authorization?.startsWith('Bearer ')
         ? req.headers.authorization.split(' ')[1]
         : null);
+
+    if (token && req.cookies?.token) {
+      console.log(`[AUTH] Token from Cookie: ${token}`);
+    } else if (token) {
+      console.log(`[AUTH] Token from Header: ${token}`);
+    }
 
     if (!token) {
       throw new AppError('Authentication required', 401);

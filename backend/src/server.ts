@@ -17,6 +17,7 @@ import paymentRoutes from './routes/payment.routes.js';
 import adminRoutes from './routes/admin.routes.js';
 import { errorHandler } from './middleware/error.middleware.js';
 import { logRoutes } from './utils/routeLogger.js';
+import morgan from 'morgan';
 
 dotenv.config();
 
@@ -24,6 +25,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middleware
+app.use(morgan('dev'));
 app.use(cors({
   origin: process.env.FRONTEND_URL || 'http://localhost:5173',
   credentials: true,

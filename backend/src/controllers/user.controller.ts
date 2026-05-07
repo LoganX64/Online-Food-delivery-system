@@ -33,7 +33,10 @@ export const updateMe = async (req: Request, res: Response, next: NextFunction) 
     const userId = (req as any).user?.userId;
     if (!userId) throw new AppError('Unauthorized', 401);
 
-    const user = await updateUser(userId, req.body);
+    // Security: Prevent users from updating their own role or isActive status
+    const { role, isActive, ...safeBody } = req.body;
+
+    const user = await updateUser(userId, safeBody);
     res.status(200).json({ success: true, data: user });
   } catch (error) {
     next(error);
@@ -46,7 +49,9 @@ export const updateMe = async (req: Request, res: Response, next: NextFunction) 
 export const uploadProfileImage = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const userId = (req as any).user?.userId;
-    if (!userId) throw new AppError('Unauthorized', 401);
+    if (!userId) {
+      throw new AppError('Authentication required', 401);
+    }
 
     if (!req.file) {
       throw new AppError('No image provided', 400);
@@ -56,7 +61,11 @@ export const uploadProfileImage = async (req: Request, res: Response, next: Next
     const user = await updateUserProfileImage(userId, imageUrl);
 
     res.status(200).json({ success: true, data: user });
-  } catch (error) {
+  } catch (error: any) {
+    console.log('🚀 [DEBUG] UPLOAD FAILED');
+    console.log('Error Message:', error.message);
+    if (error.stack) console.log('Stack Trace:', error.stack);
+    debugger;
     next(error);
   }
 };
@@ -78,6 +87,7 @@ export const registerUser = async (req: Request, res: Response, next: NextFuncti
  */
 export const fetchAllUsers = async (req: Request, res: Response, next: NextFunction) => {
   try {
+    if (!(req as any).user) throw new AppError('Authentication required', 401);
     const users = await getAllUsers();
     res.status(200).json({ success: true, data: users });
   } catch (error) {
@@ -90,6 +100,7 @@ export const fetchAllUsers = async (req: Request, res: Response, next: NextFunct
  */
 export const fetchUserById = async (req: Request, res: Response, next: NextFunction) => {
   try {
+    if (!(req as any).user) throw new AppError('Authentication required', 401);
     const user = await getUserById(req.params.id as string);
     res.status(200).json({ success: true, data: user });
   } catch (error) {
@@ -102,6 +113,7 @@ export const fetchUserById = async (req: Request, res: Response, next: NextFunct
  */
 export const updateUserById = async (req: Request, res: Response, next: NextFunction) => {
   try {
+    if (!(req as any).user) throw new AppError('Authentication required', 401);
     const user = await updateUser(req.params.id as string, req.body);
     res.status(200).json({ success: true, data: user });
   } catch (error) {
@@ -114,6 +126,7 @@ export const updateUserById = async (req: Request, res: Response, next: NextFunc
  */
 export const deleteUserById = async (req: Request, res: Response, next: NextFunction) => {
   try {
+    if (!(req as any).user) throw new AppError('Authentication required', 401);
     const result = await deleteUser(req.params.id as string);
     res.status(200).json({ success: true, data: result });
   } catch (error) {

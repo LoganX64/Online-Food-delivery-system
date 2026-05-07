@@ -55,7 +55,7 @@ export const updateAddress = async (userId: string, addressId: string, updates: 
   const address = await Address.findOneAndUpdate(
     { _id: addressId, userId },
     updates,
-    { new: true, runValidators: true }
+    { returnDocument: 'after', runValidators: true }
   ).lean();
 
   if (!address) throw new AppError('Address not found', 404);

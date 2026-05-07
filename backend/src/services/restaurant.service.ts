@@ -53,7 +53,7 @@ export const getRestaurantByOwnerId = async (ownerId: string) => {
  * Update a restaurant by ID.
  */
 export const updateRestaurant = async (id: string, updates: Partial<IRestaurant>) => {
-  const restaurant = await Restaurant.findByIdAndUpdate(id, updates, { new: true, runValidators: true }).lean();
+  const restaurant = await Restaurant.findByIdAndUpdate(id, updates, { returnDocument: 'after', runValidators: true }).lean();
   if (!restaurant) throw new AppError('Restaurant not found', 404);
   return restaurant;
 };
@@ -62,7 +62,7 @@ export const updateRestaurant = async (id: string, updates: Partial<IRestaurant>
  * Update the restaurant of the logged-in owner.
  */
 export const updateRestaurantByOwnerId = async (ownerId: string, updates: Partial<IRestaurant>) => {
-  const restaurant = await Restaurant.findOneAndUpdate({ ownerId }, updates, { new: true, runValidators: true }).lean();
+  const restaurant = await Restaurant.findOneAndUpdate({ ownerId }, updates, { returnDocument: 'after', runValidators: true }).lean();
   if (!restaurant) throw new AppError('Restaurant not found', 404);
   return restaurant;
 };
@@ -71,7 +71,7 @@ export const updateRestaurantByOwnerId = async (ownerId: string, updates: Partia
  * Soft delete a restaurant by ID.
  */
 export const deleteRestaurant = async (id: string) => {
-  const restaurant = await Restaurant.findByIdAndUpdate(id, { isActive: false }, { new: true }).lean();
+  const restaurant = await Restaurant.findByIdAndUpdate(id, { isActive: false }, { returnDocument: 'after' }).lean();
   if (!restaurant) throw new AppError('Restaurant not found', 404);
   return { message: 'Restaurant deactivated successfully' };
 };
@@ -92,7 +92,7 @@ export const acceptOrder = async (orderId: string, restaurantId: string) => {
   const order = await Order.findOneAndUpdate(
     { _id: orderId, restaurantId, status: 'placed' },
     { status: 'accepted' },
-    { new: true }
+    { returnDocument: 'after' }
   ).lean();
   if (!order) throw new AppError('Order not found or cannot be accepted', 404);
   return order;
@@ -105,7 +105,7 @@ export const rejectOrder = async (orderId: string, restaurantId: string) => {
   const order = await Order.findOneAndUpdate(
     { _id: orderId, restaurantId, status: 'placed' },
     { status: 'rejected' },
-    { new: true }
+    { returnDocument: 'after' }
   ).lean();
   if (!order) throw new AppError('Order not found or cannot be rejected', 404);
   return order;
@@ -118,7 +118,7 @@ export const updateOrderStatus = async (orderId: string, restaurantId: string, s
   const order = await Order.findOneAndUpdate(
     { _id: orderId, restaurantId },
     { status },
-    { new: true, runValidators: true }
+    { returnDocument: 'after', runValidators: true }
   ).lean();
   if (!order) throw new AppError('Order not found', 404);
   return order;

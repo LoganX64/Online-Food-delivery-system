@@ -35,7 +35,7 @@ export const approveRestaurant = async (id: string) => {
   const restaurant = await Restaurant.findByIdAndUpdate(
     id,
     { isApproved: true, isActive: true },
-    { new: true }
+    { returnDocument: 'after' }
   ).lean();
 
   if (!restaurant) throw new AppError('Restaurant not found', 404);
@@ -49,7 +49,7 @@ export const rejectRestaurant = async (id: string) => {
   const restaurant = await Restaurant.findByIdAndUpdate(
     id,
     { isApproved: false, isActive: false },
-    { new: true }
+    { returnDocument: 'after' }
   ).lean();
 
   if (!restaurant) throw new AppError('Restaurant not found', 404);
@@ -63,7 +63,7 @@ export const deactivateRestaurant = async (id: string) => {
   const restaurant = await Restaurant.findByIdAndUpdate(
     id,
     { isActive: false },
-    { new: true }
+    { returnDocument: 'after' }
   ).lean();
 
   if (!restaurant) throw new AppError('Restaurant not found', 404);

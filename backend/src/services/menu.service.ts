@@ -63,7 +63,7 @@ export const updateMenuItem = async (
     updates.image = newImageUrl;
   }
 
-  const updatedMenuItem = await MenuItem.findByIdAndUpdate(id, updates, { new: true, runValidators: true }).lean();
+  const updatedMenuItem = await MenuItem.findByIdAndUpdate(id, updates, { returnDocument: 'after', runValidators: true }).lean();
   return updatedMenuItem;
 };
 
@@ -85,6 +85,6 @@ export const deleteMenuItem = async (ownerId: string, id: string) => {
 
   // Soft delete by setting isAvailable = false, and clear image URL.
   // We can also fully delete depending on requirements, but the prompt says soft delete.
-  const deletedItem = await MenuItem.findByIdAndUpdate(id, { isAvailable: false, image: null }, { new: true }).lean();
+  const deletedItem = await MenuItem.findByIdAndUpdate(id, { isAvailable: false, image: null }, { returnDocument: 'after' }).lean();
   return { message: 'Menu item deleted successfully' };
 };
