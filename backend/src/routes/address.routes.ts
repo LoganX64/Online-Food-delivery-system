@@ -8,8 +8,12 @@ import {
 } from '../controllers/address.controller.js';
 import { validate } from '../middleware/validate.middleware.js';
 import { addressCreateSchema, addressUpdateSchema } from '../utils/validation.js';
+import { authenticate } from '../middleware/auth.middleware.js';
 
 const router = Router();
+
+// Require authentication for all address routes
+router.use(authenticate);
 
 router.post('/', validate(addressCreateSchema), addAddress);
 router.get('/', fetchAddresses);

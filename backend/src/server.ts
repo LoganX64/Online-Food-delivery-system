@@ -16,52 +16,51 @@ import checkoutRoutes from './routes/checkout.routes.js';
 import paymentRoutes from './routes/payment.routes.js';
 import adminRoutes from './routes/admin.routes.js';
 import { errorHandler } from './middleware/error.middleware.js';
+import { logRoutes } from './utils/routeLogger.js';
 
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(cors({
-  origin: process.env.CLIENT_URL || 'http://localhost:3000',
+  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
   credentials: true,
 }));
-app.use(express.json());
 app.use(cookieParser());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// Connect to Database
-connectDB();
-
-// Health Check Endpoint
-app.get('/health', (req: Request, res: Response) => {
-  const isDbConnected = mongoose.connection.readyState === 1;
-  res.status(200).json({
+// Health check endpoint
+app.get('/', (req: Request, res: Response) => {
+  res.json({
     success: true,
-    data: {
-      status: 'up',
-      database: isDbConnected ? 'connected' : 'disconnected',
-      timestamp: new Date().toISOString(),
-    },
+    message: 'Backend is running',
+    timestamp: new Date().toISOString(),
   });
 });
 
-// Routes
-app.use('/users', userRoutes);
-app.use('/auth', authRoutes);
-app.use('/addresses', addressRoutes);
-app.use('/restaurant', restaurantRoutes);
-app.use('/restaurants', restaurantsRoutes);
-app.use('/menu', menuRoutes);
-app.use('/orders', orderRoutes);
-app.use('/cart', cartRoutes);
-app.use('/checkout', checkoutRoutes);
-app.use('/payment', paymentRoutes);
-app.use('/admin', adminRoutes);
+// API Routes
+app.use('/api/auth', authRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/addresses', addressRoutes);
+app.use('/api/restaurants', restaurantRoutes);
+app.use('/api/restaurants', restaurantsRoutes);
+app.use('/api/menus', menuRoutes);
+app.use('/api/orders', orderRoutes);
+app.use('/api/cart', cartRoutes);
+app.use('/api/checkout', checkoutRoutes);
+app.use('/api/payments', paymentRoutes);
+app.use('/api/admin', adminRoutes);
 
-// Error Handler Middleware (must be last)
+// Error handling middleware (must be last)
 app.use(errorHandler);
+
+// Start server
+connectDB();
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
+  logRoutes(app);
 });
