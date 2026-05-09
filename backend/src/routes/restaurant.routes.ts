@@ -28,6 +28,7 @@ const router = Router();
 
 router.get('/me', authenticate, authorize('restaurantOwner'), fetchMyRestaurant);
 router.put('/me', authenticate, authorize('restaurantOwner'), validate(restaurantUpdateSchema), updateMyRestaurant);
+router.get('/earnings', authenticate, authorize('restaurantOwner'), fetchMyRestaurantEarnings);
 
 // ─── Restaurant Orders ──────────────────────────────────────
 // Also owner specific, but under '/orders'

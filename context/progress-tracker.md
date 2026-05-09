@@ -70,6 +70,12 @@ change.
 - Health Check — Implementation:
   - `GET /api/health` — Returns application status, uptime, and database connectivity.
   - Documented in `backend-routes.md` and `payload-sample.md`.
+- Search Functionality — Implementation:
+  - `GET /api/restaurants/search?q=...` — Searches both restaurants and menu items using regex.
+- Restaurant Earnings Summary — Implementation:
+  - `GET /api/restaurants/earnings` — Aggregates total revenue from delivered orders for owners.
+- Advanced Discovery Filtering & Sorting — Implementation:
+  - Updated `GET /api/restaurants` to support `minRating` filtering and `sort` (name/rating).
 
 ## In Progress
 

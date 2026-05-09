@@ -128,14 +128,32 @@ export const updateOrderStatus = async (orderId: string, restaurantId: string, s
 // ─── Customer Service Methods ─────────────────────────────────
 
 /**
- * Fetch all restaurants, optionally filtering by pincode.
+ * Fetch all restaurants with optional filtering and sorting.
  */
-export const getRestaurantsByPincode = async (pincode?: string) => {
+export const getDiscoverRestaurants = async (filters: {
+  pincode?: string;
+  minRating?: number;
+  sort?: string;
+}) => {
   const query: any = { isActive: true, isApproved: true };
-  if (pincode) {
-    query.pincode = pincode;
+  
+  if (filters.pincode) {
+    query.pincode = filters.pincode;
   }
-  return Restaurant.find(query).lean();
+  
+  if (filters.minRating) {
+    query.rating = { $gte: Number(filters.minRating) };
+  }
+
+  let sortOption: any = { createdAt: -1 }; // Default: Newest first
+  
+  if (filters.sort === 'rating') {
+    sortOption = { rating: -1 };
+  } else if (filters.sort === 'name') {
+    sortOption = { name: 1 };
+  }
+
+  return Restaurant.find(query).sort(sortOption).lean();
 };
 
 /**

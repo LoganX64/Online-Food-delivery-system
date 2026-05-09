@@ -11,7 +11,7 @@ import {
   acceptOrder,
   rejectOrder,
   updateOrderStatus,
-  getRestaurantsByPincode,
+  getDiscoverRestaurants,
   searchRestaurantsAndItems,
   getEarningsSummary,
 } from '../services/restaurant.service.js';
@@ -174,8 +174,12 @@ export const updateRestaurantOrderStatus = async (req: Request, res: Response, n
 
 export const fetchCustomerRestaurants = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { pincode } = req.query;
-    const restaurants = await getRestaurantsByPincode(pincode as string);
+    const { pincode, minRating, sort } = req.query;
+    const restaurants = await getDiscoverRestaurants({
+      pincode: pincode as string,
+      minRating: minRating ? Number(minRating) : undefined,
+      sort: sort as string,
+    });
     res.status(200).json({ success: true, data: restaurants });
   } catch (error) {
     next(error);

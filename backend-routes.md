@@ -41,7 +41,8 @@ This document provides a comprehensive list of all API endpoints available in th
 | GET | `/restaurant/orders` | Fetch orders for the restaurant | Yes(to check owner is fetching his own orders or not) |
 | PUT | `/restaurant/orders/:id/accept` | Accept an order | Yes(to check owner is accepting his own order or not) |
 | PUT | `/restaurant/orders/:id/reject` | Reject an order | Yes(to check owner is rejecting his own order or not) |
-| PUT | `/restaurant/orders/:id/status` | Update order status | Yes(to check owner is updating his own order or not) |
+| PUT | `/restaurant/orders/:id/status` | Update order status | Yes (Owner) |
+| GET | `/restaurant/earnings` | Fetch restaurant earnings summary | Yes (Owner) |
 | POST | `/restaurant` | Register a new restaurant | Yes (Owner) |
 | GET | `/restaurant` | Fetch all restaurants | No |
 | GET | `/restaurant/:id` | Fetch restaurant by ID | No |
@@ -51,7 +52,8 @@ This document provides a comprehensive list of all API endpoints available in th
 ## 🔍 Restaurant Discovery (Public) (`/restaurants`)
 | Method | Endpoint | Description | Auth Required |
 | :--- | :--- | :--- | :---: |
-| GET | `/restaurants` | Fetch restaurants (filtered by pincode) | No |
+| GET | `/restaurants` | Fetch restaurants (filtered by pincode, rating, sort) | No |
+| GET | `/restaurants/search` | Search restaurants and food items | No |
 | GET | `/restaurants/:id` | Fetch restaurant details | No |
 | GET | `/restaurants/:id/menu` | Fetch restaurant menu items | No |
 
