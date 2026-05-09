@@ -4,8 +4,8 @@ import { AppError } from '../utils/AppError.js';
 
 export const fetchCart = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const userId = (req as any).user?.userId || req.query.userId;
-    if (!userId) throw new AppError('User ID is required', 400);
+    const userId = (req as any).user?.userId;
+    if (!userId) throw new AppError('Authentication required', 401);
 
     const cart = await getCart(userId as string);
     res.status(200).json({ success: true, data: cart });
@@ -16,8 +16,8 @@ export const fetchCart = async (req: Request, res: Response, next: NextFunction)
 
 export const addToCart = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const userId = (req as any).user?.userId || req.body.userId;
-    if (!userId) throw new AppError('User ID is required', 400);
+    const userId = (req as any).user?.userId;
+    if (!userId) throw new AppError('Authentication required', 401);
 
     const { menuItemId, quantity } = req.body;
     const cart = await addItemToCart(userId, menuItemId, quantity);
@@ -29,8 +29,8 @@ export const addToCart = async (req: Request, res: Response, next: NextFunction)
 
 export const updateCart = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const userId = (req as any).user?.userId || req.body.userId;
-    if (!userId) throw new AppError('User ID is required', 400);
+    const userId = (req as any).user?.userId;
+    if (!userId) throw new AppError('Authentication required', 401);
 
     const { menuItemId, quantity } = req.body;
     const cart = await updateCartItemQuantity(userId, menuItemId, quantity);
@@ -42,8 +42,8 @@ export const updateCart = async (req: Request, res: Response, next: NextFunction
 
 export const removeFromCart = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const userId = (req as any).user?.userId || req.body.userId;
-    if (!userId) throw new AppError('User ID is required', 400);
+    const userId = (req as any).user?.userId;
+    if (!userId) throw new AppError('Authentication required', 401);
 
     const { menuItemId } = req.body;
     const cart = await removeItemFromCart(userId, menuItemId);
@@ -55,8 +55,8 @@ export const removeFromCart = async (req: Request, res: Response, next: NextFunc
 
 export const clearMyCart = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const userId = (req as any).user?.userId || req.body.userId;
-    if (!userId) throw new AppError('User ID is required', 400);
+    const userId = (req as any).user?.userId;
+    if (!userId) throw new AppError('Authentication required', 401);
 
     const result = await clearCart(userId);
     res.status(200).json({ success: true, data: result });

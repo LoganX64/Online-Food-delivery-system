@@ -19,8 +19,10 @@ import healthRoutes from './routes/health.routes.js';
 import { errorHandler } from './middleware/error.middleware.js';
 import { logRoutes } from './utils/routeLogger.js';
 import morgan from 'morgan';
+import { validateEnv } from './utils/envValidator.js';
 
 dotenv.config();
+validateEnv();
 
 const app = express();
 const PORT = Number(process.env.PORT) || 3000;

@@ -4,8 +4,8 @@ import { AppError } from '../utils/AppError.js';
 
 export const checkout = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const userId = (req as any).user?.userId || req.body.userId;
-    if (!userId) throw new AppError('User ID is required', 400);
+    const userId = (req as any).user?.userId;
+    if (!userId) throw new AppError('Authentication required', 401);
 
     const { addressId } = req.body;
     const result = await placeOrderFromCart(userId, addressId);
@@ -17,8 +17,8 @@ export const checkout = async (req: Request, res: Response, next: NextFunction) 
 
 export const fetchCustomerOrders = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const userId = (req as any).user?.userId || req.query.userId;
-    if (!userId) throw new AppError('User ID is required', 400);
+    const userId = (req as any).user?.userId;
+    if (!userId) throw new AppError('Authentication required', 401);
 
     const orders = await getCustomerOrders(userId as string);
     res.status(200).json({ success: true, data: orders });
@@ -29,8 +29,8 @@ export const fetchCustomerOrders = async (req: Request, res: Response, next: Nex
 
 export const fetchOrderById = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const userId = (req as any).user?.userId || req.query.userId;
-    if (!userId) throw new AppError('User ID is required', 400);
+    const userId = (req as any).user?.userId;
+    if (!userId) throw new AppError('Authentication required', 401);
 
     const order = await getOrderDetails(userId as string, req.params.id as string);
     res.status(200).json({ success: true, data: order });

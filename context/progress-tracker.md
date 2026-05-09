@@ -76,6 +76,9 @@ change.
   - `GET /api/restaurants/earnings` — Aggregates total revenue from delivered orders for owners.
 - Advanced Discovery Filtering & Sorting — Implementation:
   - Updated `GET /api/restaurants` to support `minRating` filtering and `sort` (name/rating).
+- Stability & Security Enhancements — Implementation:
+  - **Environment Validation**: Added startup check for all critical `.env` variables to prevent misconfiguration.
+  - **Security Strictness**: Refactored `Address`, `Cart`, and `Order` controllers to strictly use JWT-derived `userId`, eliminating potential ID spoofing via request body/query.
 
 ## In Progress
 
