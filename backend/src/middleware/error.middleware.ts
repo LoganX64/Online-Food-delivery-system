@@ -37,6 +37,19 @@ export const errorHandler = (err: any, req: Request, res: Response, next: NextFu
     return;
   }
 
+  // Multer errors (File upload issues)
+  if (err.name === 'MulterError') {
+    let message = err.message;
+    if (err.code === 'LIMIT_FILE_SIZE') {
+      message = 'The uploaded file is too large. Maximum allowed size is 5MB.';
+    }
+    res.status(400).json({
+      success: false,
+      error: message,
+    });
+    return;
+  }
+
   res.status(500).json({
     success: false,
     error: 'Internal Server Error',

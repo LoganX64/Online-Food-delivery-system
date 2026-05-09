@@ -10,8 +10,8 @@ import { AppError } from '../utils/AppError.js';
 
 export const addMenuItem = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const ownerId = (req as any).user?.userId || req.body.ownerId; // Fallback for testing without auth
-    if (!ownerId) throw new AppError('Owner ID is required', 400);
+    const ownerId = (req as any).user?.userId;
+    if (!ownerId) throw new AppError('Authentication required', 401);
 
     const menuItem = await createMenuItem(ownerId, req.body, req.file);
     res.status(201).json({ success: true, data: menuItem });
@@ -41,8 +41,8 @@ export const fetchMenuItemById = async (req: Request, res: Response, next: NextF
 
 export const updateMenuItemById = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const ownerId = (req as any).user?.userId || req.body.ownerId;
-    if (!ownerId) throw new AppError('Owner ID is required', 400);
+    const ownerId = (req as any).user?.userId;
+    if (!ownerId) throw new AppError('Authentication required', 401);
 
     const menuItem = await updateMenuItem(ownerId, req.params.id as string, req.body, req.file);
     res.status(200).json({ success: true, data: menuItem });
@@ -53,8 +53,8 @@ export const updateMenuItemById = async (req: Request, res: Response, next: Next
 
 export const deleteMenuItemById = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const ownerId = (req as any).user?.userId || req.body.ownerId;
-    if (!ownerId) throw new AppError('Owner ID is required', 400);
+    const ownerId = (req as any).user?.userId;
+    if (!ownerId) throw new AppError('Authentication required', 401);
 
     const result = await deleteMenuItem(ownerId, req.params.id as string);
     res.status(200).json({ success: true, data: result });

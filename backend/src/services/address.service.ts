@@ -27,14 +27,14 @@ export const createAddress = async (userId: string, data: Partial<IAddress>) => 
  * Get all addresses belonging to a user.
  */
 export const getAddressesByUserId = async (userId: string) => {
-  return Address.find({ userId }).lean();
+  return Address.find({ userId, isActive: true }).lean();
 };
 
 /**
  * Get a single address by ID, scoped to the user.
  */
 export const getAddressById = async (userId: string, addressId: string) => {
-  const address = await Address.findOne({ _id: addressId, userId }).lean();
+  const address = await Address.findOne({ _id: addressId, userId, isActive: true }).lean();
   if (!address) throw new AppError('Address not found', 404);
   return address;
 };
@@ -53,7 +53,7 @@ export const updateAddress = async (userId: string, addressId: string, updates: 
   }
 
   const address = await Address.findOneAndUpdate(
-    { _id: addressId, userId },
+    { _id: addressId, userId, isActive: true },
     updates,
     { returnDocument: 'after', runValidators: true }
   ).lean();
@@ -63,11 +63,15 @@ export const updateAddress = async (userId: string, addressId: string, updates: 
 };
 
 /**
- * Delete an address by ID, scoped to the user.
- * This is a hard delete since addresses are not soft-deleted.
+ * Soft delete an address by ID, scoped to the user.
+ * This sets isActive = false.
  */
 export const deleteAddress = async (userId: string, addressId: string) => {
-  const address = await Address.findOneAndDelete({ _id: addressId, userId });
+  const address = await Address.findOneAndUpdate(
+    { _id: addressId, userId, isActive: true },
+    { isActive: false },
+    { returnDocument: 'after' }
+  );
   if (!address) throw new AppError('Address not found', 404);
   return { message: 'Address deleted successfully' };
 };

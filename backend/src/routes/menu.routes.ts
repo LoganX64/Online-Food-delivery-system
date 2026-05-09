@@ -14,9 +14,12 @@ import { authenticate, authorize } from '../middleware/auth.middleware.js';
 const router = Router();
 
 // Menu routes
-router.post('/', authenticate, authorize('restaurantOwner'), upload.single('image'), validate(menuCreateSchema), addMenuItem);
+// public routes
 router.get('/', fetchAllMenuItems);
 router.get('/:id', fetchMenuItemById);
+
+// protected routes
+router.post('/', authenticate, authorize('restaurantOwner'), upload.single('image'), validate(menuCreateSchema), addMenuItem);
 router.put('/:id', authenticate, authorize('restaurantOwner'), upload.single('image'), validate(menuUpdateSchema), updateMenuItemById);
 router.delete('/:id', authenticate, authorize('restaurantOwner'), deleteMenuItemById);
 
