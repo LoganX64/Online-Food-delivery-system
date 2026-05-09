@@ -38,7 +38,7 @@ router.put('/orders/:id/status', authenticate, authorize('restaurantOwner'), val
 
 // ─── General Restaurant CRUD ────────────────────────────────
 
-router.post('/', validate(restaurantCreateSchema), addRestaurant);
+router.post('/', authenticate, authorize('restaurantOwner'), validate(restaurantCreateSchema), addRestaurant);
 router.get('/', fetchAllRestaurants);
 router.get('/:id', fetchRestaurantById);
 router.put('/:id', authenticate, authorize('admin'), validate(restaurantUpdateSchema), updateRestaurantById);

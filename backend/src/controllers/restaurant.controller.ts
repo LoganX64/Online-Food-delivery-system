@@ -20,8 +20,8 @@ import { AppError } from '../utils/AppError.js';
 
 export const addRestaurant = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const ownerId = (req as any).user?.userId || req.body.ownerId;
-    if (!ownerId) throw new AppError('Owner ID is required', 400);
+    const ownerId = (req as any).user?.userId;
+    if (!ownerId) throw new AppError('Authentication required to add a restaurant', 401);
 
     const restaurant = await createRestaurant(ownerId, req.body);
     res.status(200).json({ success: true, data: restaurant });
@@ -41,9 +41,17 @@ export const fetchAllRestaurants = async (req: Request, res: Response, next: Nex
 
 export const fetchRestaurantById = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const restaurant = await getRestaurantById(req.params.id as string);
+    const { id } = req.params;
+    if (!id) {
+      throw new AppError('Restaurant ID is required', 400);
+    }
+
+    const restaurant = await getRestaurantById(id as string);
     res.status(200).json({ success: true, data: restaurant });
-  } catch (error) {
+  } catch (error: any) {
+    if (error.name === 'CastError') {
+      return next(new AppError('Invalid Restaurant ID format', 400));
+    }
     next(error);
   }
 };
@@ -70,8 +78,8 @@ export const deleteRestaurantById = async (req: Request, res: Response, next: Ne
 
 export const fetchMyRestaurant = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const ownerId = (req as any).user?.userId || req.query.ownerId;
-    if (!ownerId) throw new AppError('Owner ID is required', 400);
+    const ownerId = (req as any).user?.userId;
+    if (!ownerId) throw new AppError('Authentication required', 401);
 
     const restaurant = await getRestaurantByOwnerId(ownerId as string);
     res.status(200).json({ success: true, data: restaurant });
@@ -82,8 +90,8 @@ export const fetchMyRestaurant = async (req: Request, res: Response, next: NextF
 
 export const updateMyRestaurant = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const ownerId = (req as any).user?.userId || req.body.ownerId;
-    if (!ownerId) throw new AppError('Owner ID is required', 400);
+    const ownerId = (req as any).user?.userId;
+    if (!ownerId) throw new AppError('Authentication required', 401);
 
     const restaurant = await updateRestaurantByOwnerId(ownerId as string, req.body);
     res.status(200).json({ success: true, data: restaurant });
@@ -97,8 +105,8 @@ export const updateMyRestaurant = async (req: Request, res: Response, next: Next
 export const fetchMyRestaurantOrders = async (req: Request, res: Response, next: NextFunction) => {
   try {
     // First, find the restaurant owned by the user
-    const ownerId = (req as any).user?.userId || req.query.ownerId;
-    if (!ownerId) throw new AppError('Owner ID is required', 400);
+    const ownerId = (req as any).user?.userId;
+    if (!ownerId) throw new AppError('Authentication required', 401);
 
     const restaurant = await getRestaurantByOwnerId(ownerId as string);
     const orders = await getRestaurantOrders(restaurant._id.toString());
@@ -110,8 +118,8 @@ export const fetchMyRestaurantOrders = async (req: Request, res: Response, next:
 
 export const acceptRestaurantOrder = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const ownerId = (req as any).user?.userId || req.body.ownerId;
-    if (!ownerId) throw new AppError('Owner ID is required', 400);
+    const ownerId = (req as any).user?.userId;
+    if (!ownerId) throw new AppError('Authentication required', 401);
 
     const restaurant = await getRestaurantByOwnerId(ownerId as string);
     const order = await acceptOrder(req.params.id as string, restaurant._id.toString());
@@ -123,8 +131,8 @@ export const acceptRestaurantOrder = async (req: Request, res: Response, next: N
 
 export const rejectRestaurantOrder = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const ownerId = (req as any).user?.userId || req.body.ownerId;
-    if (!ownerId) throw new AppError('Owner ID is required', 400);
+    const ownerId = (req as any).user?.userId;
+    if (!ownerId) throw new AppError('Authentication required', 401);
 
     const restaurant = await getRestaurantByOwnerId(ownerId as string);
     const order = await rejectOrder(req.params.id as string, restaurant._id.toString());
@@ -136,8 +144,8 @@ export const rejectRestaurantOrder = async (req: Request, res: Response, next: N
 
 export const updateRestaurantOrderStatus = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const ownerId = (req as any).user?.userId || req.body.ownerId;
-    if (!ownerId) throw new AppError('Owner ID is required', 400);
+    const ownerId = (req as any).user?.userId;
+    if (!ownerId) throw new AppError('Authentication required', 401);
 
     const restaurant = await getRestaurantByOwnerId(ownerId as string);
     const order = await updateOrderStatus(req.params.id as string, restaurant._id.toString(), req.body.status);
