@@ -1,4 +1,5 @@
 import { Restaurant, IRestaurant } from '../models/Restaurant.js';
+import { MenuItem } from '../models/MenuItem.js';
 import { Order, IOrder } from '../models/Order.js';
 import { User } from '../models/User.js';
 import { AppError } from '../utils/AppError.js';
@@ -135,5 +136,44 @@ export const getRestaurantsByPincode = async (pincode?: string) => {
     query.pincode = pincode;
   }
   return Restaurant.find(query).lean();
+};
+
+/**
+ * Search restaurants and menu items by query string.
+ */
+export const searchRestaurantsAndItems = async (q: string) => {
+  const regex = new RegExp(q, 'i');
+
+  const restaurants = await Restaurant.find({
+    isActive: true,
+    isApproved: true,
+    $or: [{ name: regex }, { description: regex }],
+  }).lean();
+
+  const menuItems = await MenuItem.find({
+    isAvailable: true,
+    $or: [{ name: regex }, { description: regex }],
+  }).populate('restaurantId', 'name').lean();
+
+  return { restaurants, menuItems };
+};
+
+/**
+ * Fetch earnings summary for a specific restaurant.
+ * Sum of totalAmount for all 'delivered' orders.
+ */
+export const getEarningsSummary = async (restaurantId: string) => {
+  const deliveredOrders = await Order.find({
+    restaurantId,
+    status: 'delivered',
+  }).lean();
+
+  const totalEarnings = deliveredOrders.reduce((sum, order) => sum + order.totalAmount, 0);
+
+  return {
+    restaurantId,
+    totalEarnings,
+    orderCount: deliveredOrders.length,
+  };
 };
 

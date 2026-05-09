@@ -61,9 +61,18 @@ change.
     - JWT stored in HTTP-only cookies
     - Role-based authorization middleware (RBAC)
 
+- Password Reset Flow — Full implementation:
+  - `POST /auth/forgot-password` — generates and returns a secure reset token
+  - `POST /auth/reset-password/:token` — validates token and updates password
+  - Added `resetPasswordToken` and `resetPasswordExpires` to `User` model
+  - Added validation schemas in `validation.ts`
+  - Fixed TypeScript type mismatch in `auth.controller.ts`
+- Health Check — Implementation:
+  - `GET /api/health` — Returns application status, uptime, and database connectivity.
+  - Documented in `backend-routes.md` and `payload-sample.md`.
+
 ## In Progress
 
-- None
 
 ## Next Up
 

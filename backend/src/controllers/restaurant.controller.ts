@@ -12,6 +12,8 @@ import {
   rejectOrder,
   updateOrderStatus,
   getRestaurantsByPincode,
+  searchRestaurantsAndItems,
+  getEarningsSummary,
 } from '../services/restaurant.service.js';
 import { getAllMenuItems } from '../services/menu.service.js';
 import { AppError } from '../utils/AppError.js';
@@ -100,6 +102,19 @@ export const updateMyRestaurant = async (req: Request, res: Response, next: Next
   }
 };
 
+export const fetchMyRestaurantEarnings = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const ownerId = (req as any).user?.userId;
+    if (!ownerId) throw new AppError('Authentication required', 401);
+
+    const restaurant = await getRestaurantByOwnerId(ownerId as string);
+    const summary = await getEarningsSummary(restaurant._id.toString());
+    res.status(200).json({ success: true, data: summary });
+  } catch (error) {
+    next(error);
+  }
+};
+
 // ─── Restaurant Orders ──────────────────────────────────────
 
 export const fetchMyRestaurantOrders = async (req: Request, res: Response, next: NextFunction) => {
@@ -162,6 +177,20 @@ export const fetchCustomerRestaurants = async (req: Request, res: Response, next
     const { pincode } = req.query;
     const restaurants = await getRestaurantsByPincode(pincode as string);
     res.status(200).json({ success: true, data: restaurants });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const searchRestaurantAndFoodItems = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { q } = req.query;
+    if (!q) {
+      throw new AppError('Search query is required', 400);
+    }
+
+    const results = await searchRestaurantsAndItems(q as string);
+    res.status(200).json({ success: true, data: results });
   } catch (error) {
     next(error);
   }

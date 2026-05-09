@@ -7,6 +7,8 @@ This document provides a comprehensive list of all API endpoints available in th
 | :--- | :--- | :--- | :---: |
 | POST | `/auth/register` | Register a new user | No |
 | POST | `/auth/login` | Login and receive a token | No |
+| POST | `/auth/forgot-password` | Request password reset token | No |
+| POST | `/auth/reset-password/:token` | Reset password using token | No |
 | POST | `/auth/logout` | Logout and clear session | Yes |
 | GET | `/auth/me` | Fetch current authenticated user | Yes |
 
@@ -34,13 +36,13 @@ This document provides a comprehensive list of all API endpoints available in th
 ## 🏠 Restaurant Management (Owner) (`/restaurant`)
 | Method | Endpoint | Description | Auth Required |
 | :--- | :--- | :--- | :---: |
-| GET | `/restaurant/me` | Fetch owner's restaurant | No |
+| GET | `/restaurant/me` | Fetch owner's restaurant | Yes (Owner) |
 | PUT | `/restaurant/me` | Update owner's restaurant | Yes(to check owner is updating his own restaurant or not) |
 | GET | `/restaurant/orders` | Fetch orders for the restaurant | Yes(to check owner is fetching his own orders or not) |
 | PUT | `/restaurant/orders/:id/accept` | Accept an order | Yes(to check owner is accepting his own order or not) |
 | PUT | `/restaurant/orders/:id/reject` | Reject an order | Yes(to check owner is rejecting his own order or not) |
 | PUT | `/restaurant/orders/:id/status` | Update order status | Yes(to check owner is updating his own order or not) |
-| POST | `/restaurant` | Register a new restaurant | No |
+| POST | `/restaurant` | Register a new restaurant | Yes (Owner) |
 | GET | `/restaurant` | Fetch all restaurants | No |
 | GET | `/restaurant/:id` | Fetch restaurant by ID | No |
 | PUT | `/restaurant/:id` | Update restaurant by ID | Yes(to check admin is updating restaurant or not) |
@@ -65,18 +67,18 @@ This document provides a comprehensive list of all API endpoints available in th
 ## 🛒 Cart Management (`/cart`)
 | Method | Endpoint | Description | Auth Required |
 | :--- | :--- | :--- | :---: |
-| GET | `/cart` | Fetch user's cart | No |
-| POST | `/cart/add` | Add item to cart | No |
-| PUT | `/cart/update` | Update item quantity in cart | No |
-| DELETE | `/cart/remove` | Remove item from cart | No |
-| DELETE | `/cart/clear` | Clear entire cart | No |
+| GET | `/cart` | Fetch user's cart | Yes |
+| POST | `/cart/add` | Add item to cart | Yes |
+| PUT | `/cart/update` | Update item quantity in cart | Yes |
+| DELETE | `/cart/remove` | Remove item from cart | Yes |
+| DELETE | `/cart/clear` | Clear entire cart | Yes |
 
 ## 💳 Checkout & Orders (`/orders` & `/checkout`)
 | Method | Endpoint | Description | Auth Required |
 | :--- | :--- | :--- | :---: |
-| POST | `/orders` | Place order from cart | Yes(to check if its login or not) |
-| GET | `/orders` | Fetch user's order history | No |
-| GET | `/orders/:id` | Fetch order details | No |
+| POST | `/orders` | Place order from cart | Yes |
+| GET | `/orders` | Fetch user's order history | Yes |
+| GET | `/orders/:id` | Fetch order details | Yes |
 | POST | `/checkout` | Checkout and place order | Yes(to check if its login or not) |
 
 ## 💰 Payments (`/payment`)
@@ -95,4 +97,5 @@ This document provides a comprehensive list of all API endpoints available in th
 ## 🏥 Health Check
 | Method | Endpoint | Description | Auth Required |
 | :--- | :--- | :--- | :---: |
-| GET | `/health` | Check system status | No |
+| GET | `/api/health` | Check detailed system status | No |
+| GET | `/` | Simple server running check | No |

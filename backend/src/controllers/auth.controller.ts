@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { loginUser } from '../services/auth.service.js';
+import { loginUser, requestPasswordReset, resetUserPassword } from '../services/auth.service.js';
 import { createUser } from '../services/user.service.js';
 import { User } from '../models/User.js';
 
@@ -61,6 +61,41 @@ export const getMe = async (req: Request, res: Response, next: NextFunction) => 
 
     const user = await User.findById(userId).select('-password').lean();
     res.status(200).json({ success: true, data: user });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * POST /auth/forgot-password — Request a password reset token.
+ */
+export const forgotPassword = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { email } = req.body;
+    const resetToken = await requestPasswordReset(email);
+
+    // In production, you would not return the token in the response.
+    // It would be sent via email. For development/testing, we return it.
+    res.status(200).json({
+      success: true,
+      message: 'Password reset token generated',
+      data: { resetToken },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * POST /auth/reset-password/:token — Reset password using token.
+ */
+export const resetPassword = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { token } = req.params;
+    const { password } = req.body;
+
+    const result = await resetUserPassword(token as string, password);
+    res.status(200).json({ success: true, data: result });
   } catch (error) {
     next(error);
   }

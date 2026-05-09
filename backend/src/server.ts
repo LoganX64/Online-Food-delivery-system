@@ -15,6 +15,7 @@ import cartRoutes from './routes/cart.routes.js';
 import checkoutRoutes from './routes/checkout.routes.js';
 import paymentRoutes from './routes/payment.routes.js';
 import adminRoutes from './routes/admin.routes.js';
+import healthRoutes from './routes/health.routes.js';
 import { errorHandler } from './middleware/error.middleware.js';
 import { logRoutes } from './utils/routeLogger.js';
 import morgan from 'morgan';
@@ -34,7 +35,7 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Health check endpoint
+// Health check endpoint (Root)
 app.get('/', (req: Request, res: Response) => {
   res.json({
     success: true,
@@ -44,6 +45,7 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 // API Routes
+app.use('/api/health', healthRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/addresses', addressRoutes);

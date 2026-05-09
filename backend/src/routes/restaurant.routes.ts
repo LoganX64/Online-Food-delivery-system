@@ -7,6 +7,7 @@ import {
   deleteRestaurantById,
   fetchMyRestaurant,
   updateMyRestaurant,
+  fetchMyRestaurantEarnings,
   fetchMyRestaurantOrders,
   acceptRestaurantOrder,
   rejectRestaurantOrder,
