@@ -1,6 +1,13 @@
 import { Link } from "react-router-dom"
-import { UtensilsCrossed } from "lucide-react"
+import { UtensilsCrossed, Menu } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet"
 
 export function Navbar() {
   return (
@@ -24,12 +31,35 @@ export function Navbar() {
           </Button>
         </div>
 
-        {/* Mobile Menu Button (Simple) */}
+        {/* Mobile Menu */}
         <div className="md:hidden flex items-center gap-2">
-          <Button variant="ghost" size="icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
-            <span className="sr-only">Toggle menu</span>
-          </Button>
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon">
+                <Menu className="h-6 w-6" />
+                <span className="sr-only">Toggle menu</span>
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="right">
+              <SheetHeader>
+                <SheetTitle className="text-left flex items-center gap-2">
+                  <UtensilsCrossed className="h-5 w-5 text-primary" />
+                  FoodDash
+                </SheetTitle>
+              </SheetHeader>
+              <div className="flex flex-col gap-4 mt-8">
+                <Link to="/register?role=restaurantOwner" className="text-lg font-medium hover:text-primary transition-colors">
+                  Become a Partner
+                </Link>
+                <Link to="/login" className="text-lg font-medium hover:text-primary transition-colors">
+                  Login
+                </Link>
+                <Button asChild className="w-full mt-2">
+                  <Link to="/register">Sign Up</Link>
+                </Button>
+              </div>
+            </SheetContent>
+          </Sheet>
         </div>
       </div>
     </header>

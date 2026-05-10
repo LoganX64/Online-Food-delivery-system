@@ -61,10 +61,11 @@ change.
     - JWT stored in HTTP-only cookies
     - Role-based authorization middleware (RBAC)
 - `07-navbar-ui.md` — Full implementation:
-  - Built Navbar using `navigation-menu` with Logo and Home/Login/Register links.
+  - Built Navbar using `container` with Logo on left and Links on right.
   - Set up React Router with `Home`, `Login`, and `Register` pages.
   - Implemented shared `Layout` with sticky Navbar and responsive container.
-  - Integrated `login-form` and `signup-form` shadcn blocks.
+  - Integrated `login-form` and `signup-form` shadcn blocks with 2-column layout.
+  - Implemented a functional mobile menu using shadcn's `Sheet` component.
   - Configured design tokens in `index.css` (Orange theme) and fixed path aliases.
 
 - Password Reset Flow — Full implementation:
