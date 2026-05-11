@@ -67,6 +67,18 @@ change.
   - Integrated `login-form` and `signup-form` shadcn blocks with 2-column layout.
   - Implemented a functional mobile menu using shadcn's `Sheet` component.
   - Configured design tokens in `index.css` (Orange theme) and fixed path aliases.
+- `08-hero-section.md` — Full implementation:
+  - Created `HeroSection` component with a responsive, premium design.
+  - Integrated high-quality gourmet food background image with hover effects.
+  - Implemented a centered search card with single-line title, subtitle, and search/location inputs.
+  - Applied design refinements: rounded corners (`rounded-xl`), shadow effects, and optimized typography.
+  - Updated `Home` page to include the `HeroSection`.
+- `09-categories.md` — Full implementation:
+  - Built `Categories` section with **infinite horizontal looping** functionality.
+  - Displayed quick categories: Pizza, Burgers, Pasta, Desserts, Drinks, and Healthy.
+  - Implemented category cards with image backgrounds and text overlays (bottom-left).
+  - Added functional navigation buttons (Left/Right arrows) for easier browsing.
+  - Integrated high-quality food photography and reliable fallback mechanisms for visuals.
 
 - Password Reset Flow — Full implementation:
   - `POST /auth/forgot-password` — generates and returns a secure reset token
