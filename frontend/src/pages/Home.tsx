@@ -8,7 +8,6 @@ export default function Home() {
       <HeroSection />
       <Categories />
       <Restaurants />
-      {/* Other sections will go here */}
     </main>
   );
 }

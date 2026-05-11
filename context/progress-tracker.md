@@ -88,6 +88,11 @@ change.
     - Floating navigation arrows (Left/Right) centered over cards with hover effects.
   - Integrated `Badge` component for ratings.
   - Updated `Home` page to include the `Restaurants` section.
+- `11-Footer.md` — Full implementation:
+  - Built `Footer` component with a responsive layout and dropdown selectors.
+  - Used a light peach/orange theme (`bg-[#fff1eb]`) with dark text to match the design reference.
+  - Custom SVG components for missing `lucide-react` brand icons (Facebook, Twitter, Instagram, Youtube).
+  - Integrated `Footer` into the `Home` page layout.
 
 - Password Reset Flow — Full implementation:
   - `POST /auth/forgot-password` — generates and returns a secure reset token

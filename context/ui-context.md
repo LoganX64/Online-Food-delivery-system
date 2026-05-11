@@ -69,6 +69,7 @@ The design follows a **shadcn-based neutral system with orange as the primary br
 | `rating`         | Ratings / stars           | `#F59E0B` |
 | `popular`        | Popular badge             | `#A855F7` |
 | `discount`       | Offers / deals            | `#EC4899` |
+| `footer-bg`     | Footer background         | `#FFF1EB` |
 
 ---
 
