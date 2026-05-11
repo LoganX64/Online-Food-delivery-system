@@ -1,5 +1,6 @@
 import { useRef, useEffect } from "react";
 import { Star, ArrowRight, Clock, ChevronLeft, ChevronRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import { Card, CardContent } from "./ui/card";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
@@ -117,10 +118,10 @@ export const Restaurants = () => {
         <h2 className="text-2xl md:text-3xl font-bold font-heading text-foreground">
           Popular Restaurants
         </h2>
-        <Button variant="ghost" className="text-primary hover:text-primary-hover font-semibold group p-0">
+        <Link to="/restaurants" className="flex items-center text-primary hover:text-primary-hover hover:underline font-semibold group transition-colors">
           See All
           <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-        </Button>
+        </Link>
       </div>
 
       <div className="relative group/scroller">
