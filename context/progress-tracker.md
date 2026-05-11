@@ -79,6 +79,15 @@ change.
   - Implemented category cards with image backgrounds and text overlays (bottom-left).
   - Added functional navigation buttons (Left/Right arrows) for easier browsing.
   - Integrated high-quality food photography and reliable fallback mechanisms for visuals.
+- `10-restaurants.md` — Full implementation:
+  - Built `Restaurants` section with **infinite horizontal scrolling** functionality.
+  - Implemented restaurant cards featuring:
+    - High-quality imagery with star rating overlays and no top/side padding.
+    - Restaurant name, cuisine types, and a formatted footer with `Clock` icon, delivery time, and fee.
+    - Horizontal divider separating content from delivery info.
+    - Floating navigation arrows (Left/Right) centered over cards with hover effects.
+  - Integrated `Badge` component for ratings.
+  - Updated `Home` page to include the `Restaurants` section.
 
 - Password Reset Flow — Full implementation:
   - `POST /auth/forgot-password` — generates and returns a secure reset token

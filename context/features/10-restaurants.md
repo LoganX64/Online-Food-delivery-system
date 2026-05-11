@@ -1,7 +1,7 @@
 Read `AGENTS.md` before starting. If `AGENTS.md` is present, follow it strictly.
 
 ## Task
-Build a **Categories** section component using:
+Build a **Restaurants** section component using:
 - React (with React Router)
 - Tailwind CSS
 - shadcn/ui
@@ -14,21 +14,15 @@ Build a **Categories** section component using:
 
 ## Features to Implement
 
-### 1. Categories Section
-- Use `categories`
-- Header - Quick Categories
-  - Display quick categories: `Pizza`, `Burgers`, `Pasta`, `Desserts`, `Drinks`,`Healthy`
-  - Each category should be clickable and display related dishes
-  - image as full width and text overlay at bottom left of the image
-  - arrow buttons to scroll through categories on the left and right
+### 1. Restaurants Section
+- Use `restaurants`
+- Header - Popular Restaurants
+  - Display quick restaurants: `Domino's`, `Pizza Hut`, `KFC`, `McDonald's`, `Burger King`, `Subway`, `Pizza Inn`, `KFC`
+  - Each restaurant should be clickable and display related restaurant images with rating (4-5 stars )on the top-right corner of the image
+  - below the image the restaurant name , types of dishes they serve in the restaurant 
+  - below that delivery time and delivery fee or free delivery text
+- See All and a arrow on the right
 - Responsive (mobile-first)
-
-### 2. Pages (React Router)
-
-Create the following pages inside `pages/`:
-
-Public:
-- `/` → Home (landing page)
 
 ### 3. Layout
 - Proper container spacing
@@ -41,7 +35,7 @@ Public:
 
 ### 5. Screenshot Matching
 - Follow UI reference from:
-  `context/screenshot`
+  `context/screenshots/homepage.png`
 - Match spacing, proportions, and hierarchy
 
 ## Project Structure (Frontend Only)
@@ -50,7 +44,7 @@ pages/
   Home.tsx
 
 components/
-  categories.tsx
+  restaurants.tsx
   ui/ (shadcn)
 
 routes/

@@ -1,12 +1,14 @@
 import { HeroSection } from "@/components/hero-section";
 import { Categories } from "@/components/categories";
+import { Restaurants } from "@/components/restaurants";
 
 export default function Home() {
   return (
     <main>
       <HeroSection />
       <Categories />
-      {/* Other sections like Restaurant listings will go here */}
+      <Restaurants />
+      {/* Other sections will go here */}
     </main>
   );
 }
