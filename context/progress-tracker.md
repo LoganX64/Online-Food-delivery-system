@@ -135,9 +135,17 @@ change.
 - **Address Ownership**: Implemented user-scoped logic in `address.service.ts` to ensure users can only manage their own addresses.
 - **Cloudinary Integration**: Used Cloudinary and Multer for uploading and managing menu item images.
 
-## Session Notes
-- Admin module is fully implemented according to `05-admin-endpoint.md`.
-- Restricted all endpoints under `/admin` using `authenticate` and `authorize('admin')` middleware.
-- Aligned implementation with `backend-architecture.md` by adding missing `/auth/logout`, `/auth/me`, `/users/me`, `/users/profile-image`, and `/checkout` endpoints.
-- Verified system integrity with `tsc --noEmit`; all type checks pass.
-- The backend API suite now 100% matches all defined architectural requirements.
+- Refined `Categories` component in `frontend/src/components/categories.tsx` to strictly match `09-categories.md` requirements:
+  - Updated category list (added Drinks, removed Sushi).
+  - Implemented responsive design: rectangular cards with text overlays for desktop, circular images with labels for mobile.
+  - Positioned navigation arrows to float over categories for better desktop UX.
+  - Fixed "jumping effect" on arrow buttons by wrapping them in centered containers and preventing scroll reset logic during animations.
+  - Ensured infinite horizontal looping logic is maintained and optimized.
+- Refined `Restaurants` component in `frontend/src/components/restaurants.tsx` to match revised `10-restaurants.md` requirements:
+  - Updated restaurant list to popular brands (Domino's, KFC, etc.).
+  - Implemented vertical list layout for mobile and horizontal scroll for desktop.
+  - Added "See All" action with arrow in the section header.
+  - Positioned navigation arrows (Chevrons) to float over the left and right sides of the list (Desktop), overlayed on the restaurant cards and vertically centered on the images with no top space.
+  - Added badges (popular, new, free delivery) as small corner boxes, heart icon overlays, and improved typography for name/rating/cuisine.
+  - Optimized layout for mobile-first responsiveness with increased spacing between vertical cards.
+

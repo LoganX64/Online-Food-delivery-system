@@ -18,14 +18,16 @@ Build a **Restaurants** section component using:
 - Use `restaurants`
 - Header - Popular Restaurants
   - Display quick restaurants: `Domino's`, `Pizza Hut`, `KFC`, `McDonald's`, `Burger King`, `Subway`, `Pizza Inn`, `KFC`
-  - Each restaurant should be clickable and display related restaurant images with rating (4-5 stars )on the top-right corner of the image
-  - below the image the restaurant name , types of dishes they serve in the restaurant 
+  - Each restaurant should be clickable and display related restaurant images with heart icon on the top-right corner of the image
+  - image full space of the card with rounded corners no space between image and top and on top left corner of  image add small box with `popular`,`new`,`free delivery` (any one of them)
+  - arrow buttons to scroll through restaurants on the left and right on the restaurant card and align center to the card.
+  - below the image the restaurant name and on top right corner of the name add rating (4-5 stars )and on same line below that types of dishes they serve in the restaurant 
   - below that delivery time and delivery fee or free delivery text
-- See All and a arrow on the right
+- `See All` link with underline and a arrow on the right
 - On mobile screen 
-  - display one single column cards with touch to scroll horizontal list of  restaurants 
-  - display only the restaurant images as full width and rounded corners 
-  - below image the restaurant name and rating (4-5 stars )on the top-right corner, below that types of dishes they serve in the restaurant 
+  - display one single column cards with touch to scroll vertical list of  restaurants 
+  - display the restaurant images as full width and rounded corners. take full space of card
+  - below image the restaurant name and on top right corner of the name add rating (4-5 stars )and on same line below that types of dishes they serve in the restaurant 
   - top right corner button with heart icon no text and top left corner small box with text `popular`,`new`,`free delivery` (any one of them) and below that delivery time and delivery fee or free delivery text  
   - On touch of restaurant image  show the related restaurants 
 
