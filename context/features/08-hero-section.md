@@ -29,7 +29,9 @@ npx shadcn@latest add input
       - Search bar - type to search for dishes
       - Current location - select your location 
       - Search Button - Find Food
-- Responsive (mobile-first)
+- on mobile screen hide the hero section image 
+  - location icon with text `delivering to [location]` and below this text `show the addresses` with an arrow down
+  - search bar `search for dishes` and `Find Food` button 
 
 ### 2. Pages (React Router)
 

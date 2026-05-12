@@ -61,12 +61,15 @@ change.
     - JWT stored in HTTP-only cookies
     - Role-based authorization middleware (RBAC)
 - `07-navbar-ui.md` — Full implementation:
-  - Built Navbar using `container` with Logo on left and Links on right.
+  - Built Navbar using shadcn `NavigationMenu` for desktop with Logo on left and Links (Home, Login, Register) on right.
+  - Implemented a mobile-specific layout: sandwich icon on right, logo on left.
+  - Mobile sandwich menu displays "Login", "Sign Up" and "Become a Partner" links.
+  - Added `BottomNav` component for mobile with Home, Categories, Cart, and Profile links/icons.
   - Set up React Router with `Home`, `Login`, and `Register` pages.
-  - Implemented shared `Layout` with sticky Navbar and responsive container.
-  - Integrated `login-form` and `signup-form` shadcn blocks with 2-column layout.
-  - Implemented a functional mobile menu using shadcn's `Sheet` component.
-  - Configured design tokens in `index.css` (Orange theme) and fixed path aliases.
+  - Implemented shared `Layout` with sticky Navbar, BottomNav, and responsive container.
+  - Integrated `login-form` and `signup-form` shadcn blocks.
+  - Created `utils/cn.ts` for consistent utility usage.
+  - Configured design tokens in `index.css` (Orange theme).
 - `08-hero-section.md` — Full implementation:
   - Created `HeroSection` component with a responsive, premium design.
   - Integrated high-quality gourmet food background image with hover effects.

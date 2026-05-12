@@ -15,13 +15,19 @@ Build a **Categories** section component using:
 ## Features to Implement
 
 ### 1. Categories Section
+#### Desktop screen view
 - Use `categories`
 - Header - Quick Categories
   - Display quick categories: `Pizza`, `Burgers`, `Pasta`, `Desserts`, `Drinks`,`Healthy`
   - Each category should be clickable and display related dishes
   - image as full width and text overlay at bottom left of the image
-  - arrow buttons to scroll through categories on the left and right
-- Responsive (mobile-first)
+  - arrow buttons to scroll through categories on the left and right on the categories card 
+
+#### Mobile screen view
+- Display quick categories: `Pizza`, `Burgers`, `Pasta`, `Desserts`, `Drinks`,`Healthy`
+- Each category should be clickable and display related dishes
+- image as full rounded width and below image `category name` in smaller font size 
+-categories should be in touch-to-scroll carousel from left to right 
 
 ### 2. Pages (React Router)
 

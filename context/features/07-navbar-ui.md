@@ -44,13 +44,15 @@ Public:
 - Consistent alignment using Tailwind utilities
 
 ### 4. Responsiveness
-- Mobile-first design
-- Works across mobile, tablet, desktop
-- No overflow or layout break issues
-
+- On mobile screens 
+  - show sandwitch icon on right
+  - On click of sandwitch icon display login, sign up and become partner link 
+  - on Bottom of the screen show navigation menu with icons and text below `home`, `categories`, `cart`, `profile`
+ 
 ### 5. Screenshot Matching
 - Follow UI from:
-  `context/screenshot`
+  `context/screenshots/homepage.png`
+  `context/screenshots/mobile-homescreen.png`
 - Match spacing, proportions, and hierarchy
 
 ## Project Structure (Frontend Only)

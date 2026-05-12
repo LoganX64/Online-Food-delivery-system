@@ -22,7 +22,12 @@ Build a **Restaurants** section component using:
   - below the image the restaurant name , types of dishes they serve in the restaurant 
   - below that delivery time and delivery fee or free delivery text
 - See All and a arrow on the right
-- Responsive (mobile-first)
+- On mobile screen 
+  - display one single column cards with touch to scroll horizontal list of  restaurants 
+  - display only the restaurant images as full width and rounded corners 
+  - below image the restaurant name and rating (4-5 stars )on the top-right corner, below that types of dishes they serve in the restaurant 
+  - top right corner button with heart icon no text and top left corner small box with text `popular`,`new`,`free delivery` (any one of them) and below that delivery time and delivery fee or free delivery text  
+  - On touch of restaurant image  show the related restaurants 
 
 ### 3. Layout
 - Proper container spacing
