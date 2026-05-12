@@ -62,7 +62,7 @@ change.
     - Role-based authorization middleware (RBAC)
 - `07-navbar-ui.md` — Full implementation:
   - Built Navbar using shadcn `NavigationMenu` for desktop with Logo on left and Links (Home, Login, Register) on right.
-  - Implemented a mobile-specific layout: sandwich icon on right, logo on left.
+  - **Mobile Refinement**: Updated layout to show brand logo/text on the left and sandwich icon on the right for better accessibility.
   - Mobile sandwich menu displays "Login", "Sign Up" and "Become a Partner" links.
   - Added `BottomNav` component for mobile with Home, Categories, Cart, and Profile links/icons.
   - Set up React Router with `Home`, `Login`, and `Register` pages.
@@ -72,8 +72,9 @@ change.
   - Configured design tokens in `index.css` (Orange theme).
 - `08-hero-section.md` — Full implementation:
   - Created `HeroSection` component with a responsive, premium design.
-  - Integrated high-quality gourmet food background image with hover effects.
-  - Implemented a centered search card with single-line title, subtitle, and search/location inputs.
+  - **Mobile Refinement**: Implemented mobile-specific view (hidden hero image, persistent location selector with "delivering to" text, and optimized search bar/button).
+  - Integrated high-quality gourmet food background image for desktop with hover effects.
+  - Implemented a centered search card for desktop with single-line title, subtitle, and search/location inputs.
   - Applied design refinements: rounded corners (`rounded-xl`), shadow effects, and optimized typography.
   - Updated `Home` page to include the `HeroSection`.
 - `09-categories.md` — Full implementation:

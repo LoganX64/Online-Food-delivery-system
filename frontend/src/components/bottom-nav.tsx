@@ -11,7 +11,7 @@ const navItems = [
   {
     label: "Categories",
     icon: LayoutGrid,
-    path: "/categories", // Assuming this path exists or will exist
+    path: "/categories",
   },
   {
     label: "Cart",

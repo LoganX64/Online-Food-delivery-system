@@ -1,4 +1,4 @@
-import { Search, MapPin } from "lucide-react";
+import { Search, MapPin, ChevronDown } from "lucide-react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Card, CardContent } from "./ui/card";
@@ -7,7 +7,36 @@ import heroImage from "@/assets/hero.png";
 export const HeroSection = () => {
   return (
     <section className="container mx-auto px-4 mt-4">
-      <div className="relative w-full h-[500px] md:h-[600px] flex items-center justify-center overflow-hidden rounded-xl shadow-xl">
+      {/* Mobile Version - Hidden on Desktop */}
+      <div className="md:hidden space-y-4 pt-2 pb-6">
+        {/* Location Info */}
+        <div className="flex items-center gap-3 px-1">
+          <MapPin className="h-5 w-5 text-[#F97316]" />
+          <div className="flex flex-col">
+            <span className="text-[10px] font-bold text-muted-foreground tracking-[0.1em] uppercase leading-none mb-1">
+              Delivering to
+            </span>
+            <div className="flex items-center gap-1">
+              <span className="text-xl font-bold text-foreground tracking-tight leading-tight">
+                10012, New York
+              </span>
+              <ChevronDown className="h-4 w-4 text-muted-foreground" />
+            </div>
+          </div>
+        </div>
+
+        {/* Search Section */}
+        <div className="relative">
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Input
+            placeholder="Search for restaurants, dishes"
+            className="pl-12 h-12 bg-[#f0f4f8] border-none focus-visible:ring-0 focus-visible:ring-offset-0 text-sm rounded-xl placeholder:text-muted-foreground/60 shadow-none"
+          />
+        </div>
+      </div>
+
+      {/* Desktop Version - Hidden on Mobile */}
+      <div className="hidden md:flex relative w-full h-[500px] lg:h-[600px] items-center justify-center overflow-hidden rounded-xl shadow-xl">
         {/* Background Image */}
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-700 hover:scale-105"
@@ -56,3 +85,4 @@ export const HeroSection = () => {
     </section>
   );
 };
+

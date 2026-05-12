@@ -9,10 +9,10 @@ import dessertImg from "@/assets/dessert.png";
 const CATEGORIES = [
   { id: "pizza", name: "Pizza", image: pizzaImg },
   { id: "burgers", name: "Burgers", image: burgerImg },
+  { id: "sushi", name: "Sushi", image: "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?q=80&w=800&auto=format&fit=crop" },
+  { id: "healthy", name: "Healthy", image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=800&auto=format&fit=crop" },
   { id: "pasta", name: "Pasta", image: pastaImg },
   { id: "desserts", name: "Desserts", image: dessertImg },
-  { id: "drinks", name: "Drinks", image: "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=800&h=800&fit=crop" },
-  { id: "healthy", name: "Healthy", image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&h=800&fit=crop" },
 ];
 
 export const Categories = () => {
@@ -49,12 +49,12 @@ export const Categories = () => {
   };
 
   return (
-    <section className="container mx-auto px-4 py-4">
-      <div className="flex items-center justify-between mb-8">
+    <section className="container mx-auto px-4 py-8">
+      <div className="flex items-center justify-between mb-6">
         <h2 className="text-2xl md:text-3xl font-bold font-heading text-foreground">
-          Quick Categories
+          Craving something?
         </h2>
-        <div className="flex gap-2">
+        <div className="hidden md:flex gap-2">
           <Button
             variant="outline"
             size="icon"
@@ -77,25 +77,25 @@ export const Categories = () => {
       <div
         ref={scrollRef}
         onScroll={handleScroll}
-        className="flex gap-4 md:gap-6 overflow-x-auto no-scrollbar snap-x snap-mandatory"
+        className="flex gap-6 md:gap-10 overflow-x-auto no-scrollbar snap-x snap-mandatory"
         style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
       >
         {infiniteCategories.map((category, index) => (
           <div
             key={`${category.id}-${index}`}
-            className="flex-none w-40 md:w-56 aspect-square relative group cursor-pointer overflow-hidden rounded-2xl snap-start shadow-md hover:shadow-xl transition-all duration-300"
+            className="flex-none flex flex-col items-center gap-3 snap-start group cursor-pointer"
           >
-            <img
-              src={category.image}
-              alt={category.name}
-              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-              onError={(e) => {
-                (e.target as HTMLImageElement).src = "https://placehold.co/400x400/orange/white?text=" + category.name;
-              }}
-            />
-            {/* Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-            <span className="absolute bottom-4 left-4 text-white font-bold text-lg md:text-xl tracking-wide">
+            <div className="w-20 h-20 md:w-32 md:h-32 relative rounded-full overflow-hidden shadow-md group-hover:shadow-xl transition-all duration-300 border-2 border-transparent group-hover:border-primary">
+              <img
+                src={category.image}
+                alt={category.name}
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = "https://placehold.co/200x200/orange/white?text=" + category.name;
+                }}
+              />
+            </div>
+            <span className="text-sm md:text-base font-semibold text-muted-foreground group-hover:text-foreground transition-colors">
               {category.name}
             </span>
           </div>

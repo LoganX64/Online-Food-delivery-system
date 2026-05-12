@@ -45,7 +45,7 @@ Public:
 
 ### 4. Responsiveness
 - On mobile screens 
-  - show sandwitch icon on right
+  - brand logo and text on the left and show sandwitch icon on right
   - On click of sandwitch icon display login, sign up and become partner link 
   - on Bottom of the screen show navigation menu with icons and text below `home`, `categories`, `cart`, `profile`
  
