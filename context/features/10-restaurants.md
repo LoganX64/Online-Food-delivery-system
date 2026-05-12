@@ -6,6 +6,11 @@ Build a **Restaurants** section component using:
 - Tailwind CSS
 - shadcn/ui
 
+## Required shadcn Components
+Install and use:
+
+npx shadcn@latest add card
+
 ## Strict Constraints
 - Do NOT implement backend logic
 - Do NOT call real APIs

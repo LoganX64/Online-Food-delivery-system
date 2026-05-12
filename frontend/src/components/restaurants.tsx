@@ -104,32 +104,32 @@ export const Restaurants = () => {
         <h2 className="text-2xl md:text-3xl font-bold font-heading text-foreground">
           Popular Restaurants
         </h2>
-        <Button variant="ghost" className="text-primary hover:text-primary-hover font-bold flex items-center gap-1 p-0 h-auto">
+        <Button variant="ghost" className="text-primary hover:text-primary-hover font-bold flex items-center gap-1 p-0 h-auto hover:bg-transparent underline underline-offset-4 decoration-2">
           See All <ArrowRight className="h-4 w-4" />
         </Button>
       </div>
 
       {/* Desktop View: Horizontal Scroll with Overlaid Arrows */}
       <div className="hidden md:block relative group/scroller">
-        {/* Navigation Arrows positioned on the card images and vertically centered */}
-        <div className="absolute top-[32%] -left-6 z-30 -translate-y-1/2 opacity-0 group-hover/scroller:opacity-100 transition-opacity">
+        {/* Navigation Arrows positioned like Categories - floating over the container */}
+        <div className="absolute top-1/2 -left-5 z-30 -translate-y-1/2 opacity-0 group-hover/scroller:opacity-100 transition-opacity">
           <Button
             variant="outline"
             size="icon"
             onClick={() => scroll("left")}
-            className="rounded-full w-12 h-12 shadow-2xl bg-white border-none hover:bg-primary hover:text-white transition-all flex items-center justify-center"
+            className="rounded-full w-10 h-10 shadow-xl bg-white border-muted hover:bg-primary hover:text-white transition-all flex items-center justify-center"
           >
-            <ChevronLeft className="h-8 w-8" />
+            <ChevronLeft className="h-6 w-6" />
           </Button>
         </div>
-        <div className="absolute top-[32%] -right-6 z-30 -translate-y-1/2 opacity-0 group-hover/scroller:opacity-100 transition-opacity">
+        <div className="absolute top-1/2 -right-5 z-30 -translate-y-1/2 opacity-0 group-hover/scroller:opacity-100 transition-opacity">
           <Button
             variant="outline"
             size="icon"
             onClick={() => scroll("right")}
-            className="rounded-full w-12 h-12 shadow-2xl bg-white border-none hover:bg-primary hover:text-white transition-all flex items-center justify-center"
+            className="rounded-full w-10 h-10 shadow-xl bg-white border-muted hover:bg-primary hover:text-white transition-all flex items-center justify-center"
           >
-            <ChevronRight className="h-8 w-8" />
+            <ChevronRight className="h-6 w-6" />
           </Button>
         </div>
 
@@ -158,48 +158,48 @@ export const Restaurants = () => {
 
 const RestaurantCard = ({ restaurant }: { restaurant: any }) => {
   return (
-    <Card className="group border-none shadow-none bg-transparent overflow-visible cursor-pointer w-full">
-      {/* Image full space of card with no space between image and top */}
-      <div className="relative aspect-[16/10] rounded-2xl overflow-hidden mb-4 w-full border border-muted/10">
+    <Card className="group overflow-hidden border border-muted/50 shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer w-full p-0 flex flex-col gap-0">
+      {/* Image Container - No padding at top or sides */}
+      <div className="relative aspect-[4/3] overflow-hidden w-full">
         <img
           src={restaurant.image}
           alt={restaurant.name}
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
         />
         
-        {/* Top Left Badge - Small Box */}
+        {/* Top Left Badge */}
         <div className="absolute top-0 left-0 bg-primary text-white text-[10px] uppercase tracking-wider font-extrabold px-3 py-1.5 rounded-br-xl shadow-md z-10">
           {restaurant.badge}
         </div>
 
         {/* Top Right Heart Icon */}
-        <button className="absolute top-3 right-3 w-9 h-9 rounded-full bg-white/95 backdrop-blur-sm flex items-center justify-center shadow-md hover:bg-primary hover:text-white transition-all duration-300 z-10">
-          <Heart className="h-4.5 w-4.5" />
+        <button className="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-md hover:bg-primary hover:text-white transition-all duration-300 z-10">
+          <Heart className="h-4 w-4" />
         </button>
       </div>
 
-      <CardContent className="p-0">
+      <CardContent className="p-4 flex flex-col gap-3">
         <div className="flex items-start justify-between gap-2">
           <div className="flex-1 min-w-0">
-            <h3 className="text-xl font-bold text-foreground group-hover:text-primary transition-colors leading-tight truncate">
+            <h3 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors leading-tight truncate">
               {restaurant.name}
             </h3>
-            <p className="text-muted-foreground text-xs font-semibold mt-1.5 truncate">
+            <p className="text-muted-foreground text-[11px] font-semibold mt-1 truncate">
               {restaurant.cuisine}
             </p>
           </div>
-          <div className="flex items-center gap-1 bg-green-700 text-white px-2 py-0.5 rounded text-[11px] font-bold shrink-0 shadow-sm">
-            {restaurant.rating} <Star className="h-3 w-3 fill-current" />
+          <div className="flex items-center gap-1 bg-green-700 text-white px-2 py-0.5 rounded text-[10px] font-bold shrink-0 shadow-sm">
+            {restaurant.rating} <Star className="h-2.5 w-2.5 fill-current" />
           </div>
         </div>
 
-        <div className="flex items-center gap-5 text-[12px] font-bold text-muted-foreground/80 mt-4 border-t border-muted/30 pt-4">
-          <div className="flex items-center gap-2">
-            <Clock className="h-4 w-4 text-primary" />
+        <div className="flex items-center gap-4 text-[11px] font-bold text-muted-foreground/80 pt-3 border-t border-muted/30">
+          <div className="flex items-center gap-1.5">
+            <Clock className="h-3.5 w-3.5 text-primary" />
             <span>{restaurant.deliveryTime}</span>
           </div>
-          <div className="flex items-center gap-2">
-            <Truck className="h-4 w-4 text-primary" />
+          <div className="flex items-center gap-1.5">
+            <Truck className="h-3.5 w-3.5 text-primary" />
             <span>{restaurant.deliveryFee}</span>
           </div>
         </div>

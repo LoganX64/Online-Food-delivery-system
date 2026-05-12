@@ -144,8 +144,10 @@ change.
 - Refined `Restaurants` component in `frontend/src/components/restaurants.tsx` to match revised `10-restaurants.md` requirements:
   - Updated restaurant list to popular brands (Domino's, KFC, etc.).
   - Implemented vertical list layout for mobile and horizontal scroll for desktop.
-  - Added "See All" action with arrow in the section header.
-  - Positioned navigation arrows (Chevrons) to float over the left and right sides of the list (Desktop), overlayed on the restaurant cards and vertically centered on the images with no top space.
+  - Positioned navigation arrows (Chevrons) to float over the cards and vertically centered to the whole card height, matching the Categories component's layout.
+  - Implemented RestaurantCard using shadcn/ui Card for better visual consistency and shadows.
+  - Updated image aspect ratio to 4:3 and ensured no top/side padding for a "full" look.
+  - Added underline and hover effects to "See All" action.
   - Added badges (popular, new, free delivery) as small corner boxes, heart icon overlays, and improved typography for name/rating/cuisine.
   - Optimized layout for mobile-first responsiveness with increased spacing between vertical cards.
 
