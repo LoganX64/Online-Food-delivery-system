@@ -103,6 +103,9 @@ change.
   - Integrated dummy data and UI for pagination, sorting, search, and category filtering.
   - Updated `Navbar` to show a back button specifically for the `/menus` route on mobile devices.
   - Set up `/menus` route in `index.tsx`.
+  - **Add-to-Cart with localStorage**: Created `utils/cart-storage.ts` utility for persisting cart items in `localStorage` (no state management). Cart state initializes from localStorage and syncs on every update.
+  - **Toast Notifications**: Integrated Sonner toaster (fixed for Vite — removed `next-themes` dependency). Shows "[Dish name] added to cart" toast with a `ShoppingCart` icon at top-center on every add action.
+  - **Category Navigation**: Clicking a category on the Home page navigates to `/menus?category=Name` and pre-selects the filter checkbox.
 
 - Password Reset Flow — Full implementation:
   - `POST /auth/forgot-password` — generates and returns a secure reset token

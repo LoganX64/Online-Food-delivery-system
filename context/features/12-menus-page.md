@@ -48,6 +48,8 @@ pnpm dlx shadcn@latest add sonner
   -  below image on left there will be dish name and below the name restaurant name
   - below the name restaurant name there is price and same line on right of price add `add to cart` button with `+` icon  
   -   on click of + icon increase the count of the item in the cart and on right of it  show a `+` and `-` button to increase or decrease the count of the item in the cart 
+  - on adding item to cart show a notification message on top of page saying `item added to cart` and on left of notification show a  cart icon
+  - for now store cart items in local storage not in state management
 
 ### 2. Pages (React Router)
 

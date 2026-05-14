@@ -7,6 +7,7 @@ import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { BottomNav } from "@/components/bottom-nav"
 import { Outlet } from "react-router-dom"
+import { Toaster } from "@/components/ui/sonner"
 
 function Layout() {
   return (
@@ -17,6 +18,7 @@ function Layout() {
       </main>
       <Footer />
       <BottomNav />
+      <Toaster position="top-center" />
     </div>
   )
 }

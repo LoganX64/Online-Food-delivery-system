@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import { useSearchParams } from "react-router-dom"
-import { Search, ChevronDown, Plus, Minus, ChevronLeft, ChevronRight, SlidersHorizontal } from "lucide-react"
+import { Search, ChevronDown, Plus, Minus, ChevronLeft, ChevronRight, SlidersHorizontal, ShoppingCart } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
@@ -27,7 +27,9 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
-import { Badge } from "@/components/ui/badge"
+import { toast } from "sonner"
+import { getCartFromStorage, saveCartToStorage } from "@/utils/cart-storage"
+import type { CartItems } from "@/utils/cart-storage"
 
 const DISHES = [
   { id: 1, name: "Margherita Pizza", restaurant: "Domino's", price: 12.99, type: "veg", image: "https://images.unsplash.com/photo-1604068549290-dea0e4a305ca?q=80&w=800&auto=format&fit=crop" },
@@ -46,7 +48,7 @@ export function MenusPage() {
   const [searchParams] = useSearchParams()
   const initialCategory = searchParams.get("category")
 
-  const [cartCounts, setCartCounts] = useState<Record<number, number>>({})
+  const [cartCounts, setCartCounts] = useState<CartItems>(getCartFromStorage)
   const [sortValue, setSortValue] = useState("rating")
   const [selectedCategories, setSelectedCategories] = useState<string[]>(
     initialCategory ? [initialCategory] : []
@@ -66,14 +68,25 @@ export function MenusPage() {
   }
 
   const updateCount = (id: number, delta: number) => {
+    const dishName = DISHES.find(d => d.id === id)?.name ?? "Item"
     setCartCounts((prev) => {
       const current = prev[id] || 0
       const next = current + delta
+      let updated: CartItems
       if (next <= 0) {
         const { [id]: _, ...rest } = prev
-        return rest
+        updated = rest
+      } else {
+        updated = { ...prev, [id]: next }
       }
-      return { ...prev, [id]: next }
+      saveCartToStorage(updated)
+      if (delta > 0) {
+        toast(dishName + " added to cart", {
+          icon: <ShoppingCart className="h-4 w-4 text-primary" />,
+          duration: 2000,
+        })
+      }
+      return updated
     })
   }
 
