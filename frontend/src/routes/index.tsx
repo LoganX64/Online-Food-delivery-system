@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router-dom"
 import Home from "@/pages/Home"
 import Login from "@/pages/Login"
 import Register from "@/pages/Register"
+import Menus from "@/pages/Menus"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { BottomNav } from "@/components/bottom-nav"
@@ -36,6 +37,10 @@ export const router = createBrowserRouter([
       {
         path: "register",
         element: <Register />,
+      },
+      {
+        path: "menus",
+        element: <Menus />,
       },
     ],
   },

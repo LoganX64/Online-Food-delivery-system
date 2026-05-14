@@ -1,5 +1,6 @@
 import { useRef, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
 import pizzaImg from "@/assets/pizza.png";
 import burgerImg from "@/assets/burger.png";
@@ -17,6 +18,7 @@ const CATEGORIES = [
 ];
 
 export const Categories = () => {
+  const navigate = useNavigate();
   const scrollRef = useRef<HTMLDivElement>(null);
   const infiniteCategories = [...CATEGORIES, ...CATEGORIES, ...CATEGORIES];
   const isScrollingRef = useRef(false);
@@ -103,6 +105,7 @@ export const Categories = () => {
           {infiniteCategories.map((category, index) => (
             <div
               key={`${category.id}-${index}`}
+              onClick={() => navigate(`/menus?category=${encodeURIComponent(category.name)}`)}
               className="flex-none snap-start cursor-pointer group/item"
             >
               {/* Desktop View: Rectangular Card with Overlay */}

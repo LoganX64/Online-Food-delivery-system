@@ -97,6 +97,12 @@ change.
   - Used a light peach/orange theme (`bg-[#fff1eb]`) with dark text to match the design reference.
   - Custom SVG components for missing `lucide-react` brand icons (Facebook, Twitter, Instagram, Youtube).
   - Integrated `Footer` into the `Home` page layout.
+- `12-menus-page.md` — Full implementation:
+  - Built `MenusPage` component with a responsive layout featuring sidebar filters for desktop and drawer/sheet filters for mobile.
+  - Implemented dish cards with 'veg/non-veg' badges, image, details, and dynamic cart add/remove counters.
+  - Integrated dummy data and UI for pagination, sorting, search, and category filtering.
+  - Updated `Navbar` to show a back button specifically for the `/menus` route on mobile devices.
+  - Set up `/menus` route in `index.tsx`.
 
 - Password Reset Flow — Full implementation:
   - `POST /auth/forgot-password` — generates and returns a secure reset token

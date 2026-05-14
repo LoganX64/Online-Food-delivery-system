@@ -1,7 +1,7 @@
 Read `AGENTS.md` before starting. If `AGENTS.md` is present, follow it strictly.
 
 ## Task
-Build a **menus page** component using:
+Build a **order page** component using:
 - React (with React Router)
 - Tailwind CSS
 - shadcn/ui
@@ -13,41 +13,23 @@ Build a **menus page** component using:
 - Do NOT add unnecessary features outside scope
 
 ## Required shadcn Components
-Install and use:
-
-pnpm shadcn@latest add input
-pnpm shadcn@latest add button
-pnpm shadcn@latest add select
 pnpm dlx shadcn@latest add card
-pnpm dlx shadcn@latest add checkbox
-pnpm dlx shadcn@latest add spinner
-pnpm dlx shadcn@latest add slider
-pnpm dlx shadcn@latest add sonner
+pnpm dlx shadcn@latest add button
+pnpm dlx shadcn@latest add pagination
+pnpm dlx shadcn@latest add badge
 
 ## Features to Implement 
-
-### 1. Menus Page
-- Use `menus-page`
+### 1. Order Page
+- Use `order-page`
 - on desktop screen 
-  -on left there will be filter options and on right there will be menus cards in grid 
-  - on top of filter options show a `search bar` for search for dishes
-  - on top of menus cards show `sort` and `filter` options 
-  - same line of sort and filter options show a `heading` for food items e.g `Veg Non-Veg`  or  selected items of user
-  - pagination at the bottom of the page
- 
+  - left side filters `all orders`,`order in progress`,`Delivered`,`canceled`
+  - right side order items in cards
+  -bottom pagination
 - on mobile screen 
-  - on this screen navbar should have a back button `arrow button` on left of logo
-  - below navbar show a search bar `search for dishes` and 
-  - below search bar show `sort` and `filter` options 
-  - on click of filter button open a new screen with filter options 
-  - on click of sort button open a drawer from below with sort options based on `price`,`rating` and `isBestSeller`
+  - shared button with toggle `active order` and `past order`
+  - orders in cards vertically for active orders
+  - for past orders show orders as they go bottom of the screen
 
-- for food cards
-  - image with border radius
-  - text area to put label `veg` or `non-veg`  in top  right corner of the image 
-  -  below image on left there will be dish name and below the name restaurant name
-  - below the name restaurant name there is price and same line on right of price add `add to cart` button with `+` icon  
-  -   on click of + icon increase the count of the item in the cart and on right of it  show a `+` and `-` button to increase or decrease the count of the item in the cart 
 
 ### 2. Pages (React Router)
 
@@ -55,9 +37,9 @@ Create the following pages inside `pages/`:
 
 Public:
 - `/` → Home (landing page)
-- `/menus` → Menus Page
+- `/order` → Order Page
 
-### 3. Layout
+### 3. Layout 
 - Proper container spacing
 - Consistent alignment using Tailwind utilities
 
@@ -68,7 +50,7 @@ Public:
 
 ### 5. Screenshot Matching
 - Follow UI reference from:
-  `context/screenshot/menus-screen.png`
+  `context/screenshot/`
 - Match spacing, proportions, and hierarchy
 
 ## Project Structure (Frontend Only)
@@ -82,7 +64,8 @@ components/
 routes/
   index.tsx
 
-utils/
+ut
+ils/
   cn.ts
 
 ## Code Rules (Must Follow)

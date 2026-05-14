@@ -9,7 +9,7 @@ Build a **Restaurants** section component using:
 ## Required shadcn Components
 Install and use:
 
-npx shadcn@latest add card
+pnpm shadcn@latest add card
 
 ## Strict Constraints
 - Do NOT implement backend logic

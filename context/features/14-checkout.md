@@ -1,7 +1,7 @@
 Read `AGENTS.md` before starting. If `AGENTS.md` is present, follow it strictly.
 
 ## Task
-Build a **menus page** component using:
+Build a **cart page** component using:
 - React (with React Router)
 - Tailwind CSS
 - shadcn/ui
@@ -13,41 +13,29 @@ Build a **menus page** component using:
 - Do NOT add unnecessary features outside scope
 
 ## Required shadcn Components
-Install and use:
-
 pnpm shadcn@latest add input
 pnpm shadcn@latest add button
-pnpm shadcn@latest add select
 pnpm dlx shadcn@latest add card
-pnpm dlx shadcn@latest add checkbox
 pnpm dlx shadcn@latest add spinner
-pnpm dlx shadcn@latest add slider
 pnpm dlx shadcn@latest add sonner
-
+ 
 ## Features to Implement 
 
-### 1. Menus Page
-- Use `menus-page`
+### 1. Cart Page
+- Use `checkout-page`
 - on desktop screen 
-  -on left there will be filter options and on right there will be menus cards in grid 
-  - on top of filter options show a `search bar` for search for dishes
-  - on top of menus cards show `sort` and `filter` options 
-  - same line of sort and filter options show a `heading` for food items e.g `Veg Non-Veg`  or  selected items of user
-  - pagination at the bottom of the page
- 
+  - on top text `Checkout` on left and below this text `Review your items before proceeding to checkout`
+ - below a card with delivery details and same line `edit icon`
+ - delivery card contains address and delivery instruction with textbox and below this card 
+ another card for payment methods with radio buttons for different payment methods and below this card 
+ - order summary card on the right side of the screen and in the end `place your order` button 
 - on mobile screen 
-  - on this screen navbar should have a back button `arrow button` on left of logo
-  - below navbar show a search bar `search for dishes` and 
-  - below search bar show `sort` and `filter` options 
-  - on click of filter button open a new screen with filter options 
-  - on click of sort button open a drawer from below with sort options based on `price`,`rating` and `isBestSeller`
-
-- for food cards
-  - image with border radius
-  - text area to put label `veg` or `non-veg`  in top  right corner of the image 
-  -  below image on left there will be dish name and below the name restaurant name
-  - below the name restaurant name there is price and same line on right of price add `add to cart` button with `+` icon  
-  -   on click of + icon increase the count of the item in the cart and on right of it  show a `+` and `-` button to increase or decrease the count of the item in the cart 
+  - checkout on navbar
+  -below address with edit option with icon
+  -below delivery instruction in textbox
+  -below payment methods 
+  -below order summary in a card
+  -bottom `place your order` button in a card 
 
 ### 2. Pages (React Router)
 
@@ -55,9 +43,9 @@ Create the following pages inside `pages/`:
 
 Public:
 - `/` → Home (landing page)
-- `/menus` → Menus Page
+- `/checkout` → checkout Page
 
-### 3. Layout
+### 3. Layout 
 - Proper container spacing
 - Consistent alignment using Tailwind utilities
 
@@ -68,7 +56,7 @@ Public:
 
 ### 5. Screenshot Matching
 - Follow UI reference from:
-  `context/screenshot/menus-screen.png`
+  `context/screenshot/`
 - Match spacing, proportions, and hierarchy
 
 ## Project Structure (Frontend Only)
@@ -82,7 +70,8 @@ components/
 routes/
   index.tsx
 
-utils/
+ut
+ils/
   cn.ts
 
 ## Code Rules (Must Follow)
