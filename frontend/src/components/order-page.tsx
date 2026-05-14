@@ -152,7 +152,7 @@ export function OrderPage() {
           </div>
 
           {/* Orders List */}
-          <div className="flex-1 w-full space-y-5">
+          <div className="flex-1 w-full space-y-4 sm:space-y-6">
             {filteredOrders.length === 0 ? (
               <div className="bg-card border border-dashed border-muted-foreground/30 rounded-3xl p-12 flex flex-col items-center justify-center text-center">
                 <div className="bg-muted p-4 rounded-full mb-4">
@@ -163,54 +163,54 @@ export function OrderPage() {
               </div>
             ) : (
               filteredOrders.map(order => (
-                <Card key={order.id} className="overflow-hidden rounded-3xl border border-gray-100 shadow-sm hover:shadow-md transition-all">
-                  <div className="flex flex-col sm:flex-row">
-                    <div className="sm:w-48 h-48 sm:h-auto relative shrink-0">
-                      <img src={order.image} alt={order.restaurant} className="w-full h-full object-cover" />
-                      <div className="absolute top-3 left-3 sm:hidden">
-                        {getStatusBadge(order.status)}
-                      </div>
+                <div key={order.id} className="bg-white rounded-3xl p-5 sm:p-7 shadow-sm border border-gray-100 transition-all hover:shadow-md">
+                  <div className="flex items-start sm:items-center justify-between mb-4 pb-4 border-b border-dotted border-gray-200">
+                    <div>
+                      <h2 className="text-lg sm:text-xl font-bold flex items-center gap-2 text-foreground">
+                        <span role="img" aria-label="package">📦</span> {order.restaurant}
+                      </h2>
+                      <p className="text-xs text-muted-foreground font-mono mt-1">{order.id} • {order.date}</p>
                     </div>
-                    <div className="p-5 sm:p-6 flex-1 flex flex-col justify-between">
-                      <div>
-                        <div className="flex justify-between items-start mb-2">
-                          <div>
-                            <h3 className="font-bold text-xl text-foreground mb-1">{order.restaurant}</h3>
-                            <p className="text-muted-foreground text-sm font-mono">{order.id} • {order.date}</p>
-                          </div>
-                          <div className="hidden sm:block shrink-0 ml-4">
-                            {getStatusBadge(order.status)}
-                          </div>
-                        </div>
-                        <p className="text-foreground/80 mt-4 text-sm leading-relaxed max-w-xl">
-                          {order.items}
-                        </p>
-                      </div>
-                      
-                      <div className="flex items-center justify-between mt-6 pt-5 border-t border-dotted border-gray-200">
-                        <span className="font-black text-2xl text-primary">${order.total.toFixed(2)}</span>
-                        
-                        <div className="flex gap-3">
-                          {order.status === "in_progress" && (
-                            <Button className="rounded-full px-6 font-bold shadow-sm">
-                              Track Order
-                            </Button>
-                          )}
-                          {order.status === "delivered" && (
-                            <Button variant="outline" className="rounded-full px-6 font-bold text-primary border-primary/20 hover:bg-primary/5">
-                              Reorder
-                            </Button>
-                          )}
-                          {order.status === "cancelled" && (
-                            <Button variant="secondary" className="rounded-full px-6 font-bold">
-                              View Details
-                            </Button>
-                          )}
-                        </div>
-                      </div>
+                    <div className="shrink-0 mt-1 sm:mt-0">
+                      {getStatusBadge(order.status)}
                     </div>
                   </div>
-                </Card>
+
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+                    <div className="flex items-center gap-4 flex-1 min-w-0">
+                      <div className="relative shrink-0">
+                        <img
+                          src={order.image}
+                          alt={order.restaurant}
+                          className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl object-cover shadow-sm"
+                        />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-bold text-base sm:text-lg text-foreground line-clamp-1">Order Items</h3>
+                        <p className="text-muted-foreground text-xs sm:text-sm line-clamp-2 mt-0.5">{order.items}</p>
+                        <p className="text-primary font-black mt-1.5 text-sm sm:text-base">${order.total.toFixed(2)}</p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center justify-end gap-2 sm:gap-3 shrink-0 pt-3 sm:pt-0 border-t border-dotted border-gray-200 sm:border-0">
+                      {order.status === "in_progress" && (
+                        <Button className="w-full sm:w-auto rounded-full px-6 h-10 font-bold shadow-sm">
+                          Track Order
+                        </Button>
+                      )}
+                      {order.status === "delivered" && (
+                        <Button variant="outline" className="w-full sm:w-auto rounded-full px-6 h-10 font-bold text-primary border-primary/20 hover:bg-primary/5">
+                          Reorder
+                        </Button>
+                      )}
+                      {order.status === "cancelled" && (
+                        <Button variant="secondary" className="w-full sm:w-auto rounded-full px-6 h-10 font-bold">
+                          View Details
+                        </Button>
+                      )}
+                    </div>
+                  </div>
+                </div>
               ))
             )}
 

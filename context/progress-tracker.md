@@ -126,12 +126,12 @@ change.
   - Set up `/checkout` route in `index.tsx`.
 
 - `15-order-page.md` — Full implementation:
-  - Built `OrderPage` component with distinct layouts for desktop and mobile devices.
+  - Built `OrderPage` component with a premium, structured card design (Header, Body, Footer).
   - Implemented desktop sidebar filters ("All Orders", "Orders in Progress", "Delivered", "Cancelled").
   - Implemented mobile toggle/tab buttons ("Active Orders", "Past Orders").
-  - Developed detailed order cards featuring high-quality images, order status badges, items summary, and actionable buttons (Track Order, Reorder, View Details).
+  - Order cards feature meta-info (ID, Date), status badges, high-quality images, and contextual action buttons.
   - Designed a functional pagination component using `lucide-react` icons and Shadcn UI buttons.
-  - Set up `/order` route in `index.tsx`.
+  - Set up `/orders` route in `index.tsx`.
 
 - Password Reset Flow — Full implementation:
   - `POST /auth/forgot-password` — generates and returns a secure reset token

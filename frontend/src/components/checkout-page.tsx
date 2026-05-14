@@ -70,26 +70,22 @@ export function CheckoutPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <div className="border-b border-muted/50 bg-white sticky top-0 z-40">
-        <div className="container mx-auto px-4 md:px-8 py-4 max-w-6xl flex items-center gap-4">
-          <Button
-            variant="ghost"
-            size="icon"
-            className="rounded-full hover:bg-muted"
-            onClick={() => navigate(-1)}
-          >
-            <ArrowLeft className="h-5 w-5" />
-          </Button>
-          <div>
-            <h1 className="text-xl md:text-2xl font-black text-foreground">Checkout</h1>
+      <div className="container mx-auto px-4 md:px-8 py-8 md:py-12 max-w-6xl pb-32 lg:pb-12">
+        <div className="mb-10 flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="rounded-full hover:bg-muted shrink-0 -ml-2"
+              onClick={() => navigate(-1)}
+            >
+              <ArrowLeft className="h-6 w-6" />
+            </Button>
+            <div>
+              <h1 className="text-4xl md:text-5xl font-black tracking-tight mb-2 text-foreground">Checkout</h1>
+              <p className="text-muted-foreground text-sm md:text-base font-mono tracking-wider">Review your items before proceeding to checkout.</p>
+            </div>
           </div>
-        </div>
-      </div>
-
-      <div className="container mx-auto px-4 md:px-8 py-8 max-w-6xl pb-32 lg:pb-12">
-        <div className="mb-8 hidden md:block">
-          <p className="text-muted-foreground text-sm md:text-base font-mono tracking-wider">Review your items before proceeding to checkout.</p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10">
