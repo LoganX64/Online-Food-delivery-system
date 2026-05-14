@@ -116,39 +116,41 @@ export function OrderPage() {
         <div className="flex flex-col md:flex-row gap-8 items-start">
           
           {/* Desktop Filters Sidebar */}
-          <div className="hidden md:flex flex-col w-64 shrink-0 space-y-2 sticky top-24">
-            <h3 className="font-bold text-lg mb-2 flex items-center gap-2">
-              <Filter className="h-5 w-5" /> Filters
-            </h3>
-            
-            <Button 
-              variant={desktopFilter === "all" ? "default" : "ghost"} 
-              className={`justify-start font-medium text-base ${desktopFilter === "all" ? "" : "text-muted-foreground"}`}
-              onClick={() => setDesktopFilter("all")}
-            >
-              All Orders
-            </Button>
-            <Button 
-              variant={desktopFilter === "in_progress" ? "default" : "ghost"} 
-              className={`justify-start font-medium text-base ${desktopFilter === "in_progress" ? "" : "text-muted-foreground"}`}
-              onClick={() => setDesktopFilter("in_progress")}
-            >
-              Orders in Progress
-            </Button>
-            <Button 
-              variant={desktopFilter === "delivered" ? "default" : "ghost"} 
-              className={`justify-start font-medium text-base ${desktopFilter === "delivered" ? "" : "text-muted-foreground"}`}
-              onClick={() => setDesktopFilter("delivered")}
-            >
-              Delivered
-            </Button>
-            <Button 
-              variant={desktopFilter === "cancelled" ? "default" : "ghost"} 
-              className={`justify-start font-medium text-base ${desktopFilter === "cancelled" ? "" : "text-muted-foreground"}`}
-              onClick={() => setDesktopFilter("cancelled")}
-            >
-              Cancelled
-            </Button>
+          <div className="hidden md:flex flex-col w-64 shrink-0 sticky top-24">
+            <div className="bg-card p-5 rounded-xl border shadow-sm flex flex-col space-y-2">
+              <h3 className="font-semibold text-lg mb-3 flex items-center gap-2">
+                <Filter className="h-5 w-5 text-muted-foreground" /> Filters
+              </h3>
+              
+              <Button 
+                variant={desktopFilter === "all" ? "default" : "ghost"} 
+                className={`justify-start font-medium text-sm w-full ${desktopFilter === "all" ? "" : "text-muted-foreground hover:bg-muted/50"}`}
+                onClick={() => setDesktopFilter("all")}
+              >
+                All Orders
+              </Button>
+              <Button 
+                variant={desktopFilter === "in_progress" ? "default" : "ghost"} 
+                className={`justify-start font-medium text-sm w-full ${desktopFilter === "in_progress" ? "" : "text-muted-foreground hover:bg-muted/50"}`}
+                onClick={() => setDesktopFilter("in_progress")}
+              >
+                Orders in Progress
+              </Button>
+              <Button 
+                variant={desktopFilter === "delivered" ? "default" : "ghost"} 
+                className={`justify-start font-medium text-sm w-full ${desktopFilter === "delivered" ? "" : "text-muted-foreground hover:bg-muted/50"}`}
+                onClick={() => setDesktopFilter("delivered")}
+              >
+                Delivered
+              </Button>
+              <Button 
+                variant={desktopFilter === "cancelled" ? "default" : "ghost"} 
+                className={`justify-start font-medium text-sm w-full ${desktopFilter === "cancelled" ? "" : "text-muted-foreground hover:bg-muted/50"}`}
+                onClick={() => setDesktopFilter("cancelled")}
+              >
+                Cancelled
+              </Button>
+            </div>
           </div>
 
           {/* Orders List */}
