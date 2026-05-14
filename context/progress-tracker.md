@@ -107,6 +107,24 @@ change.
   - **Toast Notifications**: Integrated Sonner toaster (fixed for Vite — removed `next-themes` dependency). Shows "[Dish name] added to cart" toast with a `ShoppingCart` icon at top-center on every add action.
   - **Category Navigation**: Clicking a category on the Home page navigates to `/menus?category=Name` and pre-selects the filter checkbox.
 
+- `13-view-cart.md` — Full implementation:
+  - Built `CartPage` component with responsive desktop and mobile layouts.
+  - Implemented grouped display of cart items by restaurant.
+  - Developed an order summary card with dynamic subtotal, tax, and delivery fee calculations, plus a mock coupon system.
+  - Added a "Recommended for you" section dynamically filtering out current cart items.
+  - Used `localStorage` for robust state persistence without a backend.
+  - Integrated `sonner` for user-friendly toast notifications on all cart operations (add, remove, quantity change, empty cart).
+  - Set up `/cart` route in `index.tsx`.
+
+- `14-checkout.md` — Full implementation:
+  - Built `CheckoutPage` component with responsive desktop and mobile layouts.
+  - Implemented delivery details card with address and delivery instructions (textbox).
+  - Developed a payment methods card featuring selectable radio-style options (Credit/Debit Card, Cash on Delivery).
+  - Designed an order summary card displaying the items from the cart, subtotal, taxes, delivery fee, and total.
+  - Included a functional "Place Your Order" button and a fixed bottom footer for mobile users.
+  - Integrated `lucide-react` icons and a back navigation button.
+  - Set up `/checkout` route in `index.tsx`.
+
 - Password Reset Flow — Full implementation:
   - `POST /auth/forgot-password` — generates and returns a secure reset token
   - `POST /auth/reset-password/:token` — validates token and updates password

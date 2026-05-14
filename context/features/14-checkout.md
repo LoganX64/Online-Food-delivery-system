@@ -29,6 +29,7 @@ pnpm dlx shadcn@latest add sonner
  - delivery card contains address and delivery instruction with textbox and below this card 
  another card for payment methods with radio buttons for different payment methods and below this card 
  - order summary card on the right side of the screen and in the end `place your order` button 
+ - it will have back button icon on top left 
 - on mobile screen 
   - checkout on navbar
   -below address with edit option with icon
@@ -36,6 +37,7 @@ pnpm dlx shadcn@latest add sonner
   -below payment methods 
   -below order summary in a card
   -bottom `place your order` button in a card 
+  - it will have back button icon on top left 
 
 ### 2. Pages (React Router)
 

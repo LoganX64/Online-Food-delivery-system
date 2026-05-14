@@ -35,6 +35,8 @@ pnpm dlx shadcn@latest add sonner
   - show all the cards vertically one after another
   - starting with the restaurant name and then food items added in the card option to remove items from cart and add using - and + . 
   - then recommended items in card view with the restaurant name and order summary in a card with option to apply coupon code and proceed to checkout button in a card 
+- use local storage to store cart items 
+- use toast notifications to show messages to the user on adding or removing items from cart and also if there are no items in the cart  
 
 ### 2. Pages (React Router)
 
@@ -55,7 +57,7 @@ Public:
 
 ### 5. Screenshot Matching
 - Follow UI reference from:
-  `context/screenshot/menus-screen.png`
+  `context/screenshot/carts-screen.png` and `context/screenshot/carts-screen-mobile.png` 
 - Match spacing, proportions, and hierarchy
 
 ## Project Structure (Frontend Only)

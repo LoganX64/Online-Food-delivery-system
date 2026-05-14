@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { Star, Heart, Clock, Truck, ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
 import { Card, CardContent } from "./ui/card";
 import { Button } from "./ui/button";
+import { FoodCard } from "./ui/food-card";
 
 const RESTAURANTS = [
   {
@@ -158,42 +159,27 @@ export const Restaurants = () => {
 
 const RestaurantCard = ({ restaurant }: { restaurant: any }) => {
   return (
-    <Card className="group overflow-hidden border border-muted/50 shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer w-full p-0 flex flex-col gap-0">
-      {/* Image Container - No padding at top or sides */}
-      <div className="relative aspect-[4/3] overflow-hidden w-full">
-        <img
-          src={restaurant.image}
-          alt={restaurant.name}
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-        />
-        
-        {/* Top Left Badge */}
-        <div className="absolute top-0 left-0 bg-primary text-white text-[10px] uppercase tracking-wider font-extrabold px-3 py-1.5 rounded-br-xl shadow-md z-10">
+    <FoodCard
+      image={restaurant.image}
+      title={restaurant.name}
+      subtitle={restaurant.cuisine}
+      topLeftBadge={
+        <div className="bg-primary text-white text-[10px] uppercase tracking-wider font-extrabold px-3 py-1.5 rounded-br-xl shadow-md">
           {restaurant.badge}
         </div>
-
-        {/* Top Right Heart Icon */}
-        <button className="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-md hover:bg-primary hover:text-white transition-all duration-300 z-10">
+      }
+      topRightBadge={
+        <button className="w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-md hover:bg-primary hover:text-white transition-all duration-300">
           <Heart className="h-4 w-4" />
         </button>
-      </div>
-
-      <CardContent className="p-4 flex flex-col gap-3">
-        <div className="flex items-start justify-between gap-2">
-          <div className="flex-1 min-w-0">
-            <h3 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors leading-tight truncate">
-              {restaurant.name}
-            </h3>
-            <p className="text-muted-foreground text-[11px] font-semibold mt-1 truncate">
-              {restaurant.cuisine}
-            </p>
-          </div>
-          <div className="flex items-center gap-1 bg-green-700 text-white px-2 py-0.5 rounded text-[10px] font-bold shrink-0 shadow-sm">
-            {restaurant.rating} <Star className="h-2.5 w-2.5 fill-current" />
-          </div>
+      }
+      contentRight={
+        <div className="flex items-center gap-1 bg-green-700 text-white px-2 py-0.5 rounded text-[10px] font-bold shadow-sm">
+          {restaurant.rating} <Star className="h-2.5 w-2.5 fill-current" />
         </div>
-
-        <div className="flex items-center gap-4 text-[11px] font-bold text-muted-foreground/80 pt-3 border-t border-muted/30">
+      }
+      footerFull={
+        <div className="flex items-center gap-4 text-[11px] font-bold text-muted-foreground/80">
           <div className="flex items-center gap-1.5">
             <Clock className="h-3.5 w-3.5 text-primary" />
             <span>{restaurant.deliveryTime}</span>
@@ -203,7 +189,7 @@ const RestaurantCard = ({ restaurant }: { restaurant: any }) => {
             <span>{restaurant.deliveryFee}</span>
           </div>
         </div>
-      </CardContent>
-    </Card>
+      }
+    />
   );
 };

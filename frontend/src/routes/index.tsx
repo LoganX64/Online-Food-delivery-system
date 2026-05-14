@@ -3,6 +3,8 @@ import Home from "@/pages/Home"
 import Login from "@/pages/Login"
 import Register from "@/pages/Register"
 import Menus from "@/pages/Menus"
+import Cart from "@/pages/Cart"
+import Checkout from "@/pages/Checkout"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { BottomNav } from "@/components/bottom-nav"
@@ -43,6 +45,14 @@ export const router = createBrowserRouter([
       {
         path: "menus",
         element: <Menus />,
+      },
+      {
+        path: "cart",
+        element: <Cart />,
+      },
+      {
+        path: "checkout",
+        element: <Checkout />,
       },
     ],
   },

@@ -4,6 +4,7 @@ import { Search, ChevronDown, Plus, Minus, ChevronLeft, ChevronRight, SlidersHor
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
+import { FoodCard } from "@/components/ui/food-card"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Slider } from "@/components/ui/slider"
 import {
@@ -230,58 +231,52 @@ export function MenusPage() {
           {/* Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {DISHES.map((dish) => (
-              <Card key={dish.id} className="overflow-hidden border-0 shadow-sm hover:shadow-md transition-shadow duration-300 group">
-                <div className="relative h-48 overflow-hidden">
-                  <img
-                    src={dish.image}
-                    alt={dish.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute top-3 right-3 bg-background/95 backdrop-blur-sm px-2 py-1 rounded-md text-xs font-semibold flex items-center gap-1.5 shadow-sm">
-                    <div className={`w-2.5 h-2.5 rounded-full ${dish.type === 'veg' ? 'bg-green-500' : 'bg-red-500'}`} />
+              <FoodCard
+                key={dish.id}
+                image={dish.image}
+                title={dish.name}
+                subtitle={dish.restaurant}
+                className="border-0 bg-transparent sm:bg-card"
+                topRightBadge={
+                  <div className="bg-background/95 backdrop-blur-sm px-2 py-1 rounded-md text-[10px] sm:text-xs font-semibold flex items-center gap-1.5 shadow-sm">
+                    <div className={`w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full ${dish.type === 'veg' ? 'bg-green-500' : 'bg-red-500'}`} />
                     {dish.type === 'veg' ? 'Veg' : 'Non-Veg'}
                   </div>
-                </div>
-                <div className="p-4 space-y-3">
-                  <div>
-                    <h3 className="font-semibold text-lg line-clamp-1 group-hover:text-primary transition-colors">{dish.name}</h3>
-                    <p className="text-muted-foreground text-sm line-clamp-1">{dish.restaurant}</p>
-                  </div>
-                  <div className="flex items-center justify-between pt-2">
-                    <span className="font-bold text-lg">${dish.price.toFixed(2)}</span>
-                    {cartCounts[dish.id] ? (
-                      <div className="flex items-center gap-3 bg-primary/10 rounded-full px-1.5 py-1">
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-7 w-7 rounded-full text-primary hover:bg-primary/20 hover:text-primary"
-                          onClick={() => updateCount(dish.id, -1)}
-                        >
-                          <Minus className="h-4 w-4" />
-                        </Button>
-                        <span className="w-4 text-center font-semibold text-sm text-primary">{cartCounts[dish.id]}</span>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-7 w-7 rounded-full text-primary hover:bg-primary/20 hover:text-primary"
-                          onClick={() => updateCount(dish.id, 1)}
-                        >
-                          <Plus className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    ) : (
+                }
+                footerLeft={`$${dish.price.toFixed(2)}`}
+                footerRight={
+                  cartCounts[dish.id] ? (
+                    <div className="flex items-center gap-2 sm:gap-3 bg-primary/10 rounded-full px-1 sm:px-1.5 py-1">
                       <Button
-                        variant="outline"
-                        size="sm"
-                        className="rounded-full text-primary border-primary/30 hover:bg-primary hover:text-white transition-colors"
+                        variant="ghost"
+                        size="icon"
+                        className="h-6 w-6 sm:h-7 sm:w-7 rounded-full text-primary hover:bg-primary/20 hover:text-primary"
+                        onClick={() => updateCount(dish.id, -1)}
+                      >
+                        <Minus className="h-3 w-3 sm:h-4 sm:w-4" />
+                      </Button>
+                      <span className="w-3 sm:w-4 text-center font-bold text-sm text-primary">{cartCounts[dish.id]}</span>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-6 w-6 sm:h-7 sm:w-7 rounded-full text-primary hover:bg-primary/20 hover:text-primary"
                         onClick={() => updateCount(dish.id, 1)}
                       >
-                        <Plus className="h-4 w-4 mr-1.5" /> Add
+                        <Plus className="h-3 w-3 sm:h-4 sm:w-4" />
                       </Button>
-                    )}
-                  </div>
-                </div>
-              </Card>
+                    </div>
+                  ) : (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="rounded-full text-primary border-primary/30 hover:bg-primary hover:text-white transition-colors h-8 sm:h-9 text-xs sm:text-sm"
+                      onClick={() => updateCount(dish.id, 1)}
+                    >
+                      <Plus className="h-3 w-3 sm:h-4 sm:w-4 sm:mr-1.5 mr-1" /> Add
+                    </Button>
+                  )
+                }
+              />
             ))}
           </div>
 
