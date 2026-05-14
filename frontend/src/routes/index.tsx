@@ -5,6 +5,7 @@ import Register from "@/pages/Register"
 import Menus from "@/pages/Menus"
 import Cart from "@/pages/Cart"
 import Checkout from "@/pages/Checkout"
+import Orders from "@/pages/Orders"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { BottomNav } from "@/components/bottom-nav"
@@ -53,6 +54,10 @@ export const router = createBrowserRouter([
       {
         path: "checkout",
         element: <Checkout />,
+      },
+      {
+        path: "orders",
+        element: <Orders />,
       },
     ],
   },

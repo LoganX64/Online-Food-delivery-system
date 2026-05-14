@@ -37,7 +37,7 @@ Create the following pages inside `pages/`:
 
 Public:
 - `/` → Home (landing page)
-- `/order` → Order Page
+- `/orders` → Order Page
 
 ### 3. Layout 
 - Proper container spacing
