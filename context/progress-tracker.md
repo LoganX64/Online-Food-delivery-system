@@ -145,6 +145,19 @@ change.
     - `AddRestaurantWizard` (3-step form for basic info, address, and agreement)
   - Set up `/admin-dashboard` route in `index.tsx`.
 
+- `17-user-dashboard.md` — Full implementation:
+  - Built `UserDashboard` page with a side-by-side layout (Nav card on left, Content on right) for desktop.
+  - Implemented modular dashboard components in `src/components/dashboard/`:
+    - `PersonalInfo` (Profile details, default address card, and recent orders table)
+    - `OrderHistory` (Tabbed filtering for Pending/Completed/Cancelled orders with status badges)
+    - `SavedAddresses` (Address cards with default badge and management actions)
+    - `PaymentMethods` (Secure card management cards with mock save functionality)
+    - `Notifications` (System and promotional notifications with unread indicators)
+    - `DashboardNav` (The "My Accounts" card used for sub-navigation)
+  - Handled responsive layout: Stacked vertical layout for mobile with bottom navigation icons.
+  - Set up `/profile` and `/user-dashboard` routes in `index.tsx`.
+  - Integrated `searchParams` for deep-linking to specific dashboard tabs.
+
 - Password Reset Flow — Full implementation:
   - `POST /auth/forgot-password` — generates and returns a secure reset token
   - `POST /auth/reset-password/:token` — validates token and updates password

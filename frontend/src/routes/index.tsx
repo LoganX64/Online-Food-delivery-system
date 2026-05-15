@@ -7,6 +7,7 @@ import Cart from "@/pages/Cart"
 import Checkout from "@/pages/Checkout"
 import Orders from "@/pages/Orders"
 import AdminDashboard from "@/pages/AdminDashboard"
+import { UserDashboard } from "@/pages/UserDashboard"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { BottomNav } from "@/components/bottom-nav"
@@ -59,6 +60,14 @@ export const router = createBrowserRouter([
       {
         path: "orders",
         element: <Orders />,
+      },
+      {
+        path: "profile",
+        element: <UserDashboard />,
+      },
+      {
+        path: "user-dashboard",
+        element: <UserDashboard />,
       },
     ],
   },
