@@ -110,8 +110,27 @@ export function Navbar() {
             </DropdownMenu>
           </div>
 
-          {/* Mobile Sandwich - Right */}
-          <div className="md:hidden">
+          {/* Mobile Profile & Sandwich - Right */}
+          <div className="md:hidden flex items-center gap-1">
+            <Button variant="ghost" size="icon" asChild className="relative">
+              <Link to="/cart">
+                <ShoppingCart className="h-5 w-5" />
+                {cartCount > 0 && (
+                  <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-white">
+                    {cartCount}
+                  </span>
+                )}
+                <span className="sr-only">Cart</span>
+              </Link>
+            </Button>
+
+            <Button variant="ghost" size="icon" asChild>
+              <Link to="/profile">
+                <UserCircle className="h-6 w-6" />
+                <span className="sr-only">Profile</span>
+              </Link>
+            </Button>
+
             <Sheet>
               <SheetTrigger asChild>
                 <Button variant="ghost" size="icon">

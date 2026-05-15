@@ -21,6 +21,8 @@ pnpm dlx shadcn@latest add pagination
 pnpm dlx shadcn@latest add badge
 pnpm dlx shadcn@latest add progress
 
+
+
 ## Features to Implement 
 ### 1. User Dashboard Page
 - Use `user-dashboard-page`
@@ -35,9 +37,9 @@ pnpm dlx shadcn@latest add progress
  
 - on mobile screen 
 - make the card show in vertical layout
-- `My Accounts` will be hidden on mobile screen, it will accessible using top right profile avatar only
-- at bottom there will be navbar with icons for `Home`,`Search`,`My Orders`,`Profile`. this is will be for user dashboard only
+- at bottom there will be navbar with icons for `Home`,`Search`,`My Orders`,`Profile`
 - for orders sections has a Filter options `Pending`,`Completed`,`Cancelled`
+
 
 ### 2. Pages (React Router) 
 
@@ -45,7 +47,7 @@ Create the following pages inside `pages/`:
 
 Public:
 - `/` → Home (landing page)
-- `/admin-dashboard` → Admin Dashboard Page
+- `/restaurant-dashboard` → restaurant Dashboard Page
 
 ### 3. Layout 
 - Proper container spacing

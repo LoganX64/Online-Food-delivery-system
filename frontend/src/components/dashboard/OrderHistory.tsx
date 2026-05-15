@@ -66,7 +66,8 @@ export function OrderHistory() {
         </div>
       </CardHeader>
       <CardContent>
-        <div className="rounded-md border overflow-x-auto">
+        {/* Desktop View */}
+        <div className="hidden md:block rounded-md border overflow-x-auto">
           <Table>
             <TableHeader>
               <TableRow>
@@ -108,6 +109,36 @@ export function OrderHistory() {
             </TableBody>
           </Table>
         </div>
+
+        {/* Mobile View */}
+        <div className="md:hidden space-y-4">
+          {filteredOrders.length > 0 ? (
+            filteredOrders.map((order) => (
+              <div key={order.id} className="p-4 rounded-xl border bg-card shadow-sm space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="font-bold text-primary">{order.id}</span>
+                  {getStatusBadge(order.status)}
+                </div>
+                <div>
+                  <h4 className="font-bold">{order.restaurant}</h4>
+                  <p className="text-xs text-muted-foreground">{order.items}</p>
+                </div>
+                <div className="flex items-center justify-between pt-2 border-t text-sm">
+                  <span className="text-muted-foreground">{order.date}</span>
+                  <span className="font-bold text-lg">{order.total}</span>
+                </div>
+                <Button variant="outline" className="w-full text-xs" size="sm">
+                  <EyeIcon className="h-3 w-3 mr-2" /> View Details
+                </Button>
+              </div>
+            ))
+          ) : (
+            <div className="py-12 text-center text-muted-foreground border rounded-xl bg-muted/20">
+              No orders found.
+            </div>
+          )}
+        </div>
+
         <div className="mt-6 flex items-center justify-end space-x-2">
           <Button variant="outline" size="sm">Previous</Button>
           <Button variant="outline" size="sm">Next</Button>

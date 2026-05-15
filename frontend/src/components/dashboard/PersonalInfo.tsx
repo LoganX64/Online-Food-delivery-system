@@ -62,8 +62,8 @@ export function PersonalInfo() {
         </Card>
       </div>
 
-      {/* Recent Orders (Below) */}
-      <Card>
+      {/* Recent Orders (Below) - Hidden on mobile, accessible via My Orders tab */}
+      <Card className="hidden md:block">
         <CardHeader>
           <CardTitle>Recent Orders</CardTitle>
           <CardDescription>Your latest food adventures</CardDescription>
