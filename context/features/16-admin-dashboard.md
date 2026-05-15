@@ -29,12 +29,22 @@ pnpm dlx shadcn@latest add badge
   - a card show table for Restaurant approval queue
   - on right of approval queue show a card with recent activity
   - at bottom performance charts for orders by month  and revenue by month
-  - sidebar will have `Dashboard`,`Orders`,`Restaurants`,`Users`,`analytics`,`Settings` and at top a button to add restaurant
+  - sidebar will have `Dashboard`,`Orders`,`Restaurants`,`Users`,`Analytics`,`Settings` and at top a button to add restaurant
   - at bottom a logout button
+-adding new restuarant process 
+  - adding resturant has 3 stages form field `Basic info`,`address`,`Agreement`
+  - fields will be for basic info :  "name", "description" ,"email", "password" , "logo","images"(plural)
+  - fields will be for address : "addressLine", "city" , "pincode", "state", "country", "phone"
+  - In agreement there will be small letter and a checkbox to agree to the terms and conditions
+- on click of `Users` tab in sidebar shows user table : "name", "email", "role", "isActive".Has filter,search functionality and pagination.
+- on click of `Orders` tab in sidebar shows  order table has fields: "orderId", "customer", "restaurant", "total", "status", "actions".Has filter,search functionality and pagination.
+- on click of `Restaurants` tab in sidebar has restaurant table has fields: "name", "email", "phone", "status", "actions".Has filter,search functionality and pagination.
+- on click of `Analytics` tab in sidebar shows a dashboard with charts and metrics.
+- on click of `Settings` tab in sidebar shows a form with settings.
 
 - on mobile screen 
 - make the card show in vertical layout
-
+- at bottom there will be navbar with icons for `Dashboard`,`Orders`,`Restaurants`,`Settings`
 
 ### 2. Pages (React Router)
 

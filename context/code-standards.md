@@ -9,7 +9,9 @@
 - Keep data flow explicit and predictable from request → validation → service → response.
 - Avoid duplication of logic; reuse shared utilities and services.
 - Every feature should be traceable from API → service → database change.
-
+- do not hardcode any api endpoints directly inside pages  
+- instead use /api/../ from env variables.
+- do no expose any api key on frontend UI or expose to internet.
 ---
 
 ## TypeScript / Node.js (Backend)

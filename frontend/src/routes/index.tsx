@@ -6,6 +6,7 @@ import Menus from "@/pages/Menus"
 import Cart from "@/pages/Cart"
 import Checkout from "@/pages/Checkout"
 import Orders from "@/pages/Orders"
+import AdminDashboard from "@/pages/AdminDashboard"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { BottomNav } from "@/components/bottom-nav"
@@ -60,5 +61,9 @@ export const router = createBrowserRouter([
         element: <Orders />,
       },
     ],
+  },
+  {
+    path: "/admin-dashboard",
+    element: <AdminDashboard />,
   },
 ])

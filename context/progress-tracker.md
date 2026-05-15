@@ -133,6 +133,18 @@ change.
   - Designed a functional pagination component using `lucide-react` icons and Shadcn UI buttons.
   - Set up `/orders` route in `index.tsx`.
 
+- `16-admin-dashboard.md` — Full implementation:
+  - Added shadcn components including `dashboard-01` block elements.
+  - Built `AdminDashboard` page with `SidebarProvider` for desktop layout and a bottom navbar for mobile.
+  - Created modular sub-components in `src/components/admin/`:
+    - `DashboardOverview` (Metrics, Approval Queue, Recent Activity)
+    - `UserManagement` (User table with search/filter UI)
+    - `OrderManagement` (Order table with status badges)
+    - `RestaurantManagement` (Restaurant directory)
+    - `AnalyticsView` and `SettingsView`
+    - `AddRestaurantWizard` (3-step form for basic info, address, and agreement)
+  - Set up `/admin-dashboard` route in `index.tsx`.
+
 - Password Reset Flow — Full implementation:
   - `POST /auth/forgot-password` — generates and returns a secure reset token
   - `POST /auth/reset-password/:token` — validates token and updates password
