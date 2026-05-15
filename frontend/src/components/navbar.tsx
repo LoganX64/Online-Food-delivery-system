@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from "react-router-dom"
-import { UtensilsCrossed, Menu, ArrowLeft } from "lucide-react"
+import { UtensilsCrossed, Menu, ArrowLeft, ShoppingCart, UserCircle, LogIn, UserPlus } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
   Sheet,
@@ -9,17 +9,44 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet"
 import {
-  NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu"
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { useEffect, useState } from "react"
+import { getCartItemCount } from "@/utils/cart-storage"
 
 export function Navbar() {
   const location = useLocation()
   const navigate = useNavigate()
   const isMenusPage = location.pathname === '/menus'
+  const [cartCount, setCartCount] = useState(0)
+
+  useEffect(() => {
+    // Initial count
+    setCartCount(getCartItemCount())
+
+    // Listen for custom event from our storage utility
+    const handleCartUpdate = () => {
+      setCartCount(getCartItemCount())
+    }
+
+    // Listen for cross-tab updates
+    const handleStorage = (e: StorageEvent) => {
+      if (e.key === "foodieflow_cart") {
+        setCartCount(getCartItemCount())
+      }
+    }
+
+    window.addEventListener("cartUpdated", handleCartUpdate)
+    window.addEventListener("storage", handleStorage)
+
+    return () => {
+      window.removeEventListener("cartUpdated", handleCartUpdate)
+      window.removeEventListener("storage", handleStorage)
+    }
+  }, [])
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -40,32 +67,47 @@ export function Navbar() {
         {/* Right Section: Desktop Menu & Mobile Sandwich */}
         <div className="flex items-center gap-2">
           {/* Desktop Menu */}
-          <div className="hidden md:flex items-center gap-2">
-            <NavigationMenu>
-              <NavigationMenuList>
-                <NavigationMenuItem>
-                  <Link to="/">
-                    <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                      Home
-                    </NavigationMenuLink>
+          <div className="hidden md:flex items-center gap-4">
+            <Button variant="ghost" size="icon" asChild className="relative">
+              <Link to="/cart">
+                <ShoppingCart className="h-5 w-5" />
+                {cartCount > 0 && (
+                  <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-white">
+                    {cartCount}
+                  </span>
+                )}
+                <span className="sr-only">Cart</span>
+              </Link>
+            </Button>
+            
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon" className="rounded-full">
+                  <UserCircle className="h-6 w-6" />
+                  <span className="sr-only">Profile Menu</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-56">
+                <DropdownMenuItem asChild>
+                  <Link to="/login" className="flex items-center cursor-pointer w-full">
+                    <LogIn className="mr-2 h-4 w-4" />
+                    <span>Login</span>
                   </Link>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                  <Link to="/login">
-                    <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                      Login
-                    </NavigationMenuLink>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link to="/register" className="flex items-center cursor-pointer w-full">
+                    <UserPlus className="mr-2 h-4 w-4" />
+                    <span>Register</span>
                   </Link>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                  <Link to="/register">
-                    <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                      Register
-                    </NavigationMenuLink>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link to="/register?role=restaurantOwner" className="flex items-center cursor-pointer w-full">
+                    <UtensilsCrossed className="mr-2 h-4 w-4" />
+                    <span>Become a Partner</span>
                   </Link>
-                </NavigationMenuItem>
-              </NavigationMenuList>
-            </NavigationMenu>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
 
           {/* Mobile Sandwich - Right */}
@@ -87,13 +129,13 @@ export function Navbar() {
                 <nav className="flex flex-col gap-2 mt-6">
                   <Link to="/login" className="flex items-center gap-4 px-4 py-3 rounded-lg hover:bg-muted transition-colors text-lg font-medium group">
                     <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-colors">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-log-in"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" /><polyline points="10 17 15 12 10 7" /><line x1="15" x2="3" y1="12" y2="12" /></svg>
+                      <LogIn className="h-5 w-5" />
                     </div>
                     Login
                   </Link>
                   <Link to="/register" className="flex items-center gap-4 px-4 py-3 rounded-lg hover:bg-muted transition-colors text-lg font-medium group">
                     <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-user-plus"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" x2="19" y1="8" y2="14"/><line x1="22" x2="16" y1="11" y2="11"/></svg>
+                      <UserPlus className="h-5 w-5" />
                     </div>
                     Sign Up
                   </Link>

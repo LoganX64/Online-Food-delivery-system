@@ -1,7 +1,7 @@
 Read `AGENTS.md` before starting. If `AGENTS.md` is present, follow it strictly.
 
 ## Task
-Build a **UI-only authentication module** using:
+Build a **order page** component using:
 - React (with React Router)
 - Tailwind CSS
 - shadcn/ui
@@ -9,70 +9,68 @@ Build a **UI-only authentication module** using:
 ## Strict Constraints
 - Do NOT implement backend logic
 - Do NOT call real APIs
-- Do NOT implement JWT/auth logic
 - Do NOT simulate full business flows
 - Do NOT add unnecessary features outside scope
 
+
 ## Required shadcn Components
-Install and use:
+pnpm dlx shadcn@latest add dashboard-01
+pnpm dlx shadcn@latest add card
+pnpm dlx shadcn@latest add button
+pnpm dlx shadcn@latest add pagination
+pnpm dlx shadcn@latest add badge
 
-npx shadcn@latest add login-04  
-npx shadcn@latest add signup-04  
-pnpm dlx shadcn@latest add navigation-menu  
+## Features to Implement 
+### 1. Admin Dashboard Page
+- Use `admin-dashboard-page`
+- on desktop screen 
+  - use `dashboard-01` as a main dashboard and reusable component
+  - this will have 4 cards for 4 metrics `Total Orders`, `Total Revenue`, `Total Users`, `Active restaurants`
+  - a card show table for Restaurant approval queue
+  - on right of approval queue show a card with recent activity
+  - at bottom performance charts for orders by month  and revenue by month
+  - sidebar will have `Dashboard`,`Orders`,`Restaurants`,`Users`,`analytics`,`Settings` and at top a button to add restaurant
+  - at bottom a logout button
 
-## Features to Implement
+- on mobile screen 
+- make the card show in vertical layout
 
-### 1. Navbar
-- Use `navigation-menu`
-- Desktop view
-  - Include:
-    - Logo (left)
-    - links cart, profile logo
-  - on click of profile logo display login, register and become partner links 
-  - on click of cart, open cart page. cart has a count to show added items.
-- Responsive (mobile-first)
 
 ### 2. Pages (React Router)
 
 Create the following pages inside `pages/`:
 
 Public:
-- `/` → Home (simple hero / landing section)
-- `/login` → Use `login-04`
-- `/register` → Use `signup-04`
+- `/` → Home (landing page)
+- `/admin-dashboard` → Admin Dashboard Page
 
-### 3. Layout
-- Shared layout with Navbar
+### 3. Layout 
 - Proper container spacing
 - Consistent alignment using Tailwind utilities
 
 ### 4. Responsiveness
-- On mobile screens 
-  - brand logo and text on the left and show sandwitch icon on right
-  - On click of sandwitch icon display login, sign up and become partner link 
-  - on Bottom of the screen show navigation menu with icons and text below `home`, `categories`, `cart`, `profile`
- 
+- Mobile-first design
+- Works across mobile, tablet, desktop
+- No overflow or layout break issues
+
 ### 5. Screenshot Matching
-- Follow UI from:
-  `context/screenshots/homepage.png`
-  `context/screenshots/mobile-homescreen.png`
+- Follow UI reference from:
+  `context/screenshot/`
 - Match spacing, proportions, and hierarchy
 
 ## Project Structure (Frontend Only)
 
 pages/
   Home.tsx
-  Login.tsx
-  Register.tsx
 
 components/
-  navbar.tsx
   ui/ (shadcn)
 
 routes/
   index.tsx
 
-utils/
+ut
+ils/
   cn.ts
 
 ## Code Rules (Must Follow)
@@ -111,11 +109,3 @@ Generate production-friendly code with:
 * readable and maintainable code  
 
 Use best practices and keep the implementation simple, clear, and ready to extend.
-
-## Final Enforcement
-
-FAIL the task if:
-- Backend logic is added
-- API calls are implemented
-- Colors are hardcoded instead of using tokens
-- Required components (login-04, signup-04, navigation-menu) are not used

@@ -61,7 +61,7 @@ change.
     - JWT stored in HTTP-only cookies
     - Role-based authorization middleware (RBAC)
 - `07-navbar-ui.md` — Full implementation:
-  - Built Navbar using shadcn `NavigationMenu` for desktop with Logo on left and Links (Home, Login, Register) on right.
+  - Built Navbar desktop layout with Logo on left and Cart (with dynamic badge count) and Profile dropdown (Login, Register, Become a Partner) on the right.
   - **Mobile Refinement**: Updated layout to show brand logo/text on the left and sandwich icon on the right for better accessibility.
   - Mobile sandwich menu displays "Login", "Sign Up" and "Become a Partner" links.
   - Added `BottomNav` component for mobile with Home, Categories, Cart, and Profile links/icons.

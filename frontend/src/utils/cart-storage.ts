@@ -14,6 +14,7 @@ export function getCartFromStorage(): CartItems {
 
 export function saveCartToStorage(cart: CartItems): void {
   localStorage.setItem(CART_KEY, JSON.stringify(cart))
+  window.dispatchEvent(new Event("cartUpdated"))
 }
 
 export function getCartItemCount(): number {
