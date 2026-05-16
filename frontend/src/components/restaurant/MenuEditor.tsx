@@ -22,13 +22,6 @@ import {
 } from "@/components/ui/dialog"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
 import { cn } from "@/lib/utils"
 
 // Mock Data
@@ -73,7 +66,7 @@ const INITIAL_ITEMS = [
 ]
 
 export function MenuEditor() {
-  const [categories, setCategories] = useState(INITIAL_CATEGORIES)
+  const [categories] = useState(INITIAL_CATEGORIES)
   const [activeCategoryId, setActiveCategoryId] = useState("1")
   const [items, setItems] = useState(INITIAL_ITEMS)
   const [searchQuery, setSearchQuery] = useState("")
