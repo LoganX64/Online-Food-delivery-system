@@ -1,4 +1,5 @@
 import * as React from "react"
+import { Link } from "react-router-dom"
 import {
   Sidebar,
   SidebarContent,
@@ -17,7 +18,8 @@ import {
   Settings2Icon,
   LogOutIcon,
   PlusIcon,
-  CommandIcon
+  CommandIcon,
+  HomeIcon
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
@@ -70,6 +72,14 @@ export function RestaurantSidebar({ activeTab, setActiveTab, ...props }: Restaur
       </SidebarHeader>
       <SidebarContent>
         <SidebarMenu className="p-2">
+          <SidebarMenuItem className="mb-2 group-data-[collapsible=icon]:hidden px-2">
+            <SidebarMenuButton asChild>
+              <Link to="/" className="gap-3 font-medium text-primary hover:text-primary h-9 rounded-md px-3">
+                <HomeIcon className="size-4" />
+                <span>Back to Home</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
           <SidebarMenuItem className="mb-2 group-data-[collapsible=icon]:hidden px-2">
              <Button onClick={() => setOpenMobile(false)} className="w-full justify-start gap-2 h-9 rounded-md shadow-sm">
                 <PlusIcon className="size-4" />

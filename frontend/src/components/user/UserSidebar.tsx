@@ -11,53 +11,42 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar"
 import {
-  LayoutDashboardIcon,
+  UserIcon,
   ShoppingBagIcon,
-  StoreIcon,
-  UsersIcon,
-  ChartBarIcon,
-  Settings2Icon,
+  MapPinIcon,
+  CreditCardIcon,
+  BellIcon,
   LogOutIcon,
-  PlusIcon,
-  HomeIcon
+  HomeIcon,
 } from "lucide-react"
-import { Button } from "@/components/ui/button"
 
 const navItems = [
-  { title: "Dashboard", id: "Dashboard", icon: LayoutDashboardIcon },
-  { title: "Orders", id: "Orders", icon: ShoppingBagIcon },
-  { title: "Restaurants", id: "Restaurants", icon: StoreIcon },
-  { title: "Users", id: "Users", icon: UsersIcon },
-  { title: "Analytics", id: "Analytics", icon: ChartBarIcon },
-  { title: "Settings", id: "Settings", icon: Settings2Icon },
+  { title: "Personal Info",    id: "personal",      icon: UserIcon },
+  { title: "Order History",    id: "orders",         icon: ShoppingBagIcon },
+  { title: "Saved Addresses",  id: "addresses",      icon: MapPinIcon },
+  { title: "Payment Methods",  id: "payment",        icon: CreditCardIcon },
+  { title: "Notifications",    id: "notifications",  icon: BellIcon },
 ]
 
-interface AdminSidebarProps extends React.ComponentProps<typeof Sidebar> {
+interface UserSidebarProps extends React.ComponentProps<typeof Sidebar> {
   activeTab: string
   setActiveTab: (tab: string) => void
-  onAddRestaurant: () => void
 }
 
-export function AdminSidebar({ activeTab, setActiveTab, onAddRestaurant, ...props }: AdminSidebarProps) {
+export function UserSidebar({ activeTab, setActiveTab, ...props }: UserSidebarProps) {
   const { setOpenMobile } = useSidebar()
 
   return (
     <Sidebar collapsible="offcanvas" {...props}>
-      <SidebarHeader className="p-4 flex flex-col gap-4">
+      <SidebarHeader className="p-4">
         <div className="flex items-center gap-2 px-2">
-          <div className="bg-primary text-primary-foreground flex size-8 items-center justify-center rounded-md font-bold">
-            OF
+          <div className="bg-primary text-primary-foreground flex size-8 items-center justify-center rounded-md font-bold text-sm">
+            U
           </div>
-          <span className="text-lg font-bold tracking-tight">Admin Portal</span>
+          <span className="text-lg font-bold tracking-tight">My Account</span>
         </div>
-        <Button
-          onClick={() => { onAddRestaurant(); setOpenMobile(false) }}
-          className="w-full flex items-center justify-start gap-2"
-        >
-          <PlusIcon className="size-4" />
-          Add Restaurant
-        </Button>
       </SidebarHeader>
+
       <SidebarContent>
         <SidebarMenu>
           <SidebarMenuItem className="mb-2 px-2">
@@ -82,10 +71,14 @@ export function AdminSidebar({ activeTab, setActiveTab, onAddRestaurant, ...prop
           ))}
         </SidebarMenu>
       </SidebarContent>
+
       <SidebarFooter className="p-4">
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton onClick={() => {}} className="gap-3 text-destructive hover:text-destructive">
+            <SidebarMenuButton
+              onClick={() => {}}
+              className="gap-3 text-destructive hover:text-destructive"
+            >
               <LogOutIcon className="size-4" />
               <span>Logout</span>
             </SidebarMenuButton>

@@ -63,15 +63,16 @@ export const router = createBrowserRouter([
         path: "orders",
         element: <Orders />,
       },
-      {
-        path: "profile",
-        element: <UserDashboard />,
-      },
-      {
-        path: "user-dashboard",
-        element: <UserDashboard />,
-      },
     ],
+  },
+  // ── Dashboard routes — outside Layout (no site Navbar / BottomNav) ──
+  {
+    path: "/profile",
+    element: <UserDashboard />,
+  },
+  {
+    path: "/user-dashboard",
+    element: <UserDashboard />,
   },
   {
     path: "/admin-dashboard",

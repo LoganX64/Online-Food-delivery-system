@@ -45,8 +45,9 @@ export default function AdminDashboard() {
         />
         <SidebarInset className="flex flex-col flex-1 w-full pb-16 md:pb-0 overflow-x-hidden">
           <header className="flex h-14 items-center gap-4 border-b bg-background px-4 lg:h-[60px]">
+            {/* Hamburger — visible on all screen sizes */}
             <SidebarTrigger />
-            <h1 className="font-semibold text-lg">{isAddingRestaurant ? "Add Restaurant" : activeTab}</h1>
+            <h1 className="font-semibold text-sm md:text-lg">{isAddingRestaurant ? "Add Restaurant" : activeTab}</h1>
           </header>
           <main className="flex-1 overflow-auto">
             {renderContent()}

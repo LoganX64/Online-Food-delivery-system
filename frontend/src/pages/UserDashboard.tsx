@@ -1,34 +1,42 @@
 import { useState, useEffect } from "react"
 import { useSearchParams } from "react-router-dom"
 import { cn } from "@/lib/utils"
+import { SidebarProvider, SidebarTrigger, SidebarInset } from "@/components/ui/sidebar"
+import { Separator } from "@/components/ui/separator"
+import { UserSidebar } from "@/components/user/UserSidebar"
 import { PersonalInfo } from "@/components/user/PersonalInfo"
 import { OrderHistory } from "@/components/user/OrderHistory"
 import { SavedAddresses } from "@/components/user/SavedAddresses"
 import { PaymentMethods } from "@/components/user/PaymentMethods"
 import { Notifications } from "@/components/user/Notifications"
-import { UserNav } from "@/components/user/UserNav"
-import { Button } from "../components/ui/button"
-import { 
-  Sheet, 
-  SheetContent, 
-  SheetHeader, 
-  SheetTitle, 
-  SheetTrigger 
-} from "@/components/ui/sheet"
-import { 
-  MenuIcon, 
-  ChevronLeftIcon, 
-  ShoppingBagIcon, 
-  MapPinIcon, 
-  CreditCardIcon, 
-  BellIcon 
+import {
+  UserIcon,
+  ShoppingBagIcon,
+  MapPinIcon,
+  CreditCardIcon,
+  BellIcon,
 } from "lucide-react"
+
+const mobileNavItems = [
+  { id: "personal",       label: "Profile",   icon: UserIcon },
+  { id: "orders",         label: "My Orders", icon: ShoppingBagIcon },
+  { id: "addresses",      label: "Addresses", icon: MapPinIcon },
+  { id: "payment",        label: "Payment",   icon: CreditCardIcon },
+  { id: "notifications",  label: "Alerts",    icon: BellIcon },
+]
+
+const tabLabels: Record<string, string> = {
+  personal:      "Personal Info",
+  orders:        "Order History",
+  addresses:     "Saved Addresses",
+  payment:       "Payment Methods",
+  notifications: "Notifications",
+}
 
 export function UserDashboard() {
   const [searchParams, setSearchParams] = useSearchParams()
   const tabFromUrl = searchParams.get("tab") || "personal"
   const [activeTab, setActiveTab] = useState(tabFromUrl)
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   useEffect(() => {
     setSearchParams({ tab: activeTab }, { replace: true })
@@ -36,89 +44,72 @@ export function UserDashboard() {
 
   const renderContent = () => {
     switch (activeTab) {
-      case "personal": return <PersonalInfo />
-      case "orders": return <OrderHistory />
-      case "addresses": return <SavedAddresses />
-      case "payment": return <PaymentMethods />
+      case "personal":      return <PersonalInfo />
+      case "orders":        return <OrderHistory />
+      case "addresses":     return <SavedAddresses />
+      case "payment":       return <PaymentMethods />
       case "notifications": return <Notifications />
-      default: return <PersonalInfo />
+      default:              return <PersonalInfo />
     }
   }
 
   return (
-    <div className="min-h-screen bg-muted/30 pb-24 md:pb-10">
-      <div className="container mx-auto px-4 py-6 md:py-8">
-        {/* Desktop Header */}
-        <div className="hidden md:block mb-8">
-          <h1 className="text-3xl font-extrabold tracking-tight">User Dashboard</h1>
-          <p className="text-muted-foreground mt-1">Manage your account, orders, and preferences.</p>
-        </div>
+    <SidebarProvider>
+      <div className="flex min-h-screen w-full bg-muted/30">
 
-        {/* Mobile Header (Dynamic) */}
-        <div className="md:hidden flex items-center mb-6">
-          {activeTab !== "personal" && (
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              className="mr-2"
-              onClick={() => setActiveTab("personal")}
-            >
-              <ChevronLeftIcon className="h-6 w-6" />
-            </Button>
-          )}
-          <h1 className="text-2xl font-bold tracking-tight capitalize">
-            {activeTab === "personal" ? "Account" : activeTab.replace("-", " ")}
-          </h1>
-        </div>
+        {/* ── Sidebar (offcanvas on mobile, persistent on desktop) ── */}
+        <UserSidebar activeTab={activeTab} setActiveTab={setActiveTab} />
 
-        <div className="flex flex-col lg:flex-row gap-8">
-          {/* Navigation Sidebar (Desktop Only) */}
-          <div className="hidden lg:block w-80">
-            <UserNav activeTab={activeTab} setActiveTab={setActiveTab} />
-          </div>
+        <SidebarInset className="flex flex-col flex-1 w-full pb-16 md:pb-0 overflow-x-hidden">
 
-          {/* Main Content Area */}
-          <div className="flex-1 w-full">
-            <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-              {/* Mobile Hub Navigation (Only on personal tab on mobile) */}
-              {activeTab === "personal" && (
-                <div className="lg:hidden mb-6 space-y-4">
-                  <PersonalInfo />
-                  
-                  <div className="bg-card rounded-xl border shadow-sm divide-y overflow-hidden">
-                    <div className="px-4 py-3 bg-muted/30">
-                      <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Account Settings</h3>
-                    </div>
-                    {[
-                      { id: "orders", label: "My Orders", icon: ShoppingBagIcon },
-                      { id: "addresses", label: "Saved Addresses", icon: MapPinIcon },
-                      { id: "payment", label: "Payment Methods", icon: CreditCardIcon },
-                      { id: "notifications", label: "Notifications", icon: BellIcon },
-                    ].map((item) => (
-                      <button
-                        key={item.id}
-                        onClick={() => setActiveTab(item.id)}
-                        className="w-full flex items-center justify-between p-4 hover:bg-muted/50 transition-colors"
-                      >
-                        <div className="flex items-center gap-3">
-                          <item.icon className="h-5 w-5 text-primary" />
-                          <span className="font-mono font-semibold text-sm">{item.label}</span>
-                        </div>
-                        <ChevronLeftIcon className="h-4 w-4 rotate-180 text-muted-foreground" />
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
+          {/* ── Top Header ─────────────────────────────────────── */}
+          <header className="flex h-14 shrink-0 items-center gap-2 border-b bg-background px-4 lg:px-6 sticky top-0 z-30">
+            {/* Hamburger — visible on all screen sizes */}
+            <SidebarTrigger className="-ml-1" />
+            <Separator orientation="vertical" className="mr-2 h-4" />
+            {/* Current section title */}
+            <span className="font-semibold text-sm md:text-base">
+              {tabLabels[activeTab] ?? "My Account"}
+            </span>
+          </header>
 
-              {/* Render Desktop or Specific Tab Content */}
-              <div className={cn(activeTab === "personal" ? "hidden lg:block" : "block")}>
+          {/* ── Main Content ───────────────────────────────────── */}
+          <main className="flex-1 p-4 lg:p-6 bg-background/50">
+            <div className="max-w-[1400px] mx-auto w-full">
+              {/* Desktop page subtitle */}
+              <div className="hidden md:block mb-6">
+                <h1 className="text-3xl font-extrabold tracking-tight">User Dashboard</h1>
+                <p className="text-muted-foreground mt-1">Manage your account, orders, and preferences.</p>
+              </div>
+              <div className="animate-in fade-in slide-in-from-bottom-4 duration-300">
                 {renderContent()}
               </div>
             </div>
-          </div>
-        </div>
+          </main>
+
+        </SidebarInset>
+
+        {/* ── Mobile Bottom Navbar ──────────────────────────────── */}
+        <nav className="md:hidden fixed bottom-0 left-0 right-0 border-t bg-background z-50 flex items-center h-16">
+          {mobileNavItems.map((item) => (
+            <button
+              key={item.id}
+              id={`user-nav-${item.id}`}
+              onClick={() => setActiveTab(item.id)}
+              className={cn(
+                "flex flex-col items-center justify-center flex-1 h-full gap-0.5 transition-colors",
+                activeTab === item.id
+                  ? "text-primary"
+                  : "text-muted-foreground hover:text-foreground"
+              )}
+            >
+              <item.icon className="size-5" />
+              <span className="text-[10px] font-medium">{item.label}</span>
+            </button>
+          ))}
+        </nav>
+
       </div>
-    </div>
+    </SidebarProvider>
   )
 }
