@@ -36,12 +36,18 @@ const mobileNavItems = [
 
 export default function RestaurantDashboard() {
   const [activeTab, setActiveTab] = useState("Dashboard")
+  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false)
+
+  const handleQuickCreate = () => {
+    setActiveTab("Menu editor")
+    setIsAddDialogOpen(true)
+  }
 
   const renderContent = () => {
     switch (activeTab) {
       case "Dashboard":     return <DashboardOverview />
       case "Live Orders":   return <LiveOrders />
-      case "Menu editor":   return <MenuEditor />
+      case "Menu editor":   return <MenuEditor isAddDialogOpen={isAddDialogOpen} onAddDialogChange={setIsAddDialogOpen} />
       case "Orders history":return <OrderHistory />
       case "Settings":      return <Settings />
       default:              return <DashboardOverview />
@@ -55,6 +61,7 @@ export default function RestaurantDashboard() {
         <RestaurantSidebar
           activeTab={activeTab}
           setActiveTab={(tab) => setActiveTab(tab)}
+          onQuickCreate={handleQuickCreate}
         />
 
         <SidebarInset className="flex flex-col flex-1 w-full pb-16 md:pb-0 overflow-x-hidden">

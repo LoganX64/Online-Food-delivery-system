@@ -65,7 +65,12 @@ const INITIAL_ITEMS = [
   }
 ]
 
-export function MenuEditor() {
+interface MenuEditorProps {
+  isAddDialogOpen?: boolean;
+  onAddDialogChange?: (open: boolean) => void;
+}
+
+export function MenuEditor({ isAddDialogOpen, onAddDialogChange }: MenuEditorProps) {
   const [categories] = useState(INITIAL_CATEGORIES)
   const [activeCategoryId, setActiveCategoryId] = useState("1")
   const [items, setItems] = useState(INITIAL_ITEMS)
@@ -155,7 +160,7 @@ export function MenuEditor() {
             <p className="text-slate-400 text-[13px] font-medium">{activeCategory.description}</p>
           </div>
           
-          <Dialog>
+          <Dialog open={isAddDialogOpen} onOpenChange={onAddDialogChange}>
             <DialogTrigger asChild>
               <Button className="gap-2 rounded-xl h-10 px-5 bg-white text-[#F97316] border-2 border-[#F97316]/20 hover:bg-[#F97316] hover:text-white hover:border-[#F97316] transition-all duration-300 text-xs font-bold shadow-sm active:scale-95 group">
                 <PlusIcon className="size-4 transition-transform group-hover:rotate-90" />

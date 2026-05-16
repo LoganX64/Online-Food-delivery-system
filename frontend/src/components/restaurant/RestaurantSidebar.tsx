@@ -54,9 +54,10 @@ const navItems = [
 interface RestaurantSidebarProps extends React.ComponentProps<typeof Sidebar> {
   activeTab: string
   setActiveTab: (tab: string) => void
+  onQuickCreate?: () => void
 }
 
-export function RestaurantSidebar({ activeTab, setActiveTab, ...props }: RestaurantSidebarProps) {
+export function RestaurantSidebar({ activeTab, setActiveTab, onQuickCreate, ...props }: RestaurantSidebarProps) {
   const { setOpenMobile } = useSidebar()
 
   return (
@@ -81,7 +82,13 @@ export function RestaurantSidebar({ activeTab, setActiveTab, ...props }: Restaur
             </SidebarMenuButton>
           </SidebarMenuItem>
           <SidebarMenuItem className="mb-2 group-data-[collapsible=icon]:hidden px-2">
-             <Button onClick={() => setOpenMobile(false)} className="w-full justify-start gap-2 h-9 rounded-md shadow-sm">
+             <Button 
+                onClick={() => {
+                  if (onQuickCreate) onQuickCreate();
+                  setOpenMobile(false);
+                }} 
+                className="w-full justify-start gap-2 h-9 rounded-md shadow-sm"
+              >
                 <PlusIcon className="size-4" />
                 <span>Quick Create</span>
              </Button>
