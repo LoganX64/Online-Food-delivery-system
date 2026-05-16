@@ -31,6 +31,21 @@ This document defines the frontend structure, routing system, and UI architectur
 
 ---
 
+# 🗂️ Component Namespacing
+
+Each dashboard role owns its components under a dedicated sub-folder. No cross-role imports are allowed.
+
+| Folder                  | Owner Role         | Key Components                                              |
+| ----------------------- | ------------------ | ----------------------------------------------------------- |
+| `components/user/`      | Customer           | `UserNav`, `PersonalInfo`, `OrderHistory`, `SavedAddresses`, `PaymentMethods`, `Notifications` |
+| `components/admin/`     | Admin              | `AdminSidebar`, `DashboardOverview`, `UserManagement`, `OrderManagement`, `RestaurantManagement`, `AnalyticsView`, `SettingsView`, `AddRestaurantWizard` |
+| `components/restaurant/`| Restaurant Owner   | `RestaurantSidebar`, `DashboardOverview`, `LiveOrders`, `MenuEditor`, `OrderHistory`, `Settings` |
+| `components/ui/`        | Shared (shadcn/ui) | Primitive components only — no business logic              |
+
+> **Rule:** If a component is only used in one dashboard context, it lives in that role's folder. Shared primitives go in `components/ui/` only.
+
+---
+
 # 🧭 Pages & Routes
 
 ## Public

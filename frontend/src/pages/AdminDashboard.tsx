@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { SidebarProvider, SidebarTrigger, SidebarInset } from "@/components/ui/sidebar"
-import { AppSidebar } from "@/components/app-sidebar"
+import { AdminSidebar } from "@/components/admin/AdminSidebar"
 import { DashboardOverview } from "@/components/admin/DashboardOverview"
 import { UserManagement } from "@/components/admin/UserManagement"
 import { OrderManagement } from "@/components/admin/OrderManagement"
@@ -38,9 +38,9 @@ export default function AdminDashboard() {
   return (
     <SidebarProvider>
       <div className="flex min-h-screen w-full bg-muted/40">
-        <AppSidebar 
-          activeTab={activeTab} 
-          setActiveTab={(tab) => { setActiveTab(tab); setIsAddingRestaurant(false); }} 
+        <AdminSidebar
+          activeTab={activeTab}
+          setActiveTab={(tab) => { setActiveTab(tab); setIsAddingRestaurant(false) }}
           onAddRestaurant={() => setIsAddingRestaurant(true)}
         />
         <SidebarInset className="flex flex-col flex-1 w-full pb-16 md:pb-0 overflow-x-hidden">

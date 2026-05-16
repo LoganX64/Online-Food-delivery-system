@@ -18,8 +18,8 @@ export function OrderHistory() {
     { id: "#ORD-7725", restaurant: "Subway", total: "$18.20", status: "Delivered", items: "1x Footlong BMT", date: "Oct 05, 2023" },
   ]
 
-  const filteredOrders = filter === "All" 
-    ? orders 
+  const filteredOrders = filter === "All"
+    ? orders
     : orders.filter(o => {
         if (filter === "Pending") return o.status === "Processing" || o.status === "Placed"
         if (filter === "Completed") return o.status === "Delivered"

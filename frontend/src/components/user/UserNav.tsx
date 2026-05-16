@@ -1,5 +1,4 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import {
   UserIcon,
@@ -11,12 +10,12 @@ import {
   ChevronRightIcon
 } from "lucide-react"
 
-interface DashboardNavProps {
+interface UserNavProps {
   activeTab: string
   setActiveTab: (tab: string) => void
 }
 
-export function DashboardNav({ activeTab, setActiveTab }: DashboardNavProps) {
+export function UserNav({ activeTab, setActiveTab }: UserNavProps) {
   const menuItems = [
     { id: "personal", label: "Personal Info", icon: UserIcon },
     { id: "orders", label: "Order History", icon: ShoppingBagIcon },

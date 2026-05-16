@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
+import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { CreditCardIcon, Trash2Icon, PlusIcon, ShieldCheckIcon } from "lucide-react"
 
@@ -37,19 +37,19 @@ export function PaymentMethods() {
 
       <div className="grid gap-4 sm:grid-cols-2">
         {cards.map((card) => (
-          <Card key={card.id} className="overflow-hidden">
-            <CardHeader className="bg-muted/50 pb-4">
+          <Card key={card.id} className="overflow-hidden p-0">
+            <CardHeader className="bg-muted/50 p-6 pb-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <CreditCardIcon className="h-5 w-5 text-primary" />
                   <span className="font-bold">{card.type}</span>
                 </div>
                 {card.isDefault && (
-                  <Badge className="bg-success-soft text-success border-success/20">Default</Badge>
+                  <Badge className="bg-green-100 text-green-700 border-green-200">Default</Badge>
                 )}
               </div>
             </CardHeader>
-            <CardContent className="pt-6 space-y-4">
+            <CardContent className="p-6 pt-6 flex flex-col gap-4">
               <div className="space-y-1">
                 <p className="text-sm text-muted-foreground">Card Number</p>
                 <p className="text-lg font-mono tracking-wider font-semibold">{card.number}</p>
@@ -78,7 +78,7 @@ export function PaymentMethods() {
         ))}
       </div>
 
-      <Card className="bg-primary-soft/30 border-dashed border-primary/30">
+      <Card className="bg-primary/5 border-dashed border-primary/20">
         <CardContent className="flex items-center gap-4 py-6">
           <div className="bg-white p-3 rounded-full shadow-sm">
             <ShieldCheckIcon className="h-6 w-6 text-primary" />

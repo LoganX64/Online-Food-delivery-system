@@ -191,8 +191,17 @@ change.
     - Mobile: Top navbar with sandwich icon (Sheet) and bottom navigation for quick access.
   - Set up `/restaurant-dashboard` route in `index.tsx`.
 
-## In Progress
+- Dashboard Separation Refactor — Full implementation:
+  - Created `src/components/user/` as the dedicated namespace for all User/Customer dashboard components.
+  - Renamed `DashboardNav` → `UserNav` (`components/user/UserNav.tsx`) to remove naming ambiguity.
+  - Moved all 5 user dashboard content components (`PersonalInfo`, `OrderHistory`, `SavedAddresses`, `PaymentMethods`, `Notifications`) from the generic `components/dashboard/` into `components/user/`.
+  - Created `components/admin/AdminSidebar.tsx` — extracted and namespaced from the generic `app-sidebar.tsx`.
+  - Updated `pages/UserDashboard.tsx` to import all components from `@/components/user/`.
+  - Updated `pages/AdminDashboard.tsx` to use `AdminSidebar` instead of `AppSidebar`.
+  - Deleted 15 orphaned shadcn scaffold files: `app-sidebar.tsx`, `section-cards.tsx`, `site-header.tsx`, `chart-area-interactive.tsx`, `data-table.tsx`, `nav-main.tsx`, `nav-user.tsx`, `nav-documents.tsx`, `nav-secondary.tsx`, and all 6 files from `components/dashboard/`.
+  - TypeScript: zero errors post-refactor (`tsc --noEmit` clean).
 
+## In Progress
 
 ## Next Up
 

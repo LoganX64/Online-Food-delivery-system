@@ -41,7 +41,7 @@ export function PersonalInfo() {
           </CardContent>
         </Card>
 
-        {/* Default Address Card (Card Right) */}
+        {/* Default Address Card */}
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-lg font-bold">Default Address</CardTitle>
@@ -62,7 +62,7 @@ export function PersonalInfo() {
         </Card>
       </div>
 
-      {/* Recent Orders (Below) - Hidden on mobile, accessible via My Orders tab */}
+      {/* Recent Orders — hidden on mobile, accessible via Order History tab */}
       <Card className="hidden md:block">
         <CardHeader>
           <CardTitle>Recent Orders</CardTitle>
@@ -87,7 +87,14 @@ export function PersonalInfo() {
                   <TableCell>{order.date}</TableCell>
                   <TableCell>{order.total}</TableCell>
                   <TableCell>
-                    <Badge variant="secondary" className={order.status === "Delivered" ? "bg-success-soft text-success hover:bg-success-soft/80 border-success/20" : "bg-warning-soft text-warning hover:bg-warning-soft/80 border-warning/20"}>
+                    <Badge
+                      variant="secondary"
+                      className={
+                        order.status === "Delivered"
+                          ? "bg-success-soft text-success hover:bg-success-soft/80 border-success/20"
+                          : "bg-warning-soft text-warning hover:bg-warning-soft/80 border-warning/20"
+                      }
+                    >
                       {order.status}
                     </Badge>
                   </TableCell>

@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react"
 import { useSearchParams } from "react-router-dom"
 import { cn } from "@/lib/utils"
-import { PersonalInfo } from "@/components/dashboard/PersonalInfo"
-import { OrderHistory } from "@/components/dashboard/OrderHistory"
-import { SavedAddresses } from "@/components/dashboard/SavedAddresses"
-import { PaymentMethods } from "@/components/dashboard/PaymentMethods"
-import { Notifications } from "@/components/dashboard/Notifications"
-import { DashboardNav } from "@/components/dashboard/DashboardNav"
+import { PersonalInfo } from "@/components/user/PersonalInfo"
+import { OrderHistory } from "@/components/user/OrderHistory"
+import { SavedAddresses } from "@/components/user/SavedAddresses"
+import { PaymentMethods } from "@/components/user/PaymentMethods"
+import { Notifications } from "@/components/user/Notifications"
+import { UserNav } from "@/components/user/UserNav"
 import { Button } from "../components/ui/button"
 import { 
   Sheet, 
@@ -74,7 +74,7 @@ export function UserDashboard() {
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Navigation Sidebar (Desktop Only) */}
           <div className="hidden lg:block w-80">
-            <DashboardNav activeTab={activeTab} setActiveTab={setActiveTab} />
+            <UserNav activeTab={activeTab} setActiveTab={setActiveTab} />
           </div>
 
           {/* Main Content Area */}

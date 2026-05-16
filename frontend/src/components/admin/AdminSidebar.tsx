@@ -1,5 +1,4 @@
 import * as React from "react"
-
 import {
   Sidebar,
   SidebarContent,
@@ -23,45 +22,21 @@ import {
 import { Button } from "@/components/ui/button"
 
 const navItems = [
-  {
-    title: "Dashboard",
-    id: "Dashboard",
-    icon: LayoutDashboardIcon,
-  },
-  {
-    title: "Orders",
-    id: "Orders",
-    icon: ShoppingBagIcon,
-  },
-  {
-    title: "Restaurants",
-    id: "Restaurants",
-    icon: StoreIcon,
-  },
-  {
-    title: "Users",
-    id: "Users",
-    icon: UsersIcon,
-  },
-  {
-    title: "Analytics",
-    id: "Analytics",
-    icon: ChartBarIcon,
-  },
-  {
-    title: "Settings",
-    id: "Settings",
-    icon: Settings2Icon,
-  },
+  { title: "Dashboard", id: "Dashboard", icon: LayoutDashboardIcon },
+  { title: "Orders", id: "Orders", icon: ShoppingBagIcon },
+  { title: "Restaurants", id: "Restaurants", icon: StoreIcon },
+  { title: "Users", id: "Users", icon: UsersIcon },
+  { title: "Analytics", id: "Analytics", icon: ChartBarIcon },
+  { title: "Settings", id: "Settings", icon: Settings2Icon },
 ]
 
-interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
+interface AdminSidebarProps extends React.ComponentProps<typeof Sidebar> {
   activeTab: string
   setActiveTab: (tab: string) => void
   onAddRestaurant: () => void
 }
 
-export function AppSidebar({ activeTab, setActiveTab, onAddRestaurant, ...props }: AppSidebarProps) {
+export function AdminSidebar({ activeTab, setActiveTab, onAddRestaurant, ...props }: AdminSidebarProps) {
   const { setOpenMobile } = useSidebar()
 
   return (
@@ -73,7 +48,10 @@ export function AppSidebar({ activeTab, setActiveTab, onAddRestaurant, ...props 
           </div>
           <span className="text-lg font-bold tracking-tight">Admin Portal</span>
         </div>
-        <Button onClick={() => { onAddRestaurant(); setOpenMobile(false); }} className="w-full flex items-center justify-start gap-2">
+        <Button
+          onClick={() => { onAddRestaurant(); setOpenMobile(false) }}
+          className="w-full flex items-center justify-start gap-2"
+        >
           <PlusIcon className="size-4" />
           Add Restaurant
         </Button>
@@ -84,7 +62,7 @@ export function AppSidebar({ activeTab, setActiveTab, onAddRestaurant, ...props 
             <SidebarMenuItem key={item.id}>
               <SidebarMenuButton
                 isActive={activeTab === item.id}
-                onClick={() => { setActiveTab(item.id); setOpenMobile(false); }}
+                onClick={() => { setActiveTab(item.id); setOpenMobile(false) }}
                 className="gap-3"
               >
                 <item.icon className="size-4" />
