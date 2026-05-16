@@ -31,81 +31,20 @@ pnpm dlx shadcn@latest add toast
 
 ## Features to Implement 
 ### 1. Restaurant Dashboard Page
-- Use `restaurant-dashboard-page`
-- on desktop screen 
-  - use `dashboard-01` as a main dashboard 
-  - sidebar links : `Dashboard`, `Live Orders`, `Menu editor`, `Orders history`,`Settings`
-  - dashboard cards: 
-      - `Today's order count` 
-      - `Total Revenue`
-      - `Daily Revenue`
-      - `Active deliveries`
-    - recent order table 
-      - `Order ID`
-      - `Customer`
-      - `Date`
-      - `Status`
-      - `Total`
-    - top selling items table
-      - `Item Name`
-      - `Category`
-      - `Quantity Sold`
-      - `Total Revenue`
-  - live Orders section 
-    - a card `live` with order status
-      - order id
-      - customer name 
-      - note 
-      - order items  
-      - total amount 
-      - two buttons reject or accept buttons
-    -second card `Preparing`
-      - a card with order details 
-      - order id
-      - customer name 
-      - note 
-      - order items  
-      - total amount 
-      - two buttons reject or accept buttons
-    -third card `Ready for Pickup`
-      - a card with order details 
-      - order id
-      - customer name 
-      - note 
-      - order items  
-      - total amount 
-      - button `Handed Off`
-  - Order History
-    - a table with order details 
-      - order id
-      - customer name 
-      - note 
-      - order items  
-      - total amount 
-  - settings page 
-    - account information 
-      - name 
-      - email 
-      - phone number 
-      - address 
-      - city 
-      - state 
-      - zip code 
-      - country 
-    
-- on mobile screen 
-- Navbar at bottom with this fields :
-   Dashboard 
-   Live Orders 
-   Orders history
-   Settings
-- make the card show in vertical layout
-- Top performing items 
-- sandwitch icon on top left of main navbar with fields : 
-  `Dashboard`, `Live Orders`, `Menu editor`, `Orders history`,`Settings`
-  when sandwitch icon is clicked menu should open from left side
-- live orders cards should show in vertical layout on mobile screen with cards titling as : 
-  `Live`, `Preparing`, `Ready for Pickup`  
+- **Desktop Layout**:
+  - Uses `SidebarProvider` with a sticky header and `RestaurantSidebar`.
+  - **RestaurantSidebar** contains:
+    - **Back to Home** link (top).
+    - **Quick Action**: "Quick Create" button for menu items.
+    - **Navigation**: Dashboard, Live Orders, Menu Editor, Order History, Settings.
+    - **Footer**: Logout button.
+  - **Dashboard Cards**: Today's Order Count, Total Revenue, Daily Revenue, Active Deliveries.
+  - **Tables**: Recent Orders and Top Selling Items.
+  - **Live Orders Section**: Multi-column board (Live, Preparing, Ready for Pickup).
+- **Mobile Layout**:
+  - **Sticky Top Header**: Hamburger menu (`SidebarTrigger`) for full sidebar access.
+  - **Bottom Navbar**: Fixed 4-tab bar: **Dashboard**, **Orders**, **Menu**, and **Settings**.
+  - Live orders and metrics cards stack vertically.
 
 ### 2. Pages (React Router) 
 

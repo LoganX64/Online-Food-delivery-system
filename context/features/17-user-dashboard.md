@@ -23,21 +23,22 @@ pnpm dlx shadcn@latest add progress
 
 ## Features to Implement 
 ### 1. User Dashboard Page
-- Use `user-dashboard-page`
-- on desktop screen 
-  - use `dashboard-01` as a main dashboard 
-  - My Accounts card on left contains `Personal info`,`Order History`,`Saved Addresses`,`Payment Methods`,`Notifications`
-- Personal Info fields: `name`, `email`, `phone`, `profile image`. A card right shows address and edit. below the card recent orders.
-- order history in table with fields: `orderId`, `restaurant name`, `total`, `status`,`order items`
-- payment methods  in cards with fields: `card name`, `card number`, `expiry date`, `cvv` and save button
-- saved addresses in cards with fields: `addressLine`, `city`, `pincode`, `state`, `country`, `phone` and save button
-- notification in cards with fields: `title`, `message`, `date`, `time`, `status` and a delete button
- 
-- on mobile screen 
-- make the card show in vertical layout
-- `My Accounts` will be hidden on mobile screen, it will accessible using top right profile avatar only
-- at bottom there will be navbar with icons for `Home`,`Search`,`My Orders`,`Profile`. this is will be for user dashboard only
-- for orders sections has a Filter options `Pending`,`Completed`,`Cancelled`
+- **Desktop Layout**:
+  - Uses `SidebarProvider` with a sticky header and `UserSidebar`.
+  - **UserSidebar** contains:
+    - **Back to Home** link (top).
+    - **Navigation**: Personal Info, Order History, Saved Addresses, Payment Methods, Notifications.
+    - **Footer**: Logout button.
+- **Role-Specific Panels**:
+  - **Personal Info**: Displays profile details (name, email, phone) and a default address summary with "Recent Orders" below.
+  - **Order History**: Table with Order ID, Restaurant, Date, Amount, and Status.
+  - **Payment Methods**: Card-based UI for saved cards with Visa/Mastercard badges.
+  - **Saved Addresses**: Card-based UI for addresses with a "Default" badge.
+  - **Notifications**: List of system alerts with read/unread status.
+- **Mobile Layout**:
+  - **Sticky Top Header**: Hamburger menu (`SidebarTrigger`) to open the full sidebar.
+  - **Bottom Navbar**: Fixed 5-tab bar: **Profile**, **My Orders**, **Addresses**, **Payment**, and **Alerts**.
+  - All content panels stack vertically and are optimized for touch interaction.
 
 ### 2. Pages (React Router) 
 
