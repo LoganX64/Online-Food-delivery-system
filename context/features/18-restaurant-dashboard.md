@@ -20,26 +20,92 @@ pnpm dlx shadcn@latest add button
 pnpm dlx shadcn@latest add pagination
 pnpm dlx shadcn@latest add badge
 pnpm dlx shadcn@latest add progress
-
-
+pnpm dlx shadcn@latest add sheet
+pnpm dlx shadcn@latest add table
+pnpm dlx shadcn@latest add tabs
+pnpm dlx shadcn@latest add input
+pnpm dlx shadcn@latest add label
+pnpm dlx shadcn@latest add avatar
+pnpm dlx shadcn@latest add dropdown-menu
+pnpm dlx shadcn@latest add toast
 
 ## Features to Implement 
-### 1. User Dashboard Page
-- Use `user-dashboard-page`
+### 1. Restaurant Dashboard Page
+- Use `restaurant-dashboard-page`
 - on desktop screen 
-  - use `dashboard-01` as a main dashboard and reusable component
-  - My Accounts card on left contains `Personal info`,`Order History`,`Saved Addresses`,`Payment Methods`,`Notifications`
-- Personal Info fields: `name`, `email`, `phone`, `profile image`. A card right shows address and edit. below the card recent orders.
-- order history in table with fields: `orderId`, `restaurant name`, `total`, `status`,`order items`
-- payment methods  in cards with fields: `card name`, `card number`, `expiry date`, `cvv` and save button
-- saved addresses in cards with fields: `addressLine`, `city`, `pincode`, `state`, `country`, `phone` and save button
-- notification in cards with fields: `title`, `message`, `date`, `time`, `status` and a delete button
- 
+  - use `dashboard-01` as a main dashboard 
+  - sidebar links : `Dashboard`, `Live Orders`, `Menu editor`, `Orders history`,`Settings`
+  - dashboard cards: 
+      - `Today's order count` 
+      - `Total Revenue`
+      - `Daily Revenue`
+      - `Active deliveries`
+    - recent order table 
+      - `Order ID`
+      - `Customer`
+      - `Date`
+      - `Status`
+      - `Total`
+    - top selling items table
+      - `Item Name`
+      - `Category`
+      - `Quantity Sold`
+      - `Total Revenue`
+  - live Orders section 
+    - a card `live` with order status
+      - order id
+      - customer name 
+      - note 
+      - order items  
+      - total amount 
+      - two buttons reject or accept buttons
+    -second card `Preparing`
+      - a card with order details 
+      - order id
+      - customer name 
+      - note 
+      - order items  
+      - total amount 
+      - two buttons reject or accept buttons
+    -third card `Ready for Pickup`
+      - a card with order details 
+      - order id
+      - customer name 
+      - note 
+      - order items  
+      - total amount 
+      - button `Handed Off`
+  - Order History
+    - a table with order details 
+      - order id
+      - customer name 
+      - note 
+      - order items  
+      - total amount 
+  - settings page 
+    - account information 
+      - name 
+      - email 
+      - phone number 
+      - address 
+      - city 
+      - state 
+      - zip code 
+      - country 
+    
 - on mobile screen 
+- Navbar at bottom with this fields :
+   Dashboard 
+   Live Orders 
+   Orders history
+   Settings
 - make the card show in vertical layout
-- at bottom there will be navbar with icons for `Home`,`Search`,`My Orders`,`Profile`
-- for orders sections has a Filter options `Pending`,`Completed`,`Cancelled`
-
+- Top performing items 
+- sandwitch icon on top left of main navbar with fields : 
+  `Dashboard`, `Live Orders`, `Menu editor`, `Orders history`,`Settings`
+  when sandwitch icon is clicked menu should open from left side
+- live orders cards should show in vertical layout on mobile screen with cards titling as : 
+  `Live`, `Preparing`, `Ready for Pickup`  
 
 ### 2. Pages (React Router) 
 

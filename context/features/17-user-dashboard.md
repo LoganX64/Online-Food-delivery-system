@@ -25,7 +25,7 @@ pnpm dlx shadcn@latest add progress
 ### 1. User Dashboard Page
 - Use `user-dashboard-page`
 - on desktop screen 
-  - use `dashboard-01` as a main dashboard and reusable component
+  - use `dashboard-01` as a main dashboard 
   - My Accounts card on left contains `Personal info`,`Order History`,`Saved Addresses`,`Payment Methods`,`Notifications`
 - Personal Info fields: `name`, `email`, `phone`, `profile image`. A card right shows address and edit. below the card recent orders.
 - order history in table with fields: `orderId`, `restaurant name`, `total`, `status`,`order items`

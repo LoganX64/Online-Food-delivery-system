@@ -24,7 +24,7 @@ pnpm dlx shadcn@latest add badge
 ### 1. Admin Dashboard Page
 - Use `admin-dashboard-page`
 - on desktop screen 
-  - use `dashboard-01` as a main dashboard and reusable component
+  - use `dashboard-01` as a main dashboard 
   - this will have 4 cards for 4 metrics `Total Orders`, `Total Revenue`, `Total Users`, `Active restaurants`
   - a card show table for Restaurant approval queue
   - on right of approval queue show a card with recent activity

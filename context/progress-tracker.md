@@ -177,6 +177,20 @@ change.
   - **Environment Validation**: Added startup check for all critical `.env` variables to prevent misconfiguration.
   - **Security Strictness**: Refactored `Address`, `Cart`, and `Order` controllers to strictly use JWT-derived `userId`, eliminating potential ID spoofing via request body/query.
 
+- `18-restaurant-dashboard.md` — Full implementation:
+  - Built `RestaurantDashboard` page with `SidebarProvider` for desktop layout and a bottom navbar for mobile.
+  - Created modular sub-components in `src/components/restaurant/`:
+    - `DashboardOverview` (Metrics, Recent Orders, Top Items)
+    - `LiveOrders` (Tabbed/Column view for Live, Preparing, and Ready orders)
+    - `OrderHistory` (Detailed order log with status badges)
+    - `MenuEditor` (Menu management UI with category filters)
+    - `Settings` (Restaurant profile and address management)
+    - `RestaurantSidebar` (Dedicated sidebar for restaurant owners)
+  - Implemented responsive layout:
+    - Desktop: Sticky sidebar with active tab highlighting.
+    - Mobile: Top navbar with sandwich icon (Sheet) and bottom navigation for quick access.
+  - Set up `/restaurant-dashboard` route in `index.tsx`.
+
 ## In Progress
 
 
