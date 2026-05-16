@@ -81,15 +81,17 @@ export default function RestaurantDashboard() {
 
             {/* Right actions */}
             <div className="ml-auto flex items-center gap-2">
-              {/* Search — desktop only */}
-              <div className="relative hidden lg:block w-72">
-                <SearchIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-                <Input
-                  type="search"
-                  placeholder="Search..."
-                  className="w-full bg-muted/50 pl-9 h-9 border-none shadow-none"
-                />
-              </div>
+              {/* Search — desktop only (hide if on Menu editor as it has its own search) */}
+              {activeTab !== "Menu editor" && (
+                <div className="relative hidden lg:block w-72">
+                  <SearchIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+                  <Input
+                    type="search"
+                    placeholder="Search..."
+                    className="w-full bg-muted/50 pl-9 h-9 border-none shadow-none"
+                  />
+                </div>
+              )}
 
               {/* Bell — always visible */}
               <Button variant="ghost" size="icon" className="size-9 rounded-full">
