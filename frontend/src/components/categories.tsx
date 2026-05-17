@@ -1,5 +1,5 @@
 import { useRef, useEffect } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
 import pizzaImg from "@/assets/pizza.png";
@@ -69,6 +69,13 @@ export const Categories = () => {
         <h2 className="text-2xl md:text-3xl font-bold font-heading text-foreground">
           Quick Categories
         </h2>
+        <Button 
+          onClick={() => navigate("/menus")}
+          variant="ghost" 
+          className="text-primary hover:text-primary-hover font-bold flex items-center gap-1 p-0 h-auto hover:bg-transparent underline underline-offset-4 decoration-2"
+        >
+          See All <ArrowRight className="h-4 w-4" />
+        </Button>
       </div>
 
       <div className="relative">

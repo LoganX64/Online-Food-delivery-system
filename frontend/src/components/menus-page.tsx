@@ -1,127 +1,396 @@
-import { useState, useEffect } from "react"
-import { useSearchParams } from "react-router-dom"
-import { Search, ChevronDown, Plus, Minus, ChevronLeft, ChevronRight, SlidersHorizontal, ShoppingCart } from "lucide-react"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
-import { FoodCard } from "@/components/ui/food-card"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Slider } from "@/components/ui/slider"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
-import {
-  Drawer,
-  DrawerContent,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "@/components/ui/drawer"
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet"
-import { toast } from "sonner"
-import { getCartFromStorage, saveCartToStorage } from "@/utils/cart-storage"
-import type { CartItems } from "@/utils/cart-storage"
+import React, { useState, useEffect, useMemo } from "react";
+import { useSearchParams } from "react-router-dom";
+import { 
+  Search, Plus, Minus, ChevronLeft, ChevronRight, SlidersHorizontal, 
+  ShoppingCart, Star, RotateCcw, MapPin, Sparkles, Utensils, Heart 
+} from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Badge } from "@/components/ui/badge";
+import { FoodCard } from "@/components/ui/food-card";
+import { 
+  Select, SelectContent, SelectItem, SelectTrigger, SelectValue 
+} from "@/components/ui/select";
+import { 
+  Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger 
+} from "@/components/ui/sheet";
+import { toast } from "sonner";
+import { getCartFromStorage, saveCartToStorage } from "@/utils/cart-storage";
+import type { CartItems } from "@/utils/cart-storage";
 
+// A rich dataset of 12 gourmet dishes to showcase pagination perfectly
 const DISHES = [
-  { id: 1, name: "Margherita Pizza", restaurant: "Domino's", price: 12.99, type: "veg", image: "https://images.unsplash.com/photo-1604068549290-dea0e4a305ca?q=80&w=800&auto=format&fit=crop" },
-  { id: 2, name: "Chicken Tikka Masala", restaurant: "Spice Route", price: 15.50, type: "non-veg", image: "https://images.unsplash.com/photo-1565557623262-b51c2513a641?q=80&w=800&auto=format&fit=crop" },
-  { id: 3, name: "Classic Veggie Burger", restaurant: "Burger King", price: 8.99, type: "veg", image: "https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=800&auto=format&fit=crop" },
-  { id: 4, name: "Spicy Tuna Roll", restaurant: "Sushi Master", price: 18.00, type: "non-veg", image: "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?q=80&w=800&auto=format&fit=crop" },
-  { id: 5, name: "Paneer Butter Masala", restaurant: "Tandoor Express", price: 13.50, type: "veg", image: "https://images.unsplash.com/photo-1631452180519-c014fe946cb0?q=80&w=800&auto=format&fit=crop" },
-  { id: 6, name: "Grilled Salmon", restaurant: "Ocean Catch", price: 22.99, type: "non-veg", image: "https://images.unsplash.com/photo-1485921325833-c519f76c4927?q=80&w=800&auto=format&fit=crop" },
-  { id: 7, name: "Caesar Salad", restaurant: "Green Leaf", price: 9.50, type: "veg", image: "https://images.unsplash.com/photo-1550304943-4f24f54ddde9?q=80&w=800&auto=format&fit=crop" },
-  { id: 8, name: "Beef Steak", restaurant: "The Grill", price: 28.00, type: "non-veg", image: "https://images.unsplash.com/photo-1600891964092-4316c288032e?q=80&w=800&auto=format&fit=crop" },
-]
+  { 
+    id: 1, 
+    name: "Artisanal Margherita Pizza", 
+    restaurant: "Domino's", 
+    price: 12.99, 
+    type: "veg", 
+    category: "Pizza", 
+    rating: 4.5,
+    description: "Classic fresh mozzarella, robust signature marinara, and sweet basil chiffonade on our hand-tossed sourdough crust.",
+    image: "https://images.unsplash.com/photo-1604068549290-dea0e4a305ca?q=80&w=800&auto=format&fit=crop" 
+  },
+  { 
+    id: 2, 
+    name: "Classic Veggie Burger", 
+    restaurant: "Burger King", 
+    price: 8.99, 
+    type: "veg", 
+    category: "Burger", 
+    rating: 4.2,
+    description: "Flame-grilled signature plant-based patty topped with melted cheddar, crisp lettuce, tomatoes, and tangy pickles.",
+    image: "https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=800&auto=format&fit=crop" 
+  },
+  { 
+    id: 3, 
+    name: "Double Pepperoni Feast", 
+    restaurant: "Pizza Hut", 
+    price: 15.99, 
+    type: "non-veg", 
+    category: "Pizza", 
+    rating: 4.4,
+    description: "A double-layered mountain of crispy, curled cup pepperoni over fresh mozzarella and aged parmesan cheeses.",
+    image: "https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?q=80&w=800&auto=format&fit=crop" 
+  },
+  { 
+    id: 4, 
+    name: "Crunchy Chicken Zinger Burger", 
+    restaurant: "KFC", 
+    price: 7.99, 
+    type: "non-veg", 
+    category: "Burger", 
+    rating: 4.3,
+    description: "Crispy double-breaded chicken breast fillet topped with spicy mayo and shredded iceberg lettuce on a toasted bun.",
+    image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=800&auto=format&fit=crop" 
+  },
+  { 
+    id: 5, 
+    name: "Paneer Butter Masala", 
+    restaurant: "Tandoor Express", 
+    price: 13.50, 
+    type: "veg", 
+    category: "Indian", 
+    rating: 4.6,
+    description: "Cottage cheese cubes simmered in a rich, buttery, tomato-cashew cream gravy infused with aromatic fenugreek leaves.",
+    image: "https://images.unsplash.com/photo-1631452180519-c014fe946cb0?q=80&w=800&auto=format&fit=crop" 
+  },
+  { 
+    id: 6, 
+    name: "Chicken Tikka Masala", 
+    restaurant: "Spice Route", 
+    price: 15.50, 
+    type: "non-veg", 
+    category: "Indian", 
+    rating: 4.5,
+    description: "Tender boneless chicken thigh chunks char-grilled in a clay oven and cooked in our famous spiced tomato gravy.",
+    image: "https://images.unsplash.com/photo-1565557623262-b51c2513a641?q=80&w=800&auto=format&fit=crop" 
+  },
+  { 
+    id: 7, 
+    name: "Spicy Tuna Roll", 
+    restaurant: "Sushi Master", 
+    price: 18.00, 
+    type: "non-veg", 
+    category: "Sushi", 
+    rating: 4.7,
+    description: "Chop-grade yellowfin tuna tossed in house sriracha aioli, rolled with pickled cucumber and dusted with black sesame.",
+    image: "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?q=80&w=800&auto=format&fit=crop" 
+  },
+  { 
+    id: 8, 
+    name: "Premium Caesar Salad", 
+    restaurant: "Green Leaf", 
+    price: 9.50, 
+    type: "veg", 
+    category: "Healthy", 
+    rating: 4.1,
+    description: "Crispy romaine hearts tossed in robust creamy garlic dressing, shaved grana padano, and garlic-herb baguettini croutons.",
+    image: "https://images.unsplash.com/photo-1550304943-4f24f54ddde9?q=80&w=800&auto=format&fit=crop" 
+  },
+  { 
+    id: 9, 
+    name: "Grilled Salmon Bowl", 
+    restaurant: "Ocean Catch", 
+    price: 22.99, 
+    type: "non-veg", 
+    category: "Healthy", 
+    rating: 4.7,
+    description: "Char-grilled Atlantic salmon fillet over black organic quinoa, steamed avocado, edamame, and ginger-miso glaze.",
+    image: "https://images.unsplash.com/photo-1485921325833-c519f76c4927?q=80&w=800&auto=format&fit=crop" 
+  },
+  { 
+    id: 10, 
+    name: "Gooey Choco Lava Cake", 
+    restaurant: "Domino's", 
+    price: 6.99, 
+    type: "veg", 
+    category: "Dessert", 
+    rating: 4.6,
+    description: "Rich chocolate cake crust enclosing a decadent, warm liquid dark Belgian fudge core. Served fresh and warm.",
+    image: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?q=80&w=800&auto=format&fit=crop" 
+  },
+  { 
+    id: 11, 
+    name: "Strawberry Waffle Scoop", 
+    restaurant: "Baskin Robbins", 
+    price: 8.50, 
+    type: "veg", 
+    category: "Dessert", 
+    rating: 4.4,
+    description: "A freshly pressed golden waffle bowl loaded with wild strawberry cream scoop, strawberry syrup, and fresh berries.",
+    image: "https://images.unsplash.com/photo-1501443762994-82bd5dace89a?q=80&w=800&auto=format&fit=crop" 
+  },
+  { 
+    id: 12, 
+    name: "Classic Garlic Breadsticks", 
+    restaurant: "Pizza Hut", 
+    price: 5.99, 
+    type: "veg", 
+    category: "Pizza", 
+    rating: 4.2,
+    description: "Baked golden fresh dough twists brushed heavily with warm garlic butter and dusted with dry oregano and parmesan.",
+    image: "https://images.unsplash.com/photo-1544982503-9f984c14501a?q=80&w=800&auto=format&fit=crop" 
+  }
+];
 
-const CATEGORIES = ["Pizza", "Burger", "Sushi", "Indian", "Healthy", "Dessert"]
+const CATEGORIES = ["Pizza", "Burger", "Sushi", "Indian", "Healthy", "Dessert"];
 
 export function MenusPage() {
-  const [searchParams] = useSearchParams()
-  const initialCategory = searchParams.get("category")
+  const [searchParams] = useSearchParams();
+  const initialCategory = searchParams.get("category");
 
-  const [cartCounts, setCartCounts] = useState<CartItems>(getCartFromStorage)
-  const [sortValue, setSortValue] = useState("rating")
+  // Global Cart State
+  const [cartCounts, setCartCounts] = useState<CartItems>(getCartFromStorage);
+
+  // Filters State
+  const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategories, setSelectedCategories] = useState<string[]>(
     initialCategory ? [initialCategory] : []
-  )
+  );
+  const [selectedDietary, setSelectedDietary] = useState<string[]>([]);
+  const [minRating, setMinRating] = useState<number | null>(null);
+  const [priceFilter, setPriceFilter] = useState<string>("all");
+  const [sortBy, setSortBy] = useState("rating");
 
+  // Pagination State
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 6; // 6 items per page
+
+  // Listen to Quick Category URL Changes
   useEffect(() => {
-    const cat = searchParams.get("category")
+    const cat = searchParams.get("category");
     if (cat) {
-      setSelectedCategories((prev) => prev.includes(cat) ? prev : [...prev, cat])
+      setSelectedCategories((prev) => prev.includes(cat) ? prev : [...prev, cat]);
+      setCurrentPage(1);
     }
-  }, [searchParams])
+  }, [searchParams]);
 
+  // Handle Category Checkbox Toggle
   const toggleCategory = (cat: string) => {
-    setSelectedCategories(prev =>
-      prev.includes(cat) ? prev.filter(c => c !== cat) : [...prev, cat]
-    )
-  }
+    setSelectedCategories((prev) =>
+      prev.includes(cat)
+        ? prev.filter((c) => c !== cat)
+        : [...prev, cat]
+    );
+    setCurrentPage(1);
+  };
 
+  // Handle Dietary Toggle
+  const toggleDietary = (type: string) => {
+    setSelectedDietary((prev) =>
+      prev.includes(type)
+        ? prev.filter((t) => t !== type)
+        : [...prev, type]
+    );
+    setCurrentPage(1);
+  };
+
+  // Reset Filters
+  const handleResetFilters = () => {
+    setSearchQuery("");
+    setSelectedCategories([]);
+    setSelectedDietary([]);
+    setMinRating(null);
+    setPriceFilter("all");
+    setSortBy("rating");
+    setCurrentPage(1);
+  };
+
+  // Storing/Quantity Trigger Handler
   const updateCount = (id: number, delta: number) => {
-    const dishName = DISHES.find(d => d.id === id)?.name ?? "Item"
+    const dishName = DISHES.find(d => d.id === id)?.name ?? "Item";
     setCartCounts((prev) => {
-      const current = prev[id] || 0
-      const next = current + delta
-      let updated: CartItems
+      const current = prev[id] || 0;
+      const next = current + delta;
+      let updated: CartItems;
       if (next <= 0) {
-        const { [id]: _, ...rest } = prev
-        updated = rest
+        const { [id]: _, ...rest } = prev;
+        updated = rest;
       } else {
-        updated = { ...prev, [id]: next }
+        updated = { ...prev, [id]: next };
       }
-      saveCartToStorage(updated)
+      saveCartToStorage(updated);
       if (delta > 0) {
         toast(dishName + " added to cart", {
           icon: <ShoppingCart className="h-4 w-4 text-primary" />,
           duration: 2000,
-        })
+        });
       }
-      return updated
-    })
-  }
+      return updated;
+    });
+  };
 
+  // Filter & Sort Logic
+  const filteredAndSortedDishes = useMemo(() => {
+    let result = [...DISHES];
+
+    // 1. Search Query
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase();
+      result = result.filter(
+        (d) =>
+          d.name.toLowerCase().includes(query) ||
+          d.restaurant.toLowerCase().includes(query) ||
+          d.description.toLowerCase().includes(query)
+      );
+    }
+
+    // 2. Categories
+    if (selectedCategories.length > 0) {
+      result = result.filter((d) => selectedCategories.includes(d.category));
+    }
+
+    // 3. Dietary Choices (Veg / Non-Veg)
+    if (selectedDietary.length > 0) {
+      result = result.filter((d) => selectedDietary.includes(d.type));
+    }
+
+    // 4. Star Ratings
+    if (minRating !== null) {
+      result = result.filter((d) => d.rating >= minRating);
+    }
+
+    // 5. Price Ranges
+    if (priceFilter === "under-10") {
+      result = result.filter((d) => d.price < 10);
+    } else if (priceFilter === "under-18") {
+      result = result.filter((d) => d.price < 18);
+    } else if (priceFilter === "over-18") {
+      result = result.filter((d) => d.price >= 18);
+    }
+
+    // 6. Sorting Logic
+    if (sortBy === "rating") {
+      result.sort((a, b) => b.rating - a.rating);
+    } else if (sortBy === "price-low") {
+      result.sort((a, b) => a.price - b.price);
+    } else if (sortBy === "price-high") {
+      result.sort((a, b) => b.price - a.price);
+    }
+
+    return result;
+  }, [searchQuery, selectedCategories, selectedDietary, minRating, priceFilter, sortBy]);
+
+  // Pagination Logic
+  const totalPages = Math.ceil(filteredAndSortedDishes.length / pageSize);
+
+  const paginatedDishes = useMemo(() => {
+    const startIndex = (currentPage - 1) * pageSize;
+    return filteredAndSortedDishes.slice(startIndex, startIndex + pageSize);
+  }, [filteredAndSortedDishes, currentPage]);
+
+  const handlePageChange = (page: number) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
+  // Reusable Filter Content (Sidebar / Mobile Sheet Drawer)
   const FilterContent = () => (
     <div className="space-y-6">
+      {/* Search Bar */}
       <div>
-        <h3 className="font-semibold mb-3 text-lg">Dietary</h3>
-        <div className="space-y-2">
-          <div className="flex items-center space-x-2">
-            <Checkbox id="veg" />
-            <label htmlFor="veg" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-              Vegetarian
+        <h3 className="font-bold text-sm text-foreground uppercase tracking-wider mb-3">Search</h3>
+        <div className="relative">
+          <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+          <Input
+            placeholder="Search food items..."
+            value={searchQuery}
+            onChange={(e) => {
+              setSearchQuery(e.target.value);
+              setCurrentPage(1);
+            }}
+            className="pl-9 h-9 text-xs bg-background rounded-lg border-muted-foreground/20 focus-visible:ring-primary"
+          />
+        </div>
+      </div>
+
+      {/* Dietary Checkboxes */}
+      <div className="border-t pt-4">
+        <h3 className="font-bold text-sm text-foreground uppercase tracking-wider mb-3">Dietary</h3>
+        <div className="space-y-2.5">
+          <div className="flex items-center space-x-2.5">
+            <Checkbox
+              id="dietary-veg"
+              checked={selectedDietary.includes("veg")}
+              onCheckedChange={() => toggleDietary("veg")}
+            />
+            <label
+              htmlFor="dietary-veg"
+              className="text-xs font-bold text-muted-foreground/90 cursor-pointer select-none leading-none"
+            >
+              Vegetarian Only
             </label>
           </div>
-          <div className="flex items-center space-x-2">
-            <Checkbox id="non-veg" />
-            <label htmlFor="non-veg" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-              Non-Vegetarian
+
+          <div className="flex items-center space-x-2.5">
+            <Checkbox
+              id="dietary-nonveg"
+              checked={selectedDietary.includes("non-veg")}
+              onCheckedChange={() => toggleDietary("non-veg")}
+            />
+            <label
+              htmlFor="dietary-nonveg"
+              className="text-xs font-bold text-muted-foreground/90 cursor-pointer select-none leading-none"
+            >
+              Non-Vegetarian Only
             </label>
           </div>
         </div>
       </div>
 
-      <div>
-        <h3 className="font-semibold mb-3 text-lg">Categories</h3>
-        <div className="space-y-2">
+      {/* Categories Checkboxes with See All Reset */}
+      <div className="border-t pt-4">
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="font-bold text-sm text-foreground uppercase tracking-wider">Categories</h3>
+          {selectedCategories.length > 0 && (
+            <Button
+              variant="ghost"
+              onClick={() => {
+                setSelectedCategories([]);
+                setCurrentPage(1);
+              }}
+              className="text-primary hover:text-primary-hover font-bold text-xs p-0 h-auto hover:bg-transparent underline"
+            >
+              See All
+            </Button>
+          )}
+        </div>
+        <div className="space-y-2 max-h-[160px] overflow-y-auto pr-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {CATEGORIES.map((cat) => (
-            <div key={cat} className="flex items-center space-x-2">
+            <div key={cat} className="flex items-center space-x-2.5">
               <Checkbox
                 id={`cat-${cat}`}
                 checked={selectedCategories.includes(cat)}
                 onCheckedChange={() => toggleCategory(cat)}
               />
-              <label htmlFor={`cat-${cat}`} className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+              <label
+                htmlFor={`cat-${cat}`}
+                className="text-xs font-bold text-muted-foreground/90 cursor-pointer select-none leading-none"
+              >
                 {cat}
               </label>
             </div>
@@ -129,172 +398,284 @@ export function MenusPage() {
         </div>
       </div>
 
-      <div>
-        <h3 className="font-semibold mb-3 text-lg">Price Range</h3>
-        <Slider defaultValue={[50]} max={100} step={1} className="mt-6" />
-        <div className="flex justify-between mt-2 text-sm text-muted-foreground">
-          <span>$0</span>
-          <span>$100+</span>
+      {/* Star Ratings Toggles */}
+      <div className="border-t pt-4">
+        <h3 className="font-bold text-sm text-foreground uppercase tracking-wider mb-3">Minimum Rating</h3>
+        <div className="flex flex-wrap gap-1.5">
+          {[4.5, 4.2, 4.0].map((rating) => (
+            <Button
+              key={rating}
+              variant={minRating === rating ? "default" : "outline"}
+              onClick={() => {
+                setMinRating(minRating === rating ? null : rating);
+                setCurrentPage(1);
+              }}
+              className={`h-7 px-2.5 rounded-lg text-[10px] font-bold gap-1 ${
+                minRating === rating ? "bg-primary text-white" : "bg-background border-muted-foreground/20"
+              }`}
+            >
+              <Star className={`h-3 w-3 ${minRating === rating ? "fill-current" : "text-amber-500 fill-amber-500"}`} />
+              {rating}+ Stars
+            </Button>
+          ))}
         </div>
       </div>
+
+      {/* Price Selection Buttons */}
+      <div className="border-t pt-4">
+        <h3 className="font-bold text-sm text-foreground uppercase tracking-wider mb-3">Price Bracket</h3>
+        <div className="flex flex-col gap-2">
+          {[
+            { label: "All Prices", value: "all" },
+            { label: "Under $10", value: "under-10" },
+            { label: "Under $18", value: "under-18" },
+            { label: "$18 & Above", value: "over-18" }
+          ].map((item) => (
+            <div key={item.value} className="flex items-center space-x-2.5">
+              <Checkbox
+                id={`price-${item.value}`}
+                checked={priceFilter === item.value}
+                onCheckedChange={() => {
+                  setPriceFilter(item.value);
+                  setCurrentPage(1);
+                }}
+              />
+              <label
+                htmlFor={`price-${item.value}`}
+                className="text-xs font-bold text-muted-foreground/90 cursor-pointer select-none leading-none"
+              >
+                {item.label}
+              </label>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Reset filters button */}
+      <div className="border-t pt-4">
+        <Button
+          onClick={handleResetFilters}
+          variant="outline"
+          className="w-full text-xs font-bold h-9 border-red-500/20 text-red-500 hover:bg-red-500/10 gap-1.5"
+        >
+          <RotateCcw className="h-3.5 w-3.5" />
+          Reset Filters
+        </Button>
+      </div>
     </div>
-  )
+  );
 
   return (
-    <div className="container mx-auto px-4 md:px-8 py-6">
-      <div className="flex flex-col md:flex-row gap-8">
-
-        {/* Left Sidebar (Desktop) */}
-        <div className="hidden md:flex flex-col w-64 shrink-0 space-y-6">
-          <div className="relative">
-            <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input placeholder="Search for dishes..." className="pl-9 bg-muted/50 border-0" />
+    <div className="min-h-screen bg-muted/10 pb-20">
+      {/* High-Fidelity Upper Banner Card */}
+      <div className="bg-[#fff1eb] border-b border-[#ffe2d5] py-8 md:py-10 mb-8">
+        <div className="container mx-auto px-4 text-center md:text-left flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="space-y-2">
+            <Badge className="bg-primary/10 text-primary hover:bg-primary/20 border-none font-bold uppercase tracking-wider text-[10px] px-2.5 py-1">
+              Food Catalog
+            </Badge>
+            <h1 className="text-2xl md:text-4xl font-extrabold tracking-tight text-foreground font-heading">
+              Dine From Your Favorites
+            </h1>
+            <p className="text-xs md:text-sm font-semibold text-muted-foreground/90">
+              Explore gourmet dishes, hot hand-tossed pizzas, and delicious desserts.
+            </p>
           </div>
-
-          <div className="bg-card p-5 rounded-xl border shadow-sm">
-            <FilterContent />
+          <div className="flex items-center gap-1.5 bg-background border border-primary/20 p-2 rounded-xl shadow-sm text-xs font-bold text-muted-foreground shrink-0">
+            <MapPin className="h-4 w-4 text-primary" />
+            <span>Delivering to Sector 15, Pincode 110001</span>
           </div>
         </div>
+      </div>
 
-        {/* Right Content */}
-        <div className="flex-1 space-y-6">
+      <div className="container mx-auto px-4">
+        {/* Workspace Layout: Split Column */}
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 items-start">
+          
+          {/* Left Column: Desktop Sidebar Filter Panel */}
+          <aside className="hidden lg:block lg:col-span-1 bg-card rounded-2xl border border-muted/50 p-5 shadow-sm sticky top-24">
+            <div className="flex items-center gap-2 mb-5 pb-3 border-b border-muted">
+              <Utensils className="h-4.5 w-4.5 text-primary" />
+              <h2 className="font-extrabold text-base text-foreground font-heading">Refine Dishes</h2>
+            </div>
+            <FilterContent />
+          </aside>
 
-          {/* Mobile Top Controls */}
-          <div className="md:hidden flex flex-col gap-4">
-            <div className="relative">
-              <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input placeholder="Search for dishes..." className="pl-9 bg-muted/50 border-0" />
+          {/* Right Column: Active Results Catalog Grid */}
+          <div className="lg:col-span-3 space-y-6">
+            
+            {/* Top Toolbar: Mobile Filter Drawer Trigger & Grid Sort Selector */}
+            <div className="flex flex-col sm:flex-row justify-between items-center bg-card p-3 rounded-xl border border-muted/50 shadow-sm gap-4">
+              <div className="flex items-center gap-2 w-full sm:w-auto">
+                
+                {/* Mobile Filter Sheet Trigger Button */}
+                <div className="lg:hidden w-full">
+                  <Sheet>
+                    <SheetTrigger asChild>
+                      <Button variant="outline" className="w-full h-9 bg-background border-muted-foreground/20 text-xs font-bold gap-2">
+                        <SlidersHorizontal className="h-4 w-4 text-primary" />
+                        Filters
+                      </Button>
+                    </SheetTrigger>
+                    <SheetContent side="left" className="w-[280px]">
+                      <SheetHeader className="pb-3 border-b mb-4">
+                        <SheetTitle className="font-extrabold text-base flex items-center gap-2 text-foreground">
+                          <SlidersHorizontal className="h-4.5 w-4.5 text-primary" />
+                          Filter Dishes
+                        </SheetTitle>
+                      </SheetHeader>
+                      <FilterContent />
+                    </SheetContent>
+                  </Sheet>
+                </div>
+
+                <div className="hidden lg:flex items-center gap-1.5 text-xs font-bold text-muted-foreground">
+                  <span>Found</span>
+                  <span className="text-primary font-black bg-primary/10 px-2 py-0.5 rounded-md">
+                    {filteredAndSortedDishes.length}
+                  </span>
+                  <span>gourmet dishes in Sector 15</span>
+                </div>
+              </div>
+
+              {/* Sort selector dropdown */}
+              <div className="flex items-center gap-2.5 w-full sm:w-auto shrink-0 justify-end">
+                <span className="text-[11px] font-bold text-muted-foreground/80">Sort Dishes:</span>
+                <Select value={sortBy} onValueChange={setSortBy}>
+                  <SelectTrigger className="w-full sm:w-[170px] h-9 text-xs bg-background border-muted-foreground/20 focus:ring-primary rounded-lg font-bold">
+                    <SelectValue placeholder="Sort Directory" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="rating" className="text-xs font-semibold">Highest Rating</SelectItem>
+                    <SelectItem value="price-low" className="text-xs font-semibold">Price: Low to High</SelectItem>
+                    <SelectItem value="price-high" className="text-xs font-semibold">Price: High to Low</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
 
-            <div className="flex gap-3">
-              <Drawer>
-                <DrawerTrigger asChild>
-                  <Button variant="outline" className="flex-1 bg-background shadow-sm border-muted-foreground/20">
-                    Sort <ChevronDown className="ml-2 w-4 h-4 text-muted-foreground" />
-                  </Button>
-                </DrawerTrigger>
-                <DrawerContent>
-                  <DrawerHeader>
-                    <DrawerTitle>Sort by</DrawerTitle>
-                  </DrawerHeader>
-                  <div className="p-4 space-y-4 pb-8">
-                    {["Price", "Rating", "Best Seller"].map((opt) => (
-                      <div key={opt} className="flex items-center justify-between" onClick={() => setSortValue(opt.toLowerCase())}>
-                        <label className="text-sm font-medium">{opt}</label>
-                        <div className={`w-5 h-5 rounded-full border flex items-center justify-center ${sortValue === opt.toLowerCase() ? 'border-primary' : 'border-input'}`}>
-                          {sortValue === opt.toLowerCase() && <div className="w-2.5 h-2.5 rounded-full bg-primary" />}
-                        </div>
+            {/* Catalog Grid - Dense 3 Cards per row on desktop */}
+            {paginatedDishes.length > 0 ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
+                {paginatedDishes.map((dish) => (
+                  <FoodCard
+                    key={dish.id}
+                    image={dish.image}
+                    title={dish.name}
+                    subtitle={dish.restaurant}
+                    className="border border-muted/50 hover:shadow-xl transition-all duration-300 rounded-2xl bg-card"
+                    topRightBadge={
+                      <div className="bg-background/95 backdrop-blur-sm px-2.5 py-1 rounded-lg text-[9px] font-bold flex items-center gap-1.5 shadow-sm border border-muted/40">
+                        <div className={`w-1.5 h-1.5 rounded-full ${dish.type === 'veg' ? 'bg-green-500' : 'bg-red-500'}`} />
+                        {dish.type === 'veg' ? 'Veg' : 'Non-Veg'}
                       </div>
-                    ))}
-                  </div>
-                </DrawerContent>
-              </Drawer>
+                    }
+                    footerLeft={`$${dish.price.toFixed(2)}`}
+                    footerRight={
+                      cartCounts[dish.id] ? (
+                        <div className="flex items-center gap-1.5 bg-primary/10 rounded-full p-0.5 border border-primary/20">
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-6 w-6 rounded-full text-primary hover:bg-primary/20 hover:text-primary"
+                            onClick={() => updateCount(dish.id, -1)}
+                          >
+                            <Minus className="h-2.5 w-2.5" />
+                          </Button>
+                          <span className="w-3.5 text-center font-bold text-[11px] text-primary">{cartCounts[dish.id]}</span>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-6 w-6 rounded-full text-primary hover:bg-primary/20 hover:text-primary"
+                            onClick={() => updateCount(dish.id, 1)}
+                          >
+                            <Plus className="h-2.5 w-2.5" />
+                          </Button>
+                        </div>
+                      ) : (
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="rounded-full text-primary border-primary/30 hover:bg-primary hover:text-white transition-all duration-300 px-3.5 h-8 text-xs font-bold gap-1"
+                          onClick={() => updateCount(dish.id, 1)}
+                        >
+                          <Plus className="h-2.5 w-2.5" /> Add
+                        </Button>
+                      )
+                    }
+                  />
+                ))}
+              </div>
+            ) : (
+              /* Beautiful Zero State Search Fallback */
+              <div className="py-20 text-center border-2 border-dashed border-muted rounded-[2rem] bg-card/60 shadow-inner">
+                <div className="bg-background size-16 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-md border">
+                  <Sparkles className="size-7 text-primary/60 animate-bounce" />
+                </div>
+                <h3 className="text-xl font-extrabold text-foreground font-heading">No dishes match</h3>
+                <p className="text-muted-foreground/90 text-xs font-semibold mt-2 max-w-sm mx-auto px-4">
+                  We couldn't find any food items matching your exact filter settings. Try resetting them or search for something else.
+                </p>
+                <Button
+                  onClick={handleResetFilters}
+                  className="mt-6 bg-primary hover:bg-primary-hover text-white text-xs font-bold px-5 h-9 rounded-xl shadow-md transition-all gap-1.5"
+                >
+                  <RotateCcw className="h-4 w-4" /> Reset Filters
+                </Button>
+              </div>
+            )}
 
-              <Sheet>
-                <SheetTrigger asChild>
-                  <Button variant="outline" className="flex-1 bg-background shadow-sm border-muted-foreground/20">
-                    Filter <SlidersHorizontal className="ml-2 w-4 h-4 text-muted-foreground" />
+            {/* Pagination Controls block */}
+            {totalPages > 1 && (
+              <div className="flex justify-between items-center bg-card p-3 rounded-xl border border-muted/50 shadow-sm flex-wrap gap-4 mt-6">
+                <div className="text-xs font-bold text-muted-foreground/80">
+                  Showing page <span className="text-primary font-black">{currentPage}</span> of <span className="text-foreground font-black">{totalPages}</span>
+                </div>
+                
+                <div className="flex items-center gap-1.5">
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={() => handlePageChange(currentPage - 1)}
+                    disabled={currentPage === 1}
+                    className="h-8 w-8 rounded-lg bg-background border-muted-foreground/20 disabled:opacity-40"
+                  >
+                    <ChevronLeft className="h-4.5 w-4.5" />
                   </Button>
-                </SheetTrigger>
-                <SheetContent side="right" className="w-full sm:w-[400px]">
-                  <SheetHeader className="mb-6">
-                    <SheetTitle>Filters</SheetTitle>
-                  </SheetHeader>
-                  <FilterContent />
-                  <div className="absolute bottom-0 left-0 right-0 p-4 border-t bg-background">
-                    <Button className="w-full">Apply Filters</Button>
-                  </div>
-                </SheetContent>
-              </Sheet>
-            </div>
-          </div>
-
-          {/* Desktop Top Controls & Heading */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <h2 className="text-2xl font-bold tracking-tight">Food Items <span className="text-muted-foreground font-normal text-lg">(Veg & Non-Veg)</span></h2>
-
-            <div className="hidden md:flex items-center gap-3">
-              <span className="text-sm font-medium text-muted-foreground">Sort by:</span>
-              <Select defaultValue="rating">
-                <SelectTrigger className="w-[160px] bg-background">
-                  <SelectValue placeholder="Sort by" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="price">Price</SelectItem>
-                  <SelectItem value="rating">Rating</SelectItem>
-                  <SelectItem value="best">Best Seller</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-
-          {/* Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {DISHES.map((dish) => (
-              <FoodCard
-                key={dish.id}
-                image={dish.image}
-                title={dish.name}
-                subtitle={dish.restaurant}
-                className="border-0 bg-transparent sm:bg-card"
-                topRightBadge={
-                  <div className="bg-background/95 backdrop-blur-sm px-2 py-1 rounded-md text-[10px] sm:text-xs font-semibold flex items-center gap-1.5 shadow-sm">
-                    <div className={`w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full ${dish.type === 'veg' ? 'bg-green-500' : 'bg-red-500'}`} />
-                    {dish.type === 'veg' ? 'Veg' : 'Non-Veg'}
-                  </div>
-                }
-                footerLeft={`$${dish.price.toFixed(2)}`}
-                footerRight={
-                  cartCounts[dish.id] ? (
-                    <div className="flex items-center gap-2 sm:gap-3 bg-primary/10 rounded-full px-1 sm:px-1.5 py-1">
+                  
+                  {Array.from({ length: totalPages }).map((_, i) => {
+                    const pageNum = i + 1;
+                    return (
                       <Button
-                        variant="ghost"
-                        size="icon"
-                        className="h-6 w-6 sm:h-7 sm:w-7 rounded-full text-primary hover:bg-primary/20 hover:text-primary"
-                        onClick={() => updateCount(dish.id, -1)}
+                        key={pageNum}
+                        onClick={() => handlePageChange(pageNum)}
+                        variant={currentPage === pageNum ? "default" : "outline"}
+                        className={`h-8 w-8 rounded-lg text-xs font-bold p-0 ${
+                          currentPage === pageNum ? "bg-primary text-white" : "bg-background border-muted-foreground/20 text-muted-foreground hover:text-foreground"
+                        }`}
                       >
-                        <Minus className="h-3 w-3 sm:h-4 sm:w-4" />
+                        {pageNum}
                       </Button>
-                      <span className="w-3 sm:w-4 text-center font-bold text-sm text-primary">{cartCounts[dish.id]}</span>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="h-6 w-6 sm:h-7 sm:w-7 rounded-full text-primary hover:bg-primary/20 hover:text-primary"
-                        onClick={() => updateCount(dish.id, 1)}
-                      >
-                        <Plus className="h-3 w-3 sm:h-4 sm:w-4" />
-                      </Button>
-                    </div>
-                  ) : (
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="rounded-full text-primary border-primary/30 hover:bg-primary hover:text-white transition-colors h-8 sm:h-9 text-xs sm:text-sm"
-                      onClick={() => updateCount(dish.id, 1)}
-                    >
-                      <Plus className="h-3 w-3 sm:h-4 sm:w-4 sm:mr-1.5 mr-1" /> Add
-                    </Button>
-                  )
-                }
-              />
-            ))}
-          </div>
+                    );
+                  })}
 
-          {/* Pagination */}
-          <div className="flex justify-center items-center gap-2 pt-10 pb-4">
-            <Button variant="outline" size="icon" className="w-9 h-9" disabled>
-              <ChevronLeft className="w-4 h-4" />
-            </Button>
-            <Button variant="default" size="icon" className="w-9 h-9 font-medium">1</Button>
-            <Button variant="ghost" size="icon" className="w-9 h-9 font-medium">2</Button>
-            <Button variant="ghost" size="icon" className="w-9 h-9 font-medium">3</Button>
-            <Button variant="outline" size="icon" className="w-9 h-9">
-              <ChevronRight className="w-4 h-4" />
-            </Button>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={() => handlePageChange(currentPage + 1)}
+                    disabled={currentPage === totalPages}
+                    className="h-8 w-8 rounded-lg bg-background border-muted-foreground/20 disabled:opacity-40"
+                  >
+                    <ChevronRight className="h-4.5 w-4.5" />
+                  </Button>
+                </div>
+              </div>
+            )}
+
           </div>
 
         </div>
       </div>
     </div>
-  )
+  );
 }

@@ -270,5 +270,13 @@ change.
     - Sorting by rating and delivery time, showing reactive search query indicators and total matches counters.
     - Custom pagination (6 items per page) with beautiful numbered buttons and disabled arrow controls across a rich database of 12 partner restaurants.
     - Wired the "See All" button on the homepage to navigate to this new page.
+  - Modernized the **Menus Food Catalog** page (`src/components/menus-page.tsx`) at path `/menus` to match the exact high-fidelity design:
+    - Added the gorgeous upper peach-orange header banner card with statistics and active location indicator.
+    - Responsive split column layout with desktop filters sidebar and mobile sheet overlay drawer.
+    - Developed search query filters, Vegetarian/Non-Vegetarian checkboxes, multiple category selectors, rating badges, price brackets, and a red 'Reset Filters' trigger.
+    - Integrated standard `FoodCard` elements arranged in a dense, identical 3-column layout on desktop.
+    - Preserved active `localStorage` cart counts, pop-up toasts, and counter buttons.
+    - Added visual pagination ('Showing page X of Y') with numbered buttons supporting a rich database of 12 dishes.
+    - Wired homepage Quick Categories section header to feature a matching "See All" button routing here.
   - Confirmed 100% clean type checks (`npx tsc --noEmit`) and perfect visual execution across all browser states.
 
