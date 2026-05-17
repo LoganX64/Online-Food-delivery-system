@@ -9,6 +9,9 @@ import Orders from "@/pages/Orders"
 import AdminDashboard from "@/pages/AdminDashboard"
 import { UserDashboard } from "@/pages/UserDashboard"
 import RestaurantDashboard from "@/pages/RestaurantDashboard"
+import RestaurantLogin from "@/pages/RestaurantLogin"
+import RestaurantRegister from "@/pages/RestaurantRegister"
+import AdminLogin from "@/pages/AdminLogin"
 
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
@@ -46,6 +49,18 @@ export const router = createBrowserRouter([
       {
         path: "register",
         element: <Register />,
+      },
+      {
+        path: "restaurant/login",
+        element: <RestaurantLogin />,
+      },
+      {
+        path: "restaurant/register",
+        element: <RestaurantRegister />,
+      },
+      {
+        path: "admin/login",
+        element: <AdminLogin />,
       },
       {
         path: "menus",

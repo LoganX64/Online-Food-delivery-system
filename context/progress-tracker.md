@@ -191,6 +191,13 @@ change.
     - Mobile: Top navbar with sandwich icon (Sheet) and bottom navigation for quick access.
   - Set up `/restaurant-dashboard` route in `index.tsx`.
 
+- `19-menu-editor.md` — Full implementation:
+  - Developed the complete, modular `MenuEditor` component in `src/components/restaurant/MenuEditor.tsx` aligning strictly with design specs.
+  - Implemented the desktop left sidebar layout displaying all categories, with an interactive custom `+` trigger button opening a dialog to add new categories.
+  - Built the new food item creation form with input fields for Name, Price, Description, and image upload simulator inside a beautifully rounded modal window.
+  - Designed highly responsive item cards with custom tags (Spicy, Vegetarian, Popular, Seafood), prices, and functional available/sold-out toggle switches.
+  - Implemented real-time search filtering within selected categories with gorgeous zero-state search fallback screens.
+
 - Dashboard Separation Refactor — Full implementation:
   - Created `src/components/user/` as the dedicated namespace for all User/Customer dashboard components.
   - Renamed `DashboardNav` → `UserNav` (`components/user/UserNav.tsx`) to remove naming ambiguity.
@@ -238,4 +245,14 @@ change.
   - Added underline and hover effects to "See All" action.
   - Added badges (popular, new, free delivery) as small corner boxes, heart icon overlays, and improved typography for name/rating/cuisine.
   - Optimized layout for mobile-first responsiveness with increased spacing between vertical cards.
+
+- `20-Login.md` — Full implementation:
+  - Created elegant and modern dedicated portal pages for Restaurant Owners (`/restaurant/login` and `/restaurant/register`) and Administrators (`/admin/login`).
+  - Implemented premium user interface designs utilizing shadcn/ui components (`Card`, `Input`, `Label`, `Select`, `Checkbox`) alongside custom layouts and vibrant culinary/server backgrounds.
+  - Retained the existing, familiar customer login/signup layouts at `/login` and `/register`, and introduced a sleek, professional portal switcher footer to both views, linking all three gateways seamlessly.
+  - Built interactive form states and input validation for all forms with loading icons and simulated API delay.
+  - Added custom success toast notifications using the `sonner` library on successful logins/signups.
+  - Wired redirect destinations: logging in as a customer routes to the User Dashboard (`/user-dashboard`), partner routes to the Restaurant Dashboard (`/restaurant-dashboard`), and administrator routes to the Admin Dashboard (`/admin-dashboard`).
+  - Modified the header `Navbar` component (desktop and mobile responsive) to direct the "Become a Partner" action specifically to `/restaurant/register`.
+  - Confirmed 100% clean compilation across all new routes and components with zero build or TypeScript errors.
 

@@ -101,7 +101,7 @@ export function Navbar() {
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                  <Link to="/register?role=restaurantOwner" className="flex items-center cursor-pointer w-full">
+                  <Link to="/restaurant/register" className="flex items-center cursor-pointer w-full">
                     <UtensilsCrossed className="mr-2 h-4 w-4" />
                     <span>Become a Partner</span>
                   </Link>
@@ -158,7 +158,7 @@ export function Navbar() {
                     </div>
                     Sign Up
                   </Link>
-                  <Link to="/register?role=restaurantOwner" className="flex items-center gap-4 px-4 py-3 rounded-lg hover:bg-muted transition-colors text-lg font-medium group">
+                  <Link to="/restaurant/register" className="flex items-center gap-4 px-4 py-3 rounded-lg hover:bg-muted transition-colors text-lg font-medium group">
                     <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-colors">
                       <UtensilsCrossed className="h-5 w-5" />
                     </div>
