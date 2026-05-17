@@ -1,4 +1,5 @@
 import { useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { Star, Heart, Clock, Truck, ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
 import { Card, CardContent } from "./ui/card";
 import { Button } from "./ui/button";
@@ -88,6 +89,7 @@ const RESTAURANTS = [
 ];
 
 export const Restaurants = () => {
+  const navigate = useNavigate();
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const scroll = (direction: "left" | "right") => {
@@ -105,7 +107,11 @@ export const Restaurants = () => {
         <h2 className="text-2xl md:text-3xl font-bold font-heading text-foreground">
           Popular Restaurants
         </h2>
-        <Button variant="ghost" className="text-primary hover:text-primary-hover font-bold flex items-center gap-1 p-0 h-auto hover:bg-transparent underline underline-offset-4 decoration-2">
+        <Button 
+          onClick={() => navigate("/restaurants")}
+          variant="ghost" 
+          className="text-primary hover:text-primary-hover font-bold flex items-center gap-1 p-0 h-auto hover:bg-transparent underline underline-offset-4 decoration-2"
+        >
           See All <ArrowRight className="h-4 w-4" />
         </Button>
       </div>
@@ -158,11 +164,13 @@ export const Restaurants = () => {
 };
 
 const RestaurantCard = ({ restaurant }: { restaurant: any }) => {
+  const navigate = useNavigate();
   return (
     <FoodCard
       image={restaurant.image}
       title={restaurant.name}
       subtitle={restaurant.cuisine}
+      onClick={() => navigate(`/restaurant/${restaurant.id}`)}
       topLeftBadge={
         <div className="bg-primary text-white text-[10px] uppercase tracking-wider font-extrabold px-3 py-1.5 rounded-br-xl shadow-md">
           {restaurant.badge}

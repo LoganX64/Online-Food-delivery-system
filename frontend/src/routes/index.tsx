@@ -12,6 +12,8 @@ import RestaurantDashboard from "@/pages/RestaurantDashboard"
 import RestaurantLogin from "@/pages/RestaurantLogin"
 import RestaurantRegister from "@/pages/RestaurantRegister"
 import AdminLogin from "@/pages/AdminLogin"
+import RestaurantPublic from "@/pages/RestaurantPublic"
+import AllRestaurants from "@/pages/AllRestaurants"
 
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
@@ -61,6 +63,14 @@ export const router = createBrowserRouter([
       {
         path: "admin/login",
         element: <AdminLogin />,
+      },
+      {
+        path: "restaurant/:id",
+        element: <RestaurantPublic />,
+      },
+      {
+        path: "restaurants",
+        element: <AllRestaurants />,
       },
       {
         path: "menus",

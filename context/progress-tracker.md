@@ -256,3 +256,19 @@ change.
   - Modified the header `Navbar` component (desktop and mobile responsive) to direct the "Become a Partner" action specifically to `/restaurant/register`.
   - Confirmed 100% clean compilation across all new routes and components with zero build or TypeScript errors.
 
+- `21-restaurant-public-page.md` — Full implementation:
+  - Created a deep, high-fidelity public restaurant portal (`src/pages/RestaurantPublic.tsx`) loaded with rich merchant profiles (name, logo, rating, and delivery stats).
+  - Integrated an interactive category-filterable shopping menu grid utilizing `localStorage` cart caching and dynamic window notifications to automatically update the global navigation badge.
+  - Implemented an elegant Live Coordinate Satellite Grid Compass Map tracking HUD with reactive zoom indicators and WGS 84 spatial references.
+  - Formed a dedicated "Previous Orders" sidebar panel displaying customer history, status trackers, and an interactive "Reorder" action button to load cart caches.
+  - Applied strict shadcn container tokens with `!py-0` class overrides to completely eliminate the white padding gap above dish images.
+  - Developed full mobile responsiveness: optimized text wrapping, stacked layouts, floating bottom bar, and overflow-x scrolling tabs with zero horizontal scrolling.
+  - Wired Popular Restaurant cards on the homepage to route to `/restaurant/:id`.
+  - Developed the **All Restaurants Directory** page (`src/pages/AllRestaurants.tsx`) at path `/restaurants`:
+    - Responsive layout with left-hand filter sidebar for desktop and sliding sheet overlay drawer for mobile screen constraints.
+    - Filtering by name/cuisines search, checkbox multiple selections, minimum star rating buttons, only-free-delivery, and fast-delivery.
+    - Sorting by rating and delivery time, showing reactive search query indicators and total matches counters.
+    - Custom pagination (6 items per page) with beautiful numbered buttons and disabled arrow controls across a rich database of 12 partner restaurants.
+    - Wired the "See All" button on the homepage to navigate to this new page.
+  - Confirmed 100% clean type checks (`npx tsc --noEmit`) and perfect visual execution across all browser states.
+
