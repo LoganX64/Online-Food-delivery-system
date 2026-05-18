@@ -6,9 +6,9 @@ import heroImage from "@/assets/hero.png";
 
 export const HeroSection = () => {
   return (
-    <section className="container mx-auto px-4 mt-4">
+    <section className="container mx-auto px-4 mt-4 md:mt-4">
       {/* Mobile Version - Hidden on Desktop */}
-      <div className="md:hidden space-y-4 pt-2 pb-6">
+      <div className="md:hidden space-y-4 pt-2 pb-2">
         {/* Location Info */}
         <div className="flex items-center gap-3 px-1">
           <MapPin className="h-5 w-5 text-[#F97316]" />

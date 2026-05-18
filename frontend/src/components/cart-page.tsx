@@ -128,7 +128,7 @@ export function CartPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10">
           {/* Left Side: Restaurant Cards */}
-          <div className="lg:col-span-7 xl:col-span-8 order-1 space-y-8">
+          <div className="lg:col-span-7 xl:col-span-8 order-1 space-y-4">
             {Object.entries(groupedItems).map(([restaurantName, items]) => (
               <div key={restaurantName} className="bg-white rounded-3xl p-5 sm:p-7 shadow-sm border border-gray-100">
                 <h2 className="text-xl font-bold flex items-center gap-2 pb-2 text-foreground">
@@ -235,15 +235,15 @@ export function CartPage() {
 
           {/* Recommendations Section */}
           {recommendations.length > 0 && (
-            <div className="lg:col-span-12 order-2 lg:order-3 mt-4 lg:mt-6">
-              <div className="flex items-center justify-between mb-6">
+            <div className="lg:col-span-12 order-2 lg:order-3 mt-0">
+              <div className="flex items-center justify-between mb-3">
                 <h2 className="text-2xl font-bold tracking-tight text-foreground hidden sm:block">Recommended Add-ons</h2>
                 <h2 className="text-2xl font-bold tracking-tight text-foreground sm:hidden">Complete Your Meal</h2>
               </div>
 
               {/* Horizontal scroll for mobile, grid for desktop */}
               <div 
-                className="flex overflow-x-auto pb-4 sm:grid sm:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 -mx-4 px-4 sm:mx-0 sm:px-0"
+                className="flex overflow-x-auto pb-4 sm:grid sm:grid-cols-3 xl:grid-cols-4 gap-5 -mx-4 px-4 sm:mx-0 sm:px-0"
                 style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
               >
                 {recommendations.map(dish => (

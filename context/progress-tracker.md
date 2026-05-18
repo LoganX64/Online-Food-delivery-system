@@ -279,5 +279,14 @@ change.
     - Added visual pagination ('Showing page X of Y') with numbered buttons supporting a rich database of 12 dishes.
     - Wired homepage Quick Categories section header to feature a matching "See All" button routing here.
   - Confirmed 100% clean type checks (`npx tsc --noEmit`) and perfect visual execution across all browser states.
+  - Refined Mobile Navigation & Catalog UX:
+    - Restructured mobile navigation on `/menus`: removed the static top-navbar back button, and introduced a floating circular back button styled identically to the restaurant public page's floating navigation control.
+    - Resolved mobile "Categories" navbar click event behavior by routing the mobile bottom-nav icon path directly to `/menus`, providing seamless access to the full category-focused interactive catalog.
+    - Added the matching premium floating mobile back button to the **All Restaurants** page (`src/pages/AllRestaurants.tsx`) at path `/restaurants` inside the upper orange banner card to unify navigation feel.
+  - Homescreen Layout & Card Spacing Unification:
+    - Unified restaurant card spacing on the homescreen (`src/components/restaurants.tsx`) on both desktop and mobile to use the **`gap-5`** grid layout, matching the exact spacing of the menus catalog page (mobile list gap reduced from a massive `gap-14` to `gap-5`).
+    - Tightened spacing between the homepage sections (Searchbar, Quick Categories, and Popular Restaurants) on both mobile and desktop viewports, reducing vertical separation to build a gorgeous, premium, cohesive vertical flow.
+
+
 
 

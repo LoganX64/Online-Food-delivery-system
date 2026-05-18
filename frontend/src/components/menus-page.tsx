@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import { 
   Search, Plus, Minus, ChevronLeft, ChevronRight, SlidersHorizontal, 
   ShoppingCart, Star, RotateCcw, MapPin, Sparkles, Utensils, Heart 
@@ -158,6 +158,7 @@ const DISHES = [
 const CATEGORIES = ["Pizza", "Burger", "Sushi", "Indian", "Healthy", "Dessert"];
 
 export function MenusPage() {
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const initialCategory = searchParams.get("category");
 
@@ -468,7 +469,18 @@ export function MenusPage() {
   return (
     <div className="min-h-screen bg-muted/10 pb-20">
       {/* High-Fidelity Upper Banner Card */}
-      <div className="bg-[#fff1eb] border-b border-[#ffe2d5] py-8 md:py-10 mb-8">
+      <div className="relative bg-[#fff1eb] border-b border-[#ffe2d5] py-8 md:py-10 mb-8">
+        {/* Floating actions */}
+        <div className="absolute top-3 left-3 z-10 md:hidden">
+          <Button 
+            onClick={() => navigate(-1)} 
+            variant="secondary" 
+            size="icon" 
+            className="rounded-full shadow-lg bg-white/95 backdrop-blur-sm text-foreground hover:bg-primary hover:text-white border-none transition-all h-8 w-8"
+          >
+            <ChevronLeft className="h-4.5 w-4.5" />
+          </Button>
+        </div>
         <div className="container mx-auto px-4 text-center md:text-left flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="space-y-2">
             <Badge className="bg-primary/10 text-primary hover:bg-primary/20 border-none font-bold uppercase tracking-wider text-[10px] px-2.5 py-1">

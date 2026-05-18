@@ -53,11 +53,6 @@ export function Navbar() {
       <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-8">
         {/* Logo - Left */}
         <div className="flex items-center space-x-2">
-          {isMenusPage && (
-            <Button variant="ghost" size="icon" className="md:hidden" onClick={() => navigate(-1)}>
-              <ArrowLeft className="h-5 w-5" />
-            </Button>
-          )}
           <Link to="/" className="flex items-center space-x-2">
             <UtensilsCrossed className="h-6 w-6 text-primary" />
             <span className="text-2xl font-bold font-heading tracking-tight text-[#F97316]">FoodieFlow</span>

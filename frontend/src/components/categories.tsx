@@ -64,14 +64,14 @@ export const Categories = () => {
   };
 
   return (
-    <section id="categories" className="container mx-auto px-4 py-8 relative group">
-      <div className="flex items-center justify-between mb-6">
+    <section id="categories" className="container mx-auto px-4 pt-6 pb-0 md:pt-6 md:pb-0 relative group">
+      <div className="flex items-center justify-between mb-4">
         <h2 className="text-2xl md:text-3xl font-bold font-heading text-foreground">
           Quick Categories
         </h2>
-        <Button 
+        <Button
           onClick={() => navigate("/menus")}
-          variant="ghost" 
+          variant="ghost"
           className="text-primary hover:text-primary-hover font-bold flex items-center gap-1 p-0 h-auto hover:bg-transparent underline underline-offset-4 decoration-2"
         >
           See All <ArrowRight className="h-4 w-4" />

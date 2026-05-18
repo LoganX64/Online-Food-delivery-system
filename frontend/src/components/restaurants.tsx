@@ -102,14 +102,14 @@ export const Restaurants = () => {
   };
 
   return (
-    <section id="restaurants" className="container mx-auto px-4 py-8 pb-20 relative">
-      <div className="flex items-center justify-between mb-8">
+    <section id="restaurants" className="container mx-auto px-4 pt-2 pb-8 md:pt-2 md:pb-12 relative">
+      <div className="flex items-center justify-between mb-4">
         <h2 className="text-2xl md:text-3xl font-bold font-heading text-foreground">
           Popular Restaurants
         </h2>
-        <Button 
+        <Button
           onClick={() => navigate("/restaurants")}
-          variant="ghost" 
+          variant="ghost"
           className="text-primary hover:text-primary-hover font-bold flex items-center gap-1 p-0 h-auto hover:bg-transparent underline underline-offset-4 decoration-2"
         >
           See All <ArrowRight className="h-4 w-4" />
@@ -142,7 +142,7 @@ export const Restaurants = () => {
 
         <div
           ref={scrollRef}
-          className="flex gap-6 overflow-x-auto no-scrollbar snap-x snap-mandatory pb-4"
+          className="flex gap-5 overflow-x-auto no-scrollbar snap-x snap-mandatory pb-4"
           style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
         >
           {RESTAURANTS.map((restaurant) => (
@@ -154,7 +154,7 @@ export const Restaurants = () => {
       </div>
 
       {/* Mobile View: Vertical List */}
-      <div className="md:hidden flex flex-col gap-14">
+      <div className="md:hidden flex flex-col gap-5">
         {RESTAURANTS.map((restaurant) => (
           <RestaurantCard key={`${restaurant.id}-${restaurant.name}`} restaurant={restaurant} />
         ))}
