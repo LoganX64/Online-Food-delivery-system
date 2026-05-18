@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from "react-router-dom"
-import { UtensilsCrossed, Menu, ArrowLeft, ShoppingCart, UserCircle, LogIn, UserPlus } from "lucide-react"
+import { UtensilsCrossed, Menu, ArrowLeft, ShoppingCart, UserCircle, LogIn, UserPlus, LogOut, LayoutDashboard } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
   Sheet,
@@ -16,12 +16,19 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { useEffect, useState } from "react"
 import { getCartItemCount } from "@/utils/cart-storage"
+import { useAuth } from "@/hooks/useAuth"
 
 export function Navbar() {
   const location = useLocation()
   const navigate = useNavigate()
   const isMenusPage = location.pathname === '/menus'
   const [cartCount, setCartCount] = useState(0)
+  const { isAuthenticated, role, logout } = useAuth()
+
+  const handleLogout = async () => {
+    await logout()
+    navigate('/')
+  }
 
   useEffect(() => {
     // Initial count
@@ -83,24 +90,41 @@ export function Navbar() {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56">
-                <DropdownMenuItem asChild>
-                  <Link to="/login" className="flex items-center cursor-pointer w-full">
-                    <LogIn className="mr-2 h-4 w-4" />
-                    <span>Login</span>
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link to="/register" className="flex items-center cursor-pointer w-full">
-                    <UserPlus className="mr-2 h-4 w-4" />
-                    <span>Register</span>
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link to="/restaurant/register" className="flex items-center cursor-pointer w-full">
-                    <UtensilsCrossed className="mr-2 h-4 w-4" />
-                    <span>Become a Partner</span>
-                  </Link>
-                </DropdownMenuItem>
+                {isAuthenticated ? (
+                  <>
+                    <DropdownMenuItem asChild>
+                      <Link to={role === 'customer' ? '/profile' : role === 'admin' ? '/admin-dashboard' : '/restaurant-dashboard'} className="flex items-center cursor-pointer w-full">
+                        <LayoutDashboard className="mr-2 h-4 w-4" />
+                        <span>Dashboard</span>
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onSelect={(e) => { e.preventDefault(); handleLogout(); }} className="flex items-center cursor-pointer w-full text-destructive focus:text-destructive">
+                      <LogOut className="mr-2 h-4 w-4" />
+                      <span>Log Out</span>
+                    </DropdownMenuItem>
+                  </>
+                ) : (
+                  <>
+                    <DropdownMenuItem asChild>
+                      <Link to="/login" className="flex items-center cursor-pointer w-full">
+                        <LogIn className="mr-2 h-4 w-4" />
+                        <span>Login</span>
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link to="/register" className="flex items-center cursor-pointer w-full">
+                        <UserPlus className="mr-2 h-4 w-4" />
+                        <span>Register</span>
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link to="/restaurant/register" className="flex items-center cursor-pointer w-full">
+                        <UtensilsCrossed className="mr-2 h-4 w-4" />
+                        <span>Become a Partner</span>
+                      </Link>
+                    </DropdownMenuItem>
+                  </>
+                )}
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
@@ -141,24 +165,43 @@ export function Navbar() {
                   </SheetTitle>
                 </SheetHeader>
                 <nav className="flex flex-col gap-2 mt-6">
-                  <Link to="/login" className="flex items-center gap-4 px-4 py-3 rounded-lg hover:bg-muted transition-colors text-lg font-medium group">
-                    <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-colors">
-                      <LogIn className="h-5 w-5" />
-                    </div>
-                    Login
-                  </Link>
-                  <Link to="/register" className="flex items-center gap-4 px-4 py-3 rounded-lg hover:bg-muted transition-colors text-lg font-medium group">
-                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
-                      <UserPlus className="h-5 w-5" />
-                    </div>
-                    Sign Up
-                  </Link>
-                  <Link to="/restaurant/register" className="flex items-center gap-4 px-4 py-3 rounded-lg hover:bg-muted transition-colors text-lg font-medium group">
-                    <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-colors">
-                      <UtensilsCrossed className="h-5 w-5" />
-                    </div>
-                    Become a Partner
-                  </Link>
+                  {isAuthenticated ? (
+                    <>
+                      <Link to={role === 'customer' ? '/profile' : role === 'admin' ? '/admin-dashboard' : '/restaurant-dashboard'} className="flex items-center gap-4 px-4 py-3 rounded-lg hover:bg-muted transition-colors text-lg font-medium group">
+                        <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+                          <LayoutDashboard className="h-5 w-5" />
+                        </div>
+                        Dashboard
+                      </Link>
+                      <button onClick={handleLogout} className="flex items-center gap-4 px-4 py-3 rounded-lg hover:bg-destructive/10 text-destructive transition-colors text-lg font-medium group text-left">
+                        <div className="w-10 h-10 rounded-full bg-destructive/10 flex items-center justify-center group-hover:bg-destructive group-hover:text-white transition-colors">
+                          <LogOut className="h-5 w-5" />
+                        </div>
+                        Log Out
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <Link to="/login" className="flex items-center gap-4 px-4 py-3 rounded-lg hover:bg-muted transition-colors text-lg font-medium group">
+                        <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-colors">
+                          <LogIn className="h-5 w-5" />
+                        </div>
+                        Login
+                      </Link>
+                      <Link to="/register" className="flex items-center gap-4 px-4 py-3 rounded-lg hover:bg-muted transition-colors text-lg font-medium group">
+                        <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+                          <UserPlus className="h-5 w-5" />
+                        </div>
+                        Sign Up
+                      </Link>
+                      <Link to="/restaurant/register" className="flex items-center gap-4 px-4 py-3 rounded-lg hover:bg-muted transition-colors text-lg font-medium group">
+                        <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-colors">
+                          <UtensilsCrossed className="h-5 w-5" />
+                        </div>
+                        Become a Partner
+                      </Link>
+                    </>
+                  )}
                 </nav>
               </SheetContent>
             </Sheet>

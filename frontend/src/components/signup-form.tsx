@@ -11,35 +11,42 @@ import {
 import { Input } from "@/components/ui/input"
 import { toast } from "sonner"
 import { Store, ShieldCheck } from "lucide-react"
+import { useAuth } from "@/hooks/useAuth"
 
 export function SignupForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
   const navigate = useNavigate()
+  const { register, login } = useAuth()
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [isLoading, setIsLoading] = useState(false)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
 
-    // Simulate signup API call
-    setTimeout(() => {
-      setIsLoading(false)
+    try {
+      // 1. Create the account on the backend
+      await register({ name, email, password, role: "customer" })
+      
+      // 2. Automatically log them in to establish the secure HTTP-only cookie session
+      await login({ email, password })
+      
       toast.success("Account Created Successfully!", {
         description: "Welcome to FoodieFlow. Redirecting to your dashboard...",
       })
 
-      // Store mock user info
-      localStorage.setItem("userRole", "customer")
-      localStorage.setItem("userEmail", email)
-      localStorage.setItem("userName", name)
-
-      navigate("/user-dashboard")
-    }, 1200)
+      navigate("/user-dashboard", { replace: true })
+    } catch (error: any) {
+      toast.error("Signup Failed", {
+        description: error.message || "An error occurred during registration. Please try again.",
+      })
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (

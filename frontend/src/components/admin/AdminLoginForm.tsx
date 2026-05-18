@@ -7,34 +7,37 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { toast } from "sonner"
 import { ShieldCheck, Mail, Lock, Key, ArrowRight, ArrowLeft, Terminal } from "lucide-react"
+import { useAuth } from "@/hooks/useAuth"
 
 interface AdminLoginFormProps extends React.ComponentProps<"div"> {}
 
 export function AdminLoginForm({ className, ...props }: AdminLoginFormProps) {
   const navigate = useNavigate()
+  const { login } = useAuth()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [securityKey, setSecurityKey] = useState("")
   const [isLoading, setIsLoading] = useState(false)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
 
-    // Simulate login API call
-    setTimeout(() => {
-      setIsLoading(false)
+    try {
+      await login({ email, password })
       toast.success("Administrator Authenticated!", {
         description: "Welcome to FoodieFlow HQ. Launching console...",
         icon: <ShieldCheck className="h-5 w-5 text-primary" />,
       })
       
-      // Store mock user info
-      localStorage.setItem("userRole", "admin")
-      localStorage.setItem("userEmail", email)
-      
-      navigate("/admin-dashboard")
-    }, 1200)
+      navigate("/admin-dashboard", { replace: true })
+    } catch (error: any) {
+      toast.error("Authentication Failed", {
+        description: error.message || "Invalid credentials. Access Denied.",
+      })
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (

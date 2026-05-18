@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { useNavigate, Link } from "react-router-dom"
+import { useNavigate, Link, useLocation } from "react-router-dom"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -10,34 +10,40 @@ import {
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import { toast } from "sonner"
-import { Store, ShieldCheck, ArrowRight } from "lucide-react"
+import { Store, ShieldCheck } from "lucide-react"
+import { useAuth } from "@/hooks/useAuth"
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
   const navigate = useNavigate()
+  const location = useLocation()
+  const { login } = useAuth()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [isLoading, setIsLoading] = useState(false)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
 
-    // Simulate login API call
-    setTimeout(() => {
-      setIsLoading(false)
+    try {
+      await login({ email, password })
       toast.success("Welcome to FoodieFlow!", {
         description: "Login successful. Redirecting to your dashboard...",
       })
 
-      // Store mock user info
-      localStorage.setItem("userRole", "customer")
-      localStorage.setItem("userEmail", email)
-
-      navigate("/user-dashboard")
-    }, 1200)
+      // Redirect back to intended page (e.g. checkout) or user dashboard
+      const from = location.state?.from?.pathname || "/user-dashboard"
+      navigate(from, { replace: true })
+    } catch (error: any) {
+      toast.error("Login Failed", {
+        description: error.message || "Invalid credentials. Please try again.",
+      })
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (

@@ -8,33 +8,36 @@ import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
 import { toast } from "sonner"
 import { ChefHat, Mail, Lock, Store, ArrowRight, ArrowLeft } from "lucide-react"
+import { useAuth } from "@/hooks/useAuth"
 
 interface RestaurantLoginFormProps extends React.ComponentProps<"div"> { }
 
 export function RestaurantLoginForm({ className, ...props }: RestaurantLoginFormProps) {
   const navigate = useNavigate()
+  const { login } = useAuth()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [isLoading, setIsLoading] = useState(false)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
 
-    // Simulate login API call
-    setTimeout(() => {
-      setIsLoading(false)
+    try {
+      await login({ email, password })
       toast.success("Welcome back, Restaurant Partner!", {
         description: "Redirecting to your dashboard...",
         icon: <Store className="h-5 w-5 text-primary" />,
       })
 
-      // Store mock user info
-      localStorage.setItem("userRole", "restaurantOwner")
-      localStorage.setItem("userEmail", email)
-
-      navigate("/restaurant-dashboard")
-    }, 1200)
+      navigate("/restaurant-dashboard", { replace: true })
+    } catch (error: any) {
+      toast.error("Login Failed", {
+        description: error.message || "Invalid credentials. Please try again.",
+      })
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (

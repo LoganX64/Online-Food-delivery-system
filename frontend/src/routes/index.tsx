@@ -20,6 +20,7 @@ import { Footer } from "@/components/footer"
 import { BottomNav } from "@/components/bottom-nav"
 import { Outlet } from "react-router-dom"
 import { Toaster } from "@/components/ui/sonner"
+import { ProtectedRoute } from "@/components/ProtectedRoute"
 
 function Layout() {
   return (
@@ -82,30 +83,54 @@ export const router = createBrowserRouter([
       },
       {
         path: "checkout",
-        element: <Checkout />,
+        element: (
+          <ProtectedRoute allowedRoles={['customer']}>
+            <Checkout />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "orders",
-        element: <Orders />,
+        element: (
+          <ProtectedRoute allowedRoles={['customer']}>
+            <Orders />
+          </ProtectedRoute>
+        ),
       },
     ],
   },
   // ── Dashboard routes — outside Layout (no site Navbar / BottomNav) ──
   {
     path: "/profile",
-    element: <UserDashboard />,
+    element: (
+      <ProtectedRoute allowedRoles={['customer']}>
+        <UserDashboard />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/user-dashboard",
-    element: <UserDashboard />,
+    element: (
+      <ProtectedRoute allowedRoles={['customer']}>
+        <UserDashboard />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/admin-dashboard",
-    element: <AdminDashboard />,
+    element: (
+      <ProtectedRoute allowedRoles={['admin']}>
+        <AdminDashboard />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/restaurant-dashboard",
-    element: <RestaurantDashboard />,
+    element: (
+      <ProtectedRoute allowedRoles={['restaurantOwner']}>
+        <RestaurantDashboard />
+      </ProtectedRoute>
+    ),
   },
 ])
 

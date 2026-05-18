@@ -8,11 +8,14 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { toast } from "sonner"
 import { ChefHat, Mail, Lock, Store, ArrowRight, ArrowLeft, User, Phone, MapPin, Sparkles } from "lucide-react"
+import { useAuth } from "@/hooks/useAuth"
+import { apiClient } from "@/api/apiClient"
 
 interface RestaurantRegisterFormProps extends React.ComponentProps<"div"> {}
 
 export function RestaurantRegisterForm({ className, ...props }: RestaurantRegisterFormProps) {
   const navigate = useNavigate()
+  const { register, login } = useAuth()
   const [step, setStep] = useState(1)
   const [formData, setFormData] = useState({
     ownerName: "",
@@ -40,18 +43,34 @@ export function RestaurantRegisterForm({ className, ...props }: RestaurantRegist
     })
   }
 
-  const handleNext = (e: React.FormEvent) => {
+  const handleNext = async (e: React.FormEvent) => {
     e.preventDefault()
     if (step === 1) {
       if (!formData.ownerName || !formData.email || !formData.password) {
         toast.error("Please fill all owner details")
         return
       }
-      setStep(2)
+      setIsLoading(true)
+      try {
+        await register({
+          name: formData.ownerName,
+          email: formData.email,
+          password: formData.password,
+          role: "restaurantOwner"
+        })
+        await login({ email: formData.email, password: formData.password })
+        setStep(2)
+      } catch (error: any) {
+        toast.error("Registration Failed", {
+          description: error.message || "An error occurred creating your owner account.",
+        })
+      } finally {
+        setIsLoading(false)
+      }
     }
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!formData.restaurantName || !formData.phone || !formData.pincode || !formData.address) {
       toast.error("Please fill all restaurant details")
@@ -60,21 +79,31 @@ export function RestaurantRegisterForm({ className, ...props }: RestaurantRegist
 
     setIsLoading(true)
 
-    // Simulate Register API call
-    setTimeout(() => {
-      setIsLoading(false)
+    try {
+      await apiClient('/restaurants', {
+        method: 'POST',
+        body: JSON.stringify({
+          name: formData.restaurantName,
+          description: formData.cuisineType,
+          addressLine: formData.address,
+          city: "Not Provided", // Derived or added later if needed
+          pincode: formData.pincode,
+        })
+      })
+
       toast.success("Application Submitted Successfully!", {
         description: "Your restaurant application is under review. Redirecting...",
         icon: <Sparkles className="h-5 w-5 text-primary" />,
       })
       
-      // Store mock user info
-      localStorage.setItem("userRole", "restaurantOwner")
-      localStorage.setItem("userEmail", formData.email)
-      localStorage.setItem("restaurantName", formData.restaurantName)
-      
-      navigate("/restaurant-dashboard")
-    }, 1500)
+      navigate("/restaurant-dashboard", { replace: true })
+    } catch (error: any) {
+      toast.error("Restaurant Creation Failed", {
+        description: error.message || "Failed to submit restaurant details.",
+      })
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (

@@ -287,6 +287,16 @@ change.
     - Unified restaurant card spacing on the homescreen (`src/components/restaurants.tsx`) on both desktop and mobile to use the **`gap-5`** grid layout, matching the exact spacing of the menus catalog page (mobile list gap reduced from a massive `gap-14` to `gap-5`).
     - Tightened spacing between the homepage sections (Searchbar, Quick Categories, and Popular Restaurants) on both mobile and desktop viewports, reducing vertical separation to build a gorgeous, premium, cohesive vertical flow.
 
+- `22-login-wiring.md` — Full implementation:
+  - Created centralized API client (`apiClient.ts`) ensuring `credentials: "include"` is supplied for secure HTTP-only cookie sessions.
+  - Developed centralized `auth.api.ts` module with standard `login`, `register`, `logout`, and `getMe` requests.
+  - Implemented robust `AuthContext` to manage and synchronize global user, role, and loading state across the application tree.
+  - Implemented secure route barrier `ProtectedRoute` forcing unauthenticated guests back to their intended login portals while caching `location.state.from` routing metrics.
+  - Displayed "Unauthorized Access" fallback panel with role rejection warnings for misaligned access tokens.
+  - Configured layout router to wrap all dashboards and sensitive checkout pipelines in protected guards.
+  - Re-wired Customer, Partner, and Admin Login/Signup forms away from local storage stubs and successfully mapped to synchronous backend operations.
+  - Dynamically altered mobile and desktop Navbar links rendering contextual dashboard navigation depending on the authenticated role.
+
 
 
 
