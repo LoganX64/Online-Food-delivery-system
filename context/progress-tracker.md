@@ -208,7 +208,7 @@ change.
   - Deleted 15 orphaned shadcn scaffold files: `app-sidebar.tsx`, `section-cards.tsx`, `site-header.tsx`, `chart-area-interactive.tsx`, `data-table.tsx`, `nav-main.tsx`, `nav-user.tsx`, `nav-documents.tsx`, `nav-secondary.tsx`, and all 6 files from `components/dashboard/`.
   - **Mobile UI Unification**:
     - Implemented a consistent "Header + Bottom Nav" pattern across all three dashboards for mobile.
-    - **User Dashboard**: Added a 5-tab bottom navbar (Profile, Orders, Addresses, Payment, Alerts), removed the "hub-and-spoke" inline list menu, and simplified the top header.
+    - **User Dashboard**: Added a 4-tab bottom navbar (Profile, Orders, Addresses, Payment), removed the "hub-and-spoke" inline list menu, and simplified the top header.
     - **Restaurant Dashboard**: Added a 4-tab bottom navbar (Dashboard, Orders, Menu, Settings), hid the sidebar trigger on mobile, and wired the header icons to relevant tabs.
     - **Admin Dashboard**: Refined mobile layout by hiding the redundant sidebar trigger and tightening the top header.
   - TypeScript: zero errors post-refactor (`tsc --noEmit` clean).
@@ -279,4 +279,5 @@ change.
     - Added visual pagination ('Showing page X of Y') with numbered buttons supporting a rich database of 12 dishes.
     - Wired homepage Quick Categories section header to feature a matching "See All" button routing here.
   - Confirmed 100% clean type checks (`npx tsc --noEmit`) and perfect visual execution across all browser states.
+
 

@@ -22,7 +22,6 @@ const mobileNavItems = [
   { id: "orders",         label: "My Orders", icon: ShoppingBagIcon },
   { id: "addresses",      label: "Addresses", icon: MapPinIcon },
   { id: "payment",        label: "Payment",   icon: CreditCardIcon },
-  { id: "notifications",  label: "Alerts",    icon: BellIcon },
 ]
 
 const tabLabels: Record<string, string> = {

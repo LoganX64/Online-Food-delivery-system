@@ -27,17 +27,18 @@ pnpm dlx shadcn@latest add progress
   - Uses `SidebarProvider` with a sticky header and `UserSidebar`.
   - **UserSidebar** contains:
     - **Back to Home** link (top).
-    - **Navigation**: Personal Info, Order History, Saved Addresses, Payment Methods, Notifications.
+    - **Navigation**: Personal Info, Order History, Saved Addresses, Payment Methods, Notifications, Settings.
     - **Footer**: Logout button.
 - **Role-Specific Panels**:
   - **Personal Info**: Displays profile details (name, email, phone) and a default address summary with "Recent Orders" below.
   - **Order History**: Table with Order ID, Restaurant, Date, Amount, and Status.
   - **Payment Methods**: Card-based UI for saved cards with Visa/Mastercard badges.
   - **Saved Addresses**: Card-based UI for addresses with a "Default" badge.
-  - **Notifications**: List of system alerts with read/unread status.
+  - **Notifications**: List of alerts with read/unread status.
+  - **Settings**: User can change password and notification preferences.
 - **Mobile Layout**:
   - **Sticky Top Header**: Hamburger menu (`SidebarTrigger`) to open the full sidebar.
-  - **Bottom Navbar**: Fixed 5-tab bar: **Profile**, **My Orders**, **Addresses**, **Payment**, and **Alerts**.
+  - **Bottom Navbar**: Fixed 4-tab bar: **Profile**, **My Orders**, **Addresses**, and **Payment**.
   - All content panels stack vertically and are optimized for touch interaction.
 
 ### 2. Pages (React Router) 
