@@ -57,15 +57,13 @@ export async function apiClient<T>(
     const data = await response.json();
 
     if (!response.ok) {
-      let errorMessage = data.error || data.message || 'An unexpected error occurred';
+      // Backend now returns `message` as the primary error field
+      let errorMessage = data.message || data.error || 'An unexpected error occurred';
       if (data.errors && Array.isArray(data.errors) && data.errors.length > 0) {
+        // Use per-field error messages for detailed validation feedback
         errorMessage = data.errors.map((e: any) => e.message || e).join(', ');
       }
-      throw new ApiError(
-        errorMessage,
-        response.status,
-        data
-      );
+      throw new ApiError(errorMessage, response.status, data);
     }
 
     // The backend standardizes responses as { success: true, data: T }
