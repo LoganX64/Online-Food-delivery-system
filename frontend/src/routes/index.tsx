@@ -14,6 +14,7 @@ import RestaurantRegister from "@/pages/RestaurantRegister"
 import AdminLogin from "@/pages/AdminLogin"
 import RestaurantPublic from "@/pages/RestaurantPublic"
 import AllRestaurants from "@/pages/AllRestaurants"
+import NotFound from "@/pages/NotFound"
 
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
@@ -96,6 +97,10 @@ export const router = createBrowserRouter([
             <Orders />
           </ProtectedRoute>
         ),
+      },
+      {
+        path: "*",
+        element: <NotFound />,
       },
     ],
   },

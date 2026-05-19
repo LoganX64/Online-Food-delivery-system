@@ -296,7 +296,10 @@ change.
   - Configured layout router to wrap all dashboards and sensitive checkout pipelines in protected guards.
   - Re-wired Customer, Partner, and Admin Login/Signup forms away from local storage stubs and successfully mapped to synchronous backend operations.
   - Dynamically altered mobile and desktop Navbar links rendering contextual dashboard navigation depending on the authenticated role.
-
+- 404 Not Found Page — Implementation:
+  - Created a visually premium, responsive `NotFound` page (`frontend/src/pages/NotFound.tsx`).
+  - Styled with custom Lucide icons (`AlertCircle`) and Tailwind classes.
+  - Wired into `frontend/src/routes/index.tsx` as a catch-all route (`*`) underneath the global Layout for maximum consistency.
 
 
 
