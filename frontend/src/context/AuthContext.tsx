@@ -10,7 +10,8 @@ export interface AuthContextType {
   isAuthenticated: boolean;
   isLoading: boolean;
   login: (credentials: LoginCredentials) => Promise<User>;
-  register: (data: RegisterCredentials) => Promise<User>;
+  registerCustomer: (data: Omit<RegisterCredentials, 'role'>) => Promise<User>;
+  registerRestaurant: (userData: RegisterCredentials, restaurantData: any) => Promise<void>;
   logout: () => Promise<void>;
   checkSession: () => Promise<void>;
 }
@@ -45,9 +46,28 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     return loggedInUser;
   };
 
-  const register = async (data: RegisterCredentials) => {
-    const newUser = await authApi.register(data);
+  const registerCustomer = async (data: Omit<RegisterCredentials, 'role'>) => {
+    const newUser = await authApi.register({ ...data, role: 'customer' });
     return newUser;
+  };
+
+  const registerRestaurant = async (userData: RegisterCredentials, restaurantData: any) => {
+    // 1. Create the user account
+    await authApi.register(userData);
+    
+    // 2. Temporarily log in to get the secure session
+    await authApi.login({ email: userData.email, password: userData.password });
+    
+    // 3. Create the restaurant
+    const { apiClient } = await import('../api/apiClient');
+    await apiClient('/restaurant', {
+      method: 'POST',
+      body: JSON.stringify(restaurantData),
+    });
+    
+    // 4. Log out to prevent automatic login
+    await authApi.logout();
+    setUser(null);
   };
 
   const logout = async () => {
@@ -69,7 +89,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         isAuthenticated: !!user,
         isLoading,
         login,
-        register,
+        registerCustomer,
+        registerRestaurant,
         logout,
         checkSession,
       }}

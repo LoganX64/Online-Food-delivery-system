@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import { toast } from "sonner"
-import { Store, ShieldCheck } from "lucide-react"
+import { Store, ShieldCheck, Eye, EyeOff } from "lucide-react"
 import { useAuth } from "@/hooks/useAuth"
 
 export function SignupForm({
@@ -18,28 +18,37 @@ export function SignupForm({
   ...props
 }: React.ComponentProps<"div">) {
   const navigate = useNavigate()
-  const { register, login } = useAuth()
+  const { registerCustomer } = useAuth()
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
+  const [phone, setPhone] = useState("")
   const [password, setPassword] = useState("")
+  const [confirmPassword, setConfirmPassword] = useState("")
+  const [showPassword, setShowPassword] = useState(false)
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    
+    if (password !== confirmPassword) {
+      toast.error("Signup Failed", {
+        description: "Passwords do not match.",
+      })
+      return
+    }
+    
     setIsLoading(true)
 
     try {
       // 1. Create the account on the backend
-      await register({ name, email, password, role: "customer" })
-      
-      // 2. Automatically log them in to establish the secure HTTP-only cookie session
-      await login({ email, password })
+      await registerCustomer({ name, email, password, phone })
       
       toast.success("Account Created Successfully!", {
-        description: "Welcome to FoodieFlow. Redirecting to your dashboard...",
+        description: "Welcome to FoodieFlow. Please log in to continue.",
       })
 
-      navigate("/user-dashboard", { replace: true })
+      navigate("/login", { replace: true })
     } catch (error: any) {
       toast.error("Signup Failed", {
         description: error.message || "An error occurred during registration. Please try again.",
@@ -86,15 +95,56 @@ export function SignupForm({
                 />
               </Field>
               <Field>
-                <FieldLabel htmlFor="password">Password</FieldLabel>
+                <FieldLabel htmlFor="phone">Phone Number (Optional)</FieldLabel>
                 <Input
-                  id="password"
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  id="phone"
+                  type="tel"
+                  placeholder="+1234567890"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
                   className="h-11 rounded-[0.45rem]"
-                  required
                 />
+              </Field>
+              <Field>
+                <FieldLabel htmlFor="password">Password</FieldLabel>
+                <div className="relative">
+                  <Input
+                    id="password"
+                    type={showPassword ? "text" : "password"}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="h-11 rounded-[0.45rem] pr-10"
+                    required
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-3 text-muted-foreground hover:text-foreground"
+                  >
+                    {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                  </button>
+                </div>
+                <p className="text-[10px] text-muted-foreground mt-1 leading-tight">Must be at least 8 chars, 1 uppercase, 1 lowercase, 1 number, 1 special char.</p>
+              </Field>
+              <Field>
+                <FieldLabel htmlFor="confirmPassword">Confirm Password</FieldLabel>
+                <div className="relative">
+                  <Input
+                    id="confirmPassword"
+                    type={showConfirmPassword ? "text" : "password"}
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    className="h-11 rounded-[0.45rem] pr-10"
+                    required
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    className="absolute right-3 top-3 text-muted-foreground hover:text-foreground"
+                  >
+                    {showConfirmPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                  </button>
+                </div>
               </Field>
               <Field>
                 <Button type="submit" disabled={isLoading} className="w-full h-11 text-sm font-semibold rounded-[0.45rem]">

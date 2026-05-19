@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { toast } from "sonner"
-import { ChefHat, Mail, Lock, Store, ArrowRight, ArrowLeft, User, Phone, MapPin, Sparkles } from "lucide-react"
+import { ChefHat, Mail, Lock, Store, ArrowRight, ArrowLeft, User, Phone, MapPin, Sparkles, Eye, EyeOff } from "lucide-react"
 import { useAuth } from "@/hooks/useAuth"
 import { apiClient } from "@/api/apiClient"
 
@@ -15,19 +15,23 @@ interface RestaurantRegisterFormProps extends React.ComponentProps<"div"> {}
 
 export function RestaurantRegisterForm({ className, ...props }: RestaurantRegisterFormProps) {
   const navigate = useNavigate()
-  const { register, login } = useAuth()
+  const { registerRestaurant } = useAuth()
   const [step, setStep] = useState(1)
   const [formData, setFormData] = useState({
     ownerName: "",
     email: "",
     password: "",
+    confirmPassword: "",
     restaurantName: "",
     phone: "",
     cuisineType: "",
+    city: "",
     pincode: "",
     address: "",
   })
   const [isLoading, setIsLoading] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -46,33 +50,22 @@ export function RestaurantRegisterForm({ className, ...props }: RestaurantRegist
   const handleNext = async (e: React.FormEvent) => {
     e.preventDefault()
     if (step === 1) {
-      if (!formData.ownerName || !formData.email || !formData.password) {
+      if (!formData.ownerName || !formData.email || !formData.password || !formData.confirmPassword) {
         toast.error("Please fill all owner details")
         return
       }
-      setIsLoading(true)
-      try {
-        await register({
-          name: formData.ownerName,
-          email: formData.email,
-          password: formData.password,
-          role: "restaurantOwner"
-        })
-        await login({ email: formData.email, password: formData.password })
-        setStep(2)
-      } catch (error: any) {
-        toast.error("Registration Failed", {
-          description: error.message || "An error occurred creating your owner account.",
-        })
-      } finally {
-        setIsLoading(false)
+      if (formData.password !== formData.confirmPassword) {
+        toast.error("Passwords do not match")
+        return
       }
+      // Just advance to step 2, no API call yet
+      setStep(2)
     }
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!formData.restaurantName || !formData.phone || !formData.pincode || !formData.address) {
+    if (!formData.restaurantName || !formData.phone || !formData.city || !formData.pincode || !formData.address) {
       toast.error("Please fill all restaurant details")
       return
     }
@@ -80,23 +73,29 @@ export function RestaurantRegisterForm({ className, ...props }: RestaurantRegist
     setIsLoading(true)
 
     try {
-      await apiClient('/restaurants', {
-        method: 'POST',
-        body: JSON.stringify({
+      await registerRestaurant(
+        {
+          name: formData.ownerName,
+          email: formData.email,
+          password: formData.password,
+          role: "restaurantOwner",
+          phone: formData.phone
+        },
+        {
           name: formData.restaurantName,
           description: formData.cuisineType,
           addressLine: formData.address,
-          city: "Not Provided", // Derived or added later if needed
+          city: formData.city,
           pincode: formData.pincode,
-        })
-      })
+        }
+      )
 
       toast.success("Application Submitted Successfully!", {
-        description: "Your restaurant application is under review. Redirecting...",
+        description: "Your restaurant application is under review. Please log in.",
         icon: <Sparkles className="h-5 w-5 text-primary" />,
       })
       
-      navigate("/restaurant-dashboard", { replace: true })
+      navigate("/restaurant/login", { replace: true })
     } catch (error: any) {
       toast.error("Restaurant Creation Failed", {
         description: error.message || "Failed to submit restaurant details.",
@@ -177,13 +176,46 @@ export function RestaurantRegisterForm({ className, ...props }: RestaurantRegist
                     <Lock className="absolute left-3 top-3 h-4.5 w-4.5 text-muted-foreground/70" />
                     <Input
                       id="password"
-                      type="password"
+                      type={showPassword ? "text" : "password"}
                       placeholder="••••••••"
                       value={formData.password}
                       onChange={handleChange}
-                      className="pl-10 h-11 border-muted-foreground/20 focus-visible:ring-primary rounded-[0.45rem]"
+                      className="pl-10 pr-10 h-11 border-muted-foreground/20 focus-visible:ring-primary rounded-[0.45rem]"
                       required
                     />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-3 top-3 text-muted-foreground hover:text-foreground"
+                    >
+                      {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                    </button>
+                  </div>
+                  <p className="text-[10px] text-muted-foreground mt-1 leading-tight">Must be at least 8 chars, 1 uppercase, 1 lowercase, 1 number, 1 special char.</p>
+                </div>
+
+                <div className="grid gap-2">
+                  <Label htmlFor="confirmPassword" className="text-left font-semibold text-xs uppercase tracking-wider text-muted-foreground">
+                    Confirm Password
+                  </Label>
+                  <div className="relative">
+                    <Lock className="absolute left-3 top-3 h-4.5 w-4.5 text-muted-foreground/70" />
+                    <Input
+                      id="confirmPassword"
+                      type={showConfirmPassword ? "text" : "password"}
+                      placeholder="••••••••"
+                      value={formData.confirmPassword}
+                      onChange={handleChange}
+                      className="pl-10 pr-10 h-11 border-muted-foreground/20 focus-visible:ring-primary rounded-[0.45rem]"
+                      required
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                      className="absolute right-3 top-3 text-muted-foreground hover:text-foreground"
+                    >
+                      {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                    </button>
                   </div>
                 </div>
 
@@ -233,6 +265,23 @@ export function RestaurantRegisterForm({ className, ...props }: RestaurantRegist
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
+                  <div className="grid gap-1.5">
+                    <Label htmlFor="city" className="text-left font-semibold text-xs uppercase tracking-wider text-muted-foreground">
+                      City
+                    </Label>
+                    <div className="relative">
+                      <MapPin className="absolute left-3 top-3 h-4.5 w-4.5 text-muted-foreground/70" />
+                      <Input
+                        id="city"
+                        type="text"
+                        placeholder="Mumbai"
+                        value={formData.city}
+                        onChange={handleChange}
+                        className="pl-10 h-11 border-muted-foreground/20 focus-visible:ring-primary rounded-[0.45rem]"
+                        required
+                      />
+                    </div>
+                  </div>
                   <div className="grid gap-1.5">
                     <Label htmlFor="cuisine" className="text-left font-semibold text-xs uppercase tracking-wider text-muted-foreground">
                       Cuisine

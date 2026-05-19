@@ -300,6 +300,10 @@ change.
   - Created a visually premium, responsive `NotFound` page (`frontend/src/pages/NotFound.tsx`).
   - Styled with custom Lucide icons (`AlertCircle`) and Tailwind classes.
   - Wired into `frontend/src/routes/index.tsx` as a catch-all route (`*`) underneath the global Layout for maximum consistency.
-
-
+- `23-register.md` — Full implementation:
+  - Extended `AuthContext` to provide distinct `registerCustomer` and `registerRestaurant` methods.
+  - Implemented Customer Registration flow mapping to backend endpoint. Removed auto-login and redirected to login page on success. Added password confirmation validation.
+  - Implemented Restaurant Owner Registration multi-step flow mapping to user and restaurant backend endpoints securely. Removed auto-login at the end and redirected to partner login on success. Added password confirmation validation.
+  - Implemented Role-Based Login Redirection routing customers to `/`, restaurant owners to `/restaurant-dashboard`, and admins to `/admin-dashboard`.
+  - Fixed application-wide Logout redirection to specifically route to the `/login` portal.
 
