@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
 import { User } from '../models/User.js';
 import { AppError } from '../utils/AppError.js';
+import mongoose from 'mongoose';
 
 /**
  * Authenticate a user by email and password.
@@ -93,4 +94,26 @@ export const resetUserPassword = async (token: string, newPassword: string) => {
   await user.save();
 
   return { message: 'Password has been reset successfully' };
+};
+
+/**
+ * Update password for an authenticated user.
+ * Requires the current password to be verified first.
+ */
+export const updateUserPassword = async (
+  userId: string,
+  currentPassword: string,
+  newPassword: string
+) => {
+  const user = await User.findById(new mongoose.Types.ObjectId(userId));
+  if (!user) throw new AppError('User not found', 404);
+
+  const isMatch = await bcrypt.compare(currentPassword, user.password as string);
+  if (!isMatch) throw new AppError('Current password is incorrect', 401);
+
+  const salt = await bcrypt.genSalt(10);
+  user.password = await bcrypt.hash(newPassword, salt);
+  await user.save();
+
+  return { message: 'Password updated successfully' };
 };

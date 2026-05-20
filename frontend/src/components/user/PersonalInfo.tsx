@@ -1,109 +1,187 @@
+import { useState, useRef, useContext } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Edit2Icon, MapPinIcon } from "lucide-react"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Skeleton } from "@/components/ui/skeleton"
+import { Edit2Icon, SaveIcon, XIcon, CameraIcon, UserIcon, PhoneIcon } from "lucide-react"
+import { AuthContext } from "@/context/AuthContext"
+import { toast } from "sonner"
 
 export function PersonalInfo() {
-  const recentOrders = [
-    { id: "#ORD-7721", restaurant: "Pizza Hut", total: "$42.50", status: "Delivered", date: "Oct 12, 2023" },
-    { id: "#ORD-7722", restaurant: "Burger King", total: "$15.00", status: "Processing", date: "Oct 15, 2023" },
-  ]
+  const auth = useContext(AuthContext)!
+  const { user, updateProfile, uploadProfileImage } = auth
+
+  const [editing, setEditing] = useState(false)
+  const [saving, setSaving] = useState(false)
+  const [uploading, setUploading] = useState(false)
+  const [form, setForm] = useState({ name: user?.name ?? "", phone: user?.phone ?? "" })
+  const fileInputRef = useRef<HTMLInputElement>(null)
+
+  const initials = user?.name
+    ? user.name.split(" ").map((n) => n[0]).join("").toUpperCase().slice(0, 2)
+    : "U"
+
+  const memberSince = user?.createdAt
+    ? new Date(user.createdAt).toLocaleDateString("en-US", { month: "long", year: "numeric" })
+    : "—"
+
+  const handleSave = async () => {
+    if (!form.name.trim()) {
+      toast.error("Name cannot be empty")
+      return
+    }
+    try {
+      setSaving(true)
+      await updateProfile({ name: form.name.trim(), phone: form.phone.trim() || undefined })
+      toast.success("Profile updated successfully")
+      setEditing(false)
+    } catch (err: any) {
+      toast.error(err?.message || "Failed to update profile")
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  const handleCancel = () => {
+    setForm({ name: user?.name ?? "", phone: user?.phone ?? "" })
+    setEditing(false)
+  }
+
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    if (!file.type.startsWith("image/")) {
+      toast.error("Please select a valid image file")
+      return
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error("Image must be under 5 MB")
+      return
+    }
+    try {
+      setUploading(true)
+      await uploadProfileImage(file)
+      toast.success("Profile image updated!")
+    } catch (err: any) {
+      toast.error(err?.message || "Failed to upload image")
+    } finally {
+      setUploading(false)
+      e.target.value = ""
+    }
+  }
+
+  if (!user) {
+    return (
+      <div className="space-y-4">
+        <Skeleton className="h-48 w-full rounded-xl" />
+        <Skeleton className="h-24 w-full rounded-xl" />
+      </div>
+    )
+  }
 
   return (
     <div className="space-y-6">
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {/* Personal Info Card */}
-        <Card className="lg:col-span-2">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <div>
             <CardTitle className="text-xl font-bold">Personal Information</CardTitle>
-            <Button variant="ghost" size="icon">
-              <Edit2Icon className="h-4 w-4" />
+            <CardDescription>Manage your profile details</CardDescription>
+          </div>
+          {!editing ? (
+            <Button variant="outline" size="sm" onClick={() => setEditing(true)}>
+              <Edit2Icon className="h-4 w-4 mr-2" /> Edit
             </Button>
-          </CardHeader>
-          <CardContent>
-            <div className="flex flex-col sm:flex-row items-center gap-6 py-4">
-              <Avatar className="h-24 w-24 border-4 border-primary/10">
-                <AvatarImage src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=200" alt="Profile" />
-                <AvatarFallback>JD</AvatarFallback>
-              </Avatar>
-              <div className="grid gap-1 text-center sm:text-left">
-                <h3 className="text-2xl font-semibold">John Doe</h3>
-                <p className="text-muted-foreground">johndoe@example.com</p>
-                <p className="text-muted-foreground">+1 (555) 000-0000</p>
-                <div className="mt-2 flex flex-wrap gap-2 justify-center sm:justify-start">
-                  <Badge variant="secondary">Customer</Badge>
-                  <Badge variant="outline">Member since 2023</Badge>
-                </div>
-              </div>
+          ) : (
+            <div className="flex gap-2">
+              <Button variant="outline" size="sm" onClick={handleCancel} disabled={saving}>
+                <XIcon className="h-4 w-4 mr-1" /> Cancel
+              </Button>
+              <Button size="sm" onClick={handleSave} disabled={saving} className="bg-primary text-primary-foreground">
+                <SaveIcon className="h-4 w-4 mr-1" />
+                {saving ? "Saving…" : "Save"}
+              </Button>
             </div>
-          </CardContent>
-        </Card>
-
-        {/* Default Address Card */}
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-lg font-bold">Default Address</CardTitle>
-            <Button variant="link" className="p-0 h-auto text-primary">Edit</Button>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="flex items-start gap-3">
-              <MapPinIcon className="h-5 w-5 text-primary mt-0.5 shrink-0" />
-              <div className="text-sm">
-                <p className="font-medium">Home</p>
-                <p className="text-muted-foreground">123 Food Street, Delicious Avenue</p>
-                <p className="text-muted-foreground">New York, NY 10001</p>
-                <p className="text-muted-foreground">United States</p>
-              </div>
-            </div>
-            <Button variant="outline" className="w-full text-xs" size="sm">Manage All Addresses</Button>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Recent Orders — hidden on mobile, accessible via Order History tab */}
-      <Card className="hidden md:block">
-        <CardHeader>
-          <CardTitle>Recent Orders</CardTitle>
-          <CardDescription>Your latest food adventures</CardDescription>
+          )}
         </CardHeader>
+
         <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Order ID</TableHead>
-                <TableHead>Restaurant</TableHead>
-                <TableHead>Date</TableHead>
-                <TableHead>Amount</TableHead>
-                <TableHead>Status</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {recentOrders.map((order) => (
-                <TableRow key={order.id}>
-                  <TableCell className="font-medium">{order.id}</TableCell>
-                  <TableCell>{order.restaurant}</TableCell>
-                  <TableCell>{order.date}</TableCell>
-                  <TableCell>{order.total}</TableCell>
-                  <TableCell>
-                    <Badge
-                      variant="secondary"
-                      className={
-                        order.status === "Delivered"
-                          ? "bg-success-soft text-success hover:bg-success-soft/80 border-success/20"
-                          : "bg-warning-soft text-warning hover:bg-warning-soft/80 border-warning/20"
-                      }
-                    >
-                      {order.status}
-                    </Badge>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-          <div className="mt-4 text-center">
-            <Button variant="ghost" size="sm" className="text-primary font-medium">View All Orders</Button>
+          <div className="flex flex-col sm:flex-row items-center gap-6 py-4">
+            {/* Avatar + upload */}
+            <div className="relative shrink-0">
+              <Avatar className="h-24 w-24 border-4 border-primary/10">
+                {uploading ? (
+                  <AvatarFallback>
+                    <div className="animate-spin h-6 w-6 border-2 border-primary border-t-transparent rounded-full" />
+                  </AvatarFallback>
+                ) : (
+                  <>
+                    <AvatarImage src={user.profileImage} alt={user.name} />
+                    <AvatarFallback className="text-lg font-bold bg-primary/10 text-primary">
+                      {initials}
+                    </AvatarFallback>
+                  </>
+                )}
+              </Avatar>
+              <button
+                type="button"
+                onClick={() => fileInputRef.current?.click()}
+                disabled={uploading}
+                className="absolute -bottom-1 -right-1 bg-primary text-primary-foreground rounded-full p-1.5 shadow-md hover:bg-primary/90 transition-colors disabled:opacity-50"
+                title="Change profile photo"
+              >
+                <CameraIcon className="h-3.5 w-3.5" />
+              </button>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={handleImageChange}
+              />
+            </div>
+
+            {/* Form fields */}
+            <div className="flex-1 w-full space-y-4">
+              {editing ? (
+                <>
+                  <div className="space-y-1.5">
+                    <Label htmlFor="profile-name" className="flex items-center gap-1.5 text-sm font-medium">
+                      <UserIcon className="h-3.5 w-3.5" /> Full Name
+                    </Label>
+                    <Input
+                      id="profile-name"
+                      value={form.name}
+                      onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
+                      placeholder="Your full name"
+                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label htmlFor="profile-phone" className="flex items-center gap-1.5 text-sm font-medium">
+                      <PhoneIcon className="h-3.5 w-3.5" /> Phone Number
+                    </Label>
+                    <Input
+                      id="profile-phone"
+                      value={form.phone}
+                      onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))}
+                      placeholder="+1 (555) 000-0000"
+                    />
+                  </div>
+                </>
+              ) : (
+                <div className="grid gap-1 text-center sm:text-left">
+                  <h3 className="text-2xl font-semibold">{user.name}</h3>
+                  <p className="text-muted-foreground text-sm">{user.email}</p>
+                  {user.phone && <p className="text-muted-foreground text-sm">{user.phone}</p>}
+                  <div className="mt-2 flex flex-wrap gap-2 justify-center sm:justify-start">
+                    <Badge variant="secondary" className="capitalize">{user.role}</Badge>
+                    <Badge variant="outline">Member since {memberSince}</Badge>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </CardContent>
       </Card>

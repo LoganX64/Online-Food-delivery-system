@@ -16,6 +16,7 @@ import {
   MapPinIcon,
   CreditCardIcon,
   BellIcon,
+  LockIcon,
   LogOutIcon,
   HomeIcon,
 } from "lucide-react"
@@ -26,14 +27,16 @@ const navItems = [
   { title: "Saved Addresses",  id: "addresses",      icon: MapPinIcon },
   { title: "Payment Methods",  id: "payment",        icon: CreditCardIcon },
   { title: "Notifications",    id: "notifications",  icon: BellIcon },
+  { title: "Security",         id: "security",       icon: LockIcon },
 ]
 
 interface UserSidebarProps extends React.ComponentProps<typeof Sidebar> {
   activeTab: string
   setActiveTab: (tab: string) => void
+  onLogout?: () => void
 }
 
-export function UserSidebar({ activeTab, setActiveTab, ...props }: UserSidebarProps) {
+export function UserSidebar({ activeTab, setActiveTab, onLogout, ...props }: UserSidebarProps) {
   const { setOpenMobile } = useSidebar()
 
   return (
@@ -76,7 +79,10 @@ export function UserSidebar({ activeTab, setActiveTab, ...props }: UserSidebarPr
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton
-              onClick={() => {}}
+              onClick={() => {
+                setOpenMobile(false)
+                onLogout?.()
+              }}
               className="gap-3 text-destructive hover:text-destructive"
             >
               <LogOutIcon className="size-4" />

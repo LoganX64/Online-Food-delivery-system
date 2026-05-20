@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { loginUser, requestPasswordReset, resetUserPassword } from '../services/auth.service.js';
+import { loginUser, requestPasswordReset, resetUserPassword, updateUserPassword } from '../services/auth.service.js';
 import { createUser } from '../services/user.service.js';
 import { User } from '../models/User.js';
 
@@ -95,6 +95,22 @@ export const resetPassword = async (req: Request, res: Response, next: NextFunct
     const { password } = req.body;
 
     const result = await resetUserPassword(token as string, password);
+    res.status(200).json({ success: true, data: result });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * PUT /auth/update-password — Update password while authenticated.
+ */
+export const updatePassword = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const userId = (req as any).user?.userId;
+    if (!userId) return res.status(401).json({ success: false, error: 'Not authenticated' });
+
+    const { currentPassword, newPassword } = req.body;
+    const result = await updateUserPassword(userId, currentPassword, newPassword);
     res.status(200).json({ success: true, data: result });
   } catch (error) {
     next(error);

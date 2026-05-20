@@ -15,6 +15,8 @@ import AdminLogin from "@/pages/AdminLogin"
 import RestaurantPublic from "@/pages/RestaurantPublic"
 import AllRestaurants from "@/pages/AllRestaurants"
 import NotFound from "@/pages/NotFound"
+import ForgotPassword from "@/pages/ForgotPassword"
+import ResetPassword from "@/pages/ResetPassword"
 
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
@@ -53,6 +55,14 @@ export const router = createBrowserRouter([
       {
         path: "register",
         element: <Register />,
+      },
+      {
+        path: "forgot-password",
+        element: <ForgotPassword />,
+      },
+      {
+        path: "reset-password/:token",
+        element: <ResetPassword />,
       },
       {
         path: "restaurant/login",

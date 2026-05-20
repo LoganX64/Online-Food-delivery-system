@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react"
-import { useSearchParams } from "react-router-dom"
+import { useState, useEffect, useContext } from "react"
+import { useSearchParams, useNavigate } from "react-router-dom"
 import { cn } from "@/lib/utils"
 import { SidebarProvider, SidebarTrigger, SidebarInset } from "@/components/ui/sidebar"
 import { Separator } from "@/components/ui/separator"
@@ -9,19 +9,23 @@ import { OrderHistory } from "@/components/user/OrderHistory"
 import { SavedAddresses } from "@/components/user/SavedAddresses"
 import { PaymentMethods } from "@/components/user/PaymentMethods"
 import { Notifications } from "@/components/user/Notifications"
+import { SecurityTab } from "@/components/user/SecurityTab"
+import { DashboardOverview } from "@/components/user/DashboardOverview"
+import { AuthContext } from "@/context/AuthContext"
+import { Toaster } from "@/components/ui/sonner"
 import {
   UserIcon,
   ShoppingBagIcon,
   MapPinIcon,
   CreditCardIcon,
-  BellIcon,
+  LockIcon,
 } from "lucide-react"
 
 const mobileNavItems = [
-  { id: "personal",       label: "Profile",   icon: UserIcon },
-  { id: "orders",         label: "My Orders", icon: ShoppingBagIcon },
-  { id: "addresses",      label: "Addresses", icon: MapPinIcon },
-  { id: "payment",        label: "Payment",   icon: CreditCardIcon },
+  { id: "personal",  label: "Profile",   icon: UserIcon },
+  { id: "orders",    label: "Orders",    icon: ShoppingBagIcon },
+  { id: "payment",   label: "Payment",   icon: CreditCardIcon },
+  { id: "security",  label: "Security",  icon: LockIcon },
 ]
 
 const tabLabels: Record<string, string> = {
@@ -30,25 +34,36 @@ const tabLabels: Record<string, string> = {
   addresses:     "Saved Addresses",
   payment:       "Payment Methods",
   notifications: "Notifications",
+  security:      "Security",
 }
 
 export function UserDashboard() {
   const [searchParams, setSearchParams] = useSearchParams()
   const tabFromUrl = searchParams.get("tab") || "personal"
   const [activeTab, setActiveTab] = useState(tabFromUrl)
+  const navigate = useNavigate()
+  const auth = useContext(AuthContext)
 
   useEffect(() => {
     setSearchParams({ tab: activeTab }, { replace: true })
   }, [activeTab, setSearchParams])
 
+  const handleLogout = async () => {
+    if (auth) {
+      await auth.logout()
+      navigate("/login", { replace: true })
+    }
+  }
+
   const renderContent = () => {
     switch (activeTab) {
-      case "personal":      return <PersonalInfo />
+      case "personal":      return <DashboardOverview onTabChange={setActiveTab} />
       case "orders":        return <OrderHistory />
       case "addresses":     return <SavedAddresses />
       case "payment":       return <PaymentMethods />
       case "notifications": return <Notifications />
-      default:              return <PersonalInfo />
+      case "security":      return <SecurityTab />
+      default:              return <DashboardOverview onTabChange={setActiveTab} />
     }
   }
 
@@ -56,26 +71,27 @@ export function UserDashboard() {
     <SidebarProvider>
       <div className="flex min-h-screen w-full bg-muted/30">
 
-        {/* ── Sidebar (offcanvas on mobile, persistent on desktop) ── */}
-        <UserSidebar activeTab={activeTab} setActiveTab={setActiveTab} />
+        {/* ── Sidebar ── */}
+        <UserSidebar
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          onLogout={handleLogout}
+        />
 
         <SidebarInset className="flex flex-col flex-1 w-full pb-16 md:pb-0 overflow-x-hidden">
 
-          {/* ── Top Header ─────────────────────────────────────── */}
+          {/* ── Top Header ── */}
           <header className="flex h-14 shrink-0 items-center gap-2 border-b bg-background px-4 lg:px-6 sticky top-0 z-30">
-            {/* Hamburger — visible on all screen sizes */}
             <SidebarTrigger className="-ml-1" />
             <Separator orientation="vertical" className="mr-2 h-4" />
-            {/* Current section title */}
             <span className="font-semibold text-sm md:text-base">
               {tabLabels[activeTab] ?? "My Account"}
             </span>
           </header>
 
-          {/* ── Main Content ───────────────────────────────────── */}
+          {/* ── Main Content ── */}
           <main className="flex-1 p-4 lg:p-6 bg-background/50">
             <div className="max-w-[1400px] mx-auto w-full">
-              {/* Desktop page subtitle */}
               <div className="hidden md:block mb-6">
                 <h1 className="text-3xl font-extrabold tracking-tight">User Dashboard</h1>
                 <p className="text-muted-foreground mt-1">Manage your account, orders, and preferences.</p>
@@ -88,7 +104,7 @@ export function UserDashboard() {
 
         </SidebarInset>
 
-        {/* ── Mobile Bottom Navbar ──────────────────────────────── */}
+        {/* ── Mobile Bottom Navbar ── */}
         <nav className="md:hidden fixed bottom-0 left-0 right-0 border-t bg-background z-50 flex items-center h-16">
           {mobileNavItems.map((item) => (
             <button
@@ -109,6 +125,7 @@ export function UserDashboard() {
         </nav>
 
       </div>
+      <Toaster position="top-center" />
     </SidebarProvider>
   )
 }

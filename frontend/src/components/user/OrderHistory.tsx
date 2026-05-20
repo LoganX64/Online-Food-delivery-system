@@ -1,40 +1,77 @@
-import { useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Badge } from "@/components/ui/badge"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
-import { SearchIcon, FilterIcon, EyeIcon } from "lucide-react"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Skeleton } from "@/components/ui/skeleton"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { SearchIcon, FilterIcon, EyeIcon, ShoppingBagIcon } from "lucide-react"
+import { orderApi, type Order } from "@/api/order.api"
+import { toast } from "sonner"
+
+const STATUS_MAP: Record<Order["status"], { label: string; className: string }> = {
+  created:          { label: "Created",          className: "bg-muted text-muted-foreground" },
+  placed:           { label: "Placed",            className: "bg-blue-100 text-blue-700" },
+  accepted:         { label: "Accepted",          className: "bg-indigo-100 text-indigo-700" },
+  preparing:        { label: "Preparing",         className: "bg-yellow-100 text-yellow-700" },
+  out_for_delivery: { label: "Out for Delivery",  className: "bg-orange-100 text-orange-700" },
+  delivered:        { label: "Delivered",         className: "bg-green-100 text-green-700" },
+  rejected:         { label: "Rejected",          className: "bg-red-100 text-red-700" },
+  cancelled:        { label: "Cancelled",         className: "bg-destructive/10 text-destructive" },
+}
+
+function StatusBadge({ status }: { status: Order["status"] }) {
+  const s = STATUS_MAP[status] ?? { label: status, className: "" }
+  return <Badge variant="secondary" className={s.className}>{s.label}</Badge>
+}
 
 export function OrderHistory() {
+  const [orders, setOrders] = useState<Order[]>([])
+  const [loading, setLoading] = useState(true)
   const [filter, setFilter] = useState("All")
+  const [search, setSearch] = useState("")
 
-  const orders = [
-    { id: "#ORD-7721", restaurant: "Pizza Hut", total: "$42.50", status: "Delivered", items: "2x Pepperoni Pizza, 1x Garlic Bread", date: "Oct 12, 2023" },
-    { id: "#ORD-7722", restaurant: "Burger King", total: "$15.00", status: "Processing", items: "1x Whopper Meal, 1x Coke", date: "Oct 15, 2023" },
-    { id: "#ORD-7723", restaurant: "KFC", total: "$28.00", status: "Cancelled", items: "1x Family Bucket", date: "Oct 10, 2023" },
-    { id: "#ORD-7724", restaurant: "Starbucks", total: "$12.50", status: "Delivered", items: "1x Caramel Macchiato, 1x Croissant", date: "Oct 08, 2023" },
-    { id: "#ORD-7725", restaurant: "Subway", total: "$18.20", status: "Delivered", items: "1x Footlong BMT", date: "Oct 05, 2023" },
-  ]
-
-  const filteredOrders = filter === "All"
-    ? orders
-    : orders.filter(o => {
-        if (filter === "Pending") return o.status === "Processing" || o.status === "Placed"
-        if (filter === "Completed") return o.status === "Delivered"
-        if (filter === "Cancelled") return o.status === "Cancelled"
-        return true
+  useEffect(() => {
+    orderApi
+      .getMyOrders()
+      .then(setOrders)
+      .catch((err) => {
+        toast.error(err?.message || "Failed to load orders")
       })
+      .finally(() => setLoading(false))
+  }, [])
 
-  const getStatusBadge = (status: string) => {
-    switch (status) {
-      case "Delivered": return <Badge variant="secondary" className="bg-success-soft text-success hover:bg-success-soft/80 border-success/20">Delivered</Badge>
-      case "Processing": return <Badge variant="secondary" className="bg-warning-soft text-warning hover:bg-warning-soft/80 border-warning/20">Processing</Badge>
-      case "Cancelled": return <Badge variant="secondary" className="bg-destructive-soft text-destructive hover:bg-destructive-soft/80 border-destructive/20">Cancelled</Badge>
-      default: return <Badge variant="outline">{status}</Badge>
-    }
-  }
+  const filtered = orders.filter((o) => {
+    const matchesTab =
+      filter === "All"
+        ? true
+        : filter === "Active"
+        ? ["placed", "accepted", "preparing", "out_for_delivery"].includes(o.status)
+        : filter === "Delivered"
+        ? o.status === "delivered"
+        : ["rejected", "cancelled"].includes(o.status)
+
+    const restaurant =
+      typeof o.restaurantId === "object" ? o.restaurantId.name : o.restaurantId
+
+    const matchesSearch =
+      !search ||
+      restaurant.toLowerCase().includes(search.toLowerCase()) ||
+      o._id.includes(search)
+
+    return matchesTab && matchesSearch
+  })
+
+  const restaurantName = (o: Order) =>
+    typeof o.restaurantId === "object" ? o.restaurantId.name : "Restaurant"
+
+  const formatDate = (iso: string) =>
+    new Date(iso).toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    })
 
   return (
     <Card className="w-full">
@@ -42,12 +79,18 @@ export function OrderHistory() {
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <CardTitle className="text-2xl font-bold">Order History</CardTitle>
-            <CardDescription>Manage and track your previous orders</CardDescription>
+            <CardDescription>Track and manage your previous orders</CardDescription>
           </div>
           <div className="flex items-center gap-2">
             <div className="relative">
               <SearchIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input type="search" placeholder="Search orders..." className="pl-8 w-[200px] lg:w-[300px]" />
+              <Input
+                type="search"
+                placeholder="Search orders…"
+                className="pl-8 w-[200px] lg:w-[280px]"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
             </div>
             <Button variant="outline" size="icon">
               <FilterIcon className="h-4 w-4" />
@@ -56,93 +99,103 @@ export function OrderHistory() {
         </div>
         <div className="mt-4">
           <Tabs defaultValue="All" onValueChange={setFilter} className="w-full">
-            <TabsList className="grid w-full grid-cols-4 lg:w-[400px]">
+            <TabsList className="grid w-full grid-cols-4 lg:w-[420px]">
               <TabsTrigger value="All">All</TabsTrigger>
-              <TabsTrigger value="Pending">Pending</TabsTrigger>
-              <TabsTrigger value="Completed">Completed</TabsTrigger>
+              <TabsTrigger value="Active">Active</TabsTrigger>
+              <TabsTrigger value="Delivered">Delivered</TabsTrigger>
               <TabsTrigger value="Cancelled">Cancelled</TabsTrigger>
             </TabsList>
           </Tabs>
         </div>
       </CardHeader>
+
       <CardContent>
-        {/* Desktop View */}
-        <div className="hidden md:block rounded-md border overflow-x-auto">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="w-[100px]">Order ID</TableHead>
-                <TableHead>Restaurant</TableHead>
-                <TableHead className="hidden lg:table-cell">Order Items</TableHead>
-                <TableHead>Date</TableHead>
-                <TableHead>Total</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead className="text-right">Action</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredOrders.length > 0 ? (
-                filteredOrders.map((order) => (
-                  <TableRow key={order.id}>
-                    <TableCell className="font-medium">{order.id}</TableCell>
-                    <TableCell>{order.restaurant}</TableCell>
-                    <TableCell className="hidden lg:table-cell max-w-[300px] truncate text-muted-foreground text-sm">
-                      {order.items}
-                    </TableCell>
-                    <TableCell className="text-sm">{order.date}</TableCell>
-                    <TableCell className="font-semibold">{order.total}</TableCell>
-                    <TableCell>{getStatusBadge(order.status)}</TableCell>
-                    <TableCell className="text-right">
-                      <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                        <EyeIcon className="h-4 w-4 text-primary" />
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                ))
-              ) : (
-                <TableRow>
-                  <TableCell colSpan={7} className="h-24 text-center text-muted-foreground">
-                    No orders found matching your filter.
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </div>
-
-        {/* Mobile View */}
-        <div className="md:hidden space-y-4">
-          {filteredOrders.length > 0 ? (
-            filteredOrders.map((order) => (
-              <div key={order.id} className="p-4 rounded-xl border bg-card shadow-sm space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="font-bold text-primary">{order.id}</span>
-                  {getStatusBadge(order.status)}
-                </div>
-                <div>
-                  <h4 className="font-bold">{order.restaurant}</h4>
-                  <p className="text-xs text-muted-foreground">{order.items}</p>
-                </div>
-                <div className="flex items-center justify-between pt-2 border-t text-sm">
-                  <span className="text-muted-foreground">{order.date}</span>
-                  <span className="font-bold text-lg">{order.total}</span>
-                </div>
-                <Button variant="outline" className="w-full text-xs" size="sm">
-                  <EyeIcon className="h-3 w-3 mr-2" /> View Details
-                </Button>
-              </div>
-            ))
-          ) : (
-            <div className="py-12 text-center text-muted-foreground border rounded-xl bg-muted/20">
-              No orders found.
+        {loading ? (
+          <div className="space-y-3">
+            {[1, 2, 3].map((i) => (
+              <Skeleton key={i} className="h-14 w-full rounded-lg" />
+            ))}
+          </div>
+        ) : filtered.length === 0 ? (
+          <div className="py-20 flex flex-col items-center gap-4 text-muted-foreground">
+            <div className="bg-muted w-16 h-16 rounded-full flex items-center justify-center">
+              <ShoppingBagIcon className="h-8 w-8" />
             </div>
-          )}
-        </div>
+            <p className="font-medium">No orders yet</p>
+            <p className="text-sm">Your order history will appear here.</p>
+          </div>
+        ) : (
+          <>
+            {/* Desktop */}
+            <div className="hidden md:block rounded-md border overflow-x-auto">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="w-[120px]">Order ID</TableHead>
+                    <TableHead>Restaurant</TableHead>
+                    <TableHead>Items</TableHead>
+                    <TableHead>Date</TableHead>
+                    <TableHead>Total</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead className="text-right">Action</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {filtered.map((order) => (
+                    <TableRow key={order._id}>
+                      <TableCell className="font-mono text-xs text-muted-foreground">
+                        #{order._id.slice(-6).toUpperCase()}
+                      </TableCell>
+                      <TableCell className="font-medium">{restaurantName(order)}</TableCell>
+                      <TableCell className="text-sm text-muted-foreground max-w-[250px] truncate">
+                        {order.items.map((i) => `${i.quantity}× ${i.name}`).join(", ")}
+                      </TableCell>
+                      <TableCell className="text-sm">{formatDate(order.createdAt)}</TableCell>
+                      <TableCell className="font-semibold">
+                        ₹{order.totalAmount.toFixed(2)}
+                      </TableCell>
+                      <TableCell>
+                        <StatusBadge status={order.status} />
+                      </TableCell>
+                      <TableCell className="text-right">
+                        <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                          <EyeIcon className="h-4 w-4 text-primary" />
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
 
-        <div className="mt-6 flex items-center justify-end space-x-2">
-          <Button variant="outline" size="sm">Previous</Button>
-          <Button variant="outline" size="sm">Next</Button>
-        </div>
+            {/* Mobile */}
+            <div className="md:hidden space-y-4">
+              {filtered.map((order) => (
+                <div key={order._id} className="p-4 rounded-xl border bg-card shadow-sm space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="font-bold text-primary font-mono text-sm">
+                      #{order._id.slice(-6).toUpperCase()}
+                    </span>
+                    <StatusBadge status={order.status} />
+                  </div>
+                  <div>
+                    <h4 className="font-bold">{restaurantName(order)}</h4>
+                    <p className="text-xs text-muted-foreground">
+                      {order.items.map((i) => `${i.quantity}× ${i.name}`).join(", ")}
+                    </p>
+                  </div>
+                  <div className="flex items-center justify-between pt-2 border-t text-sm">
+                    <span className="text-muted-foreground">{formatDate(order.createdAt)}</span>
+                    <span className="font-bold text-lg">₹{order.totalAmount.toFixed(2)}</span>
+                  </div>
+                  <Button variant="outline" className="w-full text-xs" size="sm">
+                    <EyeIcon className="h-3 w-3 mr-2" /> View Details
+                  </Button>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
       </CardContent>
     </Card>
   )

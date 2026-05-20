@@ -195,3 +195,56 @@ export const cartRemoveSchema = z.object({
     menuItemId: z.string().regex(/^[0-9a-fA-F]{24}$/, 'Invalid menu item ID'),
   }),
 });
+
+// ─── Auth — Update Password ───────────────────────────────────
+
+const passwordStrengthSchema = z
+  .string()
+  .min(8, 'Password must be at least 8 characters')
+  .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
+  .regex(/[a-z]/, 'Password must contain at least one lowercase letter')
+  .regex(/[0-9]/, 'Password must contain at least one number')
+  .regex(/[^A-Za-z0-9]/, 'Password must contain at least one special character');
+
+export const updatePasswordSchema = z.object({
+  body: z.object({
+    currentPassword: z.string().min(1, 'Current password is required'),
+    newPassword: passwordStrengthSchema,
+  }),
+});
+
+// ─── Payment Method Schemas ───────────────────────────────────
+
+export const paymentMethodCreateSchema = z.object({
+  body: z.object({
+    provider: z.string().trim().min(1, 'Provider is required'),
+    last4: z
+      .string()
+      .regex(/^\d{4}$/, 'last4 must be exactly 4 digits')
+      .optional(),
+    token: z.string().trim().min(1, 'Token/reference is required'),
+    isDefault: z.boolean().optional(),
+  }),
+});
+
+export const paymentMethodUpdateSchema = z.object({
+  body: z.object({
+    provider: z.string().trim().min(1, 'Provider cannot be empty').optional(),
+    last4: z
+      .string()
+      .regex(/^\d{4}$/, 'last4 must be exactly 4 digits')
+      .optional(),
+    token: z.string().trim().min(1, 'Token cannot be empty').optional(),
+    isDefault: z.boolean().optional(),
+  }),
+});
+
+// ─── Notification Schemas ─────────────────────────────────────
+
+export const notificationCreateSchema = z.object({
+  body: z.object({
+    title: z.string().trim().min(1, 'Title is required'),
+    message: z.string().trim().min(1, 'Message is required'),
+    type: z.enum(['success', 'info', 'warning', 'promotion']).default('info'),
+  }),
+});
