@@ -312,3 +312,9 @@ change.
   - **Fix:** Changed the mount path in `server.ts` from `app.use('/api/restaurants', restaurantRoutes)` to `app.use('/api/restaurant', restaurantRoutes)`. The public discovery routes (`restaurantsRoutes`) remain correctly mounted at `/api/restaurants`.
   - **Verified:** End-to-end test confirmed user (`restaurantOwner` role) and linked restaurant record are correctly created in MongoDB. Frontend redirects to partner login on success.
 
+- User Dashboard Polish & Feature Completion — Full implementation:
+  - **Address Management:** Integrated full CRUD functionality into the `SavedAddresses` dashboard tab using the backend `/api/addresses` endpoint via a new API client.
+  - **Dashboard Overview:** Redesigned the primary `?tab=personal` view into a unified `DashboardOverview` grid rendering the user's Personal Info, Default Address card, and top 3 Recent Orders spanning full-width below.
+  - **Safe Deletions:** Engineered a reusable `ConfirmDeleteDialog` component powered by shadcn/ui. Wrapped all destructive dashboard actions (removing addresses, payment methods, notifications) inside this protected dialog to prevent accidental clicks.
+  - **Scroll Restoration:** Implemented `react-router-dom` v6 `<ScrollRestoration />` provider at the root layout boundary to perfectly emulate native browser scroll-to-top and position restoration during SPA route navigation.
+  - **Footer & Static Pages:** Constructed a unified `InfoPages.tsx` template engine and generated 11 responsive, highly-styled static pages (About Us, Careers, Contact, FAQs, Privacy Policy, etc.). Stripped dead anchor tags (`href="#"`) and the "Track Order" link from the Footer, replacing them with functional router `<Link>` elements mapped to the new info pages.
