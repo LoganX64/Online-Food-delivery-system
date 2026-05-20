@@ -17,6 +17,10 @@ import AllRestaurants from "@/pages/AllRestaurants"
 import NotFound from "@/pages/NotFound"
 import ForgotPassword from "@/pages/ForgotPassword"
 import ResetPassword from "@/pages/ResetPassword"
+import { 
+  AboutUs, Careers, Contact, Blog, Support, SafetyConcerns, FAQs, 
+  PrivacyPolicy, TermsOfService, CookiePolicy, Accessibility 
+} from "@/pages/InfoPages"
 
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
@@ -115,6 +119,50 @@ export const router = createBrowserRouter([
             <Orders />
           </ProtectedRoute>
         ),
+      },
+      {
+        path: "about",
+        element: <AboutUs />,
+      },
+      {
+        path: "careers",
+        element: <Careers />,
+      },
+      {
+        path: "contact",
+        element: <Contact />,
+      },
+      {
+        path: "blog",
+        element: <Blog />,
+      },
+      {
+        path: "support",
+        element: <Support />,
+      },
+      {
+        path: "safety",
+        element: <SafetyConcerns />,
+      },
+      {
+        path: "faq",
+        element: <FAQs />,
+      },
+      {
+        path: "privacy",
+        element: <PrivacyPolicy />,
+      },
+      {
+        path: "terms",
+        element: <TermsOfService />,
+      },
+      {
+        path: "cookies",
+        element: <CookiePolicy />,
+      },
+      {
+        path: "accessibility",
+        element: <Accessibility />,
       },
       {
         path: "*",
