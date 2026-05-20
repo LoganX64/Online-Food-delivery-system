@@ -51,7 +51,7 @@ app.use('/api/health', healthRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/addresses', addressRoutes);
-app.use('/api/restaurants', restaurantRoutes);
+app.use('/api/restaurant', restaurantRoutes);
 app.use('/api/restaurants', restaurantsRoutes);
 app.use('/api/menus', menuRoutes);
 app.use('/api/orders', orderRoutes);
