@@ -21,7 +21,7 @@ import ResetPassword from "@/pages/ResetPassword"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { BottomNav } from "@/components/bottom-nav"
-import { Outlet } from "react-router-dom"
+import { Outlet, ScrollRestoration } from "react-router-dom"
 import { Toaster } from "@/components/ui/sonner"
 import { ProtectedRoute } from "@/components/ProtectedRoute"
 
@@ -41,8 +41,16 @@ function Layout() {
 
 export const router = createBrowserRouter([
   {
-    path: "/",
-    element: <Layout />,
+    element: (
+      <>
+        <ScrollRestoration />
+        <Outlet />
+      </>
+    ),
+    children: [
+      {
+        path: "/",
+        element: <Layout />,
     children: [
       {
         index: true,
@@ -147,5 +155,7 @@ export const router = createBrowserRouter([
       </ProtectedRoute>
     ),
   },
+    ],
+  }
 ])
 
