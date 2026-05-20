@@ -11,6 +11,7 @@ import {
 import { CreditCardIcon, Trash2Icon, PlusIcon, ShieldCheckIcon, StarIcon } from "lucide-react"
 import { paymentMethodApi, type PaymentMethod } from "@/api/paymentMethod.api"
 import { toast } from "sonner"
+import { ConfirmDeleteDialog } from "@/components/ConfirmDeleteDialog"
 
 const PROVIDERS = ["Visa", "Mastercard", "UPI", "NetBanking", "Amex"]
 
@@ -159,11 +160,14 @@ export function PaymentMethods() {
                       <StarIcon className="h-3 w-3 mr-1" /> Set Default
                     </Button>
                   )}
-                  <Button variant="outline" size="sm"
-                    className="flex-1 text-xs text-destructive hover:text-destructive"
-                    onClick={() => handleDelete(method._id, method.provider)}>
-                    <Trash2Icon className="h-3 w-3 mr-2" /> Remove
-                  </Button>
+                  <ConfirmDeleteDialog 
+                    onConfirm={() => handleDelete(method._id, method.provider)}
+                    title={`Remove ${method.provider}?`}
+                  >
+                    <Button variant="outline" size="sm" className="flex-1 text-xs text-destructive hover:text-destructive">
+                      <Trash2Icon className="h-3 w-3 mr-2" /> Remove
+                    </Button>
+                  </ConfirmDeleteDialog>
                 </div>
               </CardContent>
             </Card>

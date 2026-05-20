@@ -6,6 +6,7 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { BellIcon, Trash2Icon, CheckCircle2Icon, ClockIcon, InfoIcon, TagIcon } from "lucide-react"
 import { notificationApi, type Notification } from "@/api/notification.api"
 import { toast } from "sonner"
+import { ConfirmDeleteDialog } from "@/components/ConfirmDeleteDialog"
 
 function getIcon(type: Notification["type"]) {
   switch (type) {
@@ -141,14 +142,18 @@ export function Notifications() {
                     </div>
                     <p className="text-sm text-muted-foreground line-clamp-2">{n.message}</p>
                     <div className="pt-1 flex justify-end">
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="h-7 text-xs text-destructive hover:text-destructive hover:bg-destructive/10"
-                        onClick={(e) => { e.stopPropagation(); handleDelete(n._id) }}
+                      <ConfirmDeleteDialog 
+                        onConfirm={() => handleDelete(n._id)}
+                        title="Delete Notification?"
                       >
-                        <Trash2Icon className="mr-1 h-3 w-3" /> Delete
-                      </Button>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="h-7 text-xs text-destructive hover:text-destructive hover:bg-destructive/10"
+                        >
+                          <Trash2Icon className="mr-1 h-3 w-3" /> Delete
+                        </Button>
+                      </ConfirmDeleteDialog>
                     </div>
                   </div>
                 </div>

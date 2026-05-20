@@ -9,6 +9,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, Dialog
 import { MapPinIcon, Trash2Icon, EditIcon, PlusIcon, StarIcon } from "lucide-react"
 import { addressApi, type Address } from "@/api/address.api"
 import { toast } from "sonner"
+import { ConfirmDeleteDialog } from "@/components/ConfirmDeleteDialog"
 
 export function SavedAddresses() {
   const [addresses, setAddresses] = useState<Address[]>([])
@@ -88,7 +89,6 @@ export function SavedAddresses() {
   }
 
   const handleDelete = async (id: string, label: string) => {
-    if (!confirm("Are you sure you want to delete this address?")) return
     try {
       await addressApi.remove(id)
       setAddresses((prev) => prev.filter((a) => a._id !== id))
@@ -227,9 +227,14 @@ export function SavedAddresses() {
                     <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-foreground" onClick={() => handleOpenDialog(address)}>
                       <EditIcon className="h-4 w-4" />
                     </Button>
-                    <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-destructive" onClick={() => handleDelete(address._id, address.label)}>
-                      <Trash2Icon className="h-4 w-4" />
-                    </Button>
+                    <ConfirmDeleteDialog 
+                      onConfirm={() => handleDelete(address._id, address.label)}
+                      title={`Delete ${address.label} address?`}
+                    >
+                      <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-destructive">
+                        <Trash2Icon className="h-4 w-4" />
+                      </Button>
+                    </ConfirmDeleteDialog>
                   </div>
                 </div>
               </CardHeader>
