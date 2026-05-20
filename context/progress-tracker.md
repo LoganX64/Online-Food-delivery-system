@@ -307,3 +307,8 @@ change.
   - Implemented Role-Based Login Redirection routing customers to `/`, restaurant owners to `/restaurant-dashboard`, and admins to `/admin-dashboard`.
   - Fixed application-wide Logout redirection to specifically route to the `/login` portal.
 
+- **Bug Fix — Restaurant Registration (`POST /restaurant`):**
+  - **Root Cause:** `backend/src/server.ts` was mounting the restaurant **owner** route handler (`restaurantRoutes`) at `/api/restaurants` (plural), but the frontend `AuthContext.registerRestaurant()` was calling `apiClient('/restaurant', ...)` (singular). This path mismatch caused Express to never match the `POST /restaurant` endpoint, returning the Vite HTML fallback page instead of JSON — which produced the `Unexpected token '<', "<!DOCTYPE "... is not valid JSON` error on the frontend.
+  - **Fix:** Changed the mount path in `server.ts` from `app.use('/api/restaurants', restaurantRoutes)` to `app.use('/api/restaurant', restaurantRoutes)`. The public discovery routes (`restaurantsRoutes`) remain correctly mounted at `/api/restaurants`.
+  - **Verified:** End-to-end test confirmed user (`restaurantOwner` role) and linked restaurant record are correctly created in MongoDB. Frontend redirects to partner login on success.
+
