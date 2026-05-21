@@ -8,8 +8,15 @@ import { AppError } from '../utils/AppError.js';
  * to a generic 500 for unexpected failures.
  */
 export const errorHandler = (err: any, req: Request, res: Response, next: NextFunction) => {
-  console.error('❌ ERROR OCCURRED:', err.message || err);
-  if (err.stack) console.error(err.stack);
+  const statusCode = err.statusCode || (err instanceof AppError ? err.statusCode : 500);
+  
+  if (statusCode >= 500 || (!err.statusCode && !(err instanceof AppError))) {
+    console.error('❌ ERROR OCCURRED:', err.message || err);
+    if (err.stack) console.error(err.stack);
+  } else {
+    // Only log brief message for expected operational errors (400, 401, etc.)
+    console.warn(`⚠️ [${statusCode}] ${err.message || 'Operational Error'}`);
+  }
 
   // ── Known application errors ─────────────────────────────────
   if (err instanceof AppError) {
