@@ -58,9 +58,11 @@ This approach demonstrates how to effectively manage, govern, and scale AI-gener
 
 Watch the application flow and key features in action:
 
-- **Demo:** [View the walkthrough video](https://example.com/demo.mp4)
-
-> Replace the link above with your hosted demo video URL or a relative path once the demo file is added to the repository.
+<video controls width="100%" style="max-width: 900px;">
+  <source src="https://github.com/user-attachments/assets/39952738-2a34-4988-b916-9fc1b4c6cbbc" type="video/mp4">
+  Your browser does not support embedded video. You can still open the link directly:
+  https://github.com/user-attachments/assets/39952738-2a34-4988-b916-9fc1b4c6cbbc
+</video>
 
 ## 🚀 Setup & Installation (Coming Soon)
 
