@@ -319,3 +319,5 @@ change.
   - **Safe Deletions:** Engineered a reusable `ConfirmDeleteDialog` component powered by shadcn/ui. Wrapped all destructive dashboard actions (removing addresses, payment methods, notifications) inside this protected dialog to prevent accidental clicks.
   - **Scroll Restoration:** Implemented `react-router-dom` v6 `<ScrollRestoration />` provider at the root layout boundary to perfectly emulate native browser scroll-to-top and position restoration during SPA route navigation.
   - **Footer & Static Pages:** Constructed a unified `InfoPages.tsx` template engine and generated 11 responsive, highly-styled static pages (About Us, Careers, Contact, FAQs, Privacy Policy, etc.). Stripped dead anchor tags (`href="#"`) and the "Track Order" link from the Footer, replacing them with functional router `<Link>` elements mapped to the new info pages.
+  - **Login UX Polish:** Integrated password visibility eye/eye-off toggle triggers across all login portal interfaces and resolved low-contrast text visibility bugs on authentication failure toasts.
+

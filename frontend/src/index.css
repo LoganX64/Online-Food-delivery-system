@@ -152,3 +152,18 @@
     @apply font-sans;
   }
 }
+
+/* Sonner Toast High-Contrast Overrides */
+[data-sonner-toast] {
+  background-color: var(--popover) !important;
+  border-color: var(--border) !important;
+}
+
+[data-sonner-toast] [data-title] {
+  color: var(--foreground) !important;
+}
+
+[data-sonner-toast] [data-description] {
+  color: var(--foreground) !important;
+  opacity: 0.85 !important;
+}
