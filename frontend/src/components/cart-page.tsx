@@ -18,38 +18,38 @@ export function CartPage() {
 
   const updateCount = (id: number, delta: number) => {
     const dishName = DISHES.find(d => d.id === id)?.name ?? "Item"
-    setCartCounts((prev) => {
-      const current = prev[id] || 0
-      const next = current + delta
-      let updated: CartItems
+    const current = cartCounts[id] || 0
+    const next = current + delta
+    let updated: CartItems
 
-      if (next <= 0) {
-        const { [id]: _, ...rest } = prev
-        updated = rest
-        toast(`${dishName} removed from cart`, {
-          icon: <Trash2 className="h-4 w-4 text-destructive" />,
+    if (next <= 0) {
+      const { [id]: _, ...rest } = cartCounts
+      updated = rest
+    } else {
+      updated = { ...cartCounts, [id]: next }
+    }
+
+    setCartCounts(updated)
+    saveCartToStorage(updated)
+
+    if (next <= 0) {
+      toast(`${dishName} removed from cart`, {
+        icon: <Trash2 className="h-4 w-4 text-destructive" />,
+      })
+      if (Object.keys(updated).length === 0) {
+        toast("Your cart is now empty", {
+          icon: <ShoppingCart className="h-4 w-4" />,
         })
-        if (Object.keys(updated).length === 0) {
-          toast("Your cart is now empty", {
-            icon: <ShoppingCart className="h-4 w-4" />,
-          })
-        }
-      } else {
-        updated = { ...prev, [id]: next }
-        if (delta > 0) {
-          toast(`${dishName} quantity increased`, {
-            icon: <Plus className="h-4 w-4 text-primary" />,
-          })
-        } else {
-          toast(`${dishName} quantity decreased`, {
-            icon: <Minus className="h-4 w-4 text-primary" />,
-          })
-        }
       }
-
-      saveCartToStorage(updated)
-      return updated
-    })
+    } else if (delta > 0) {
+      toast(`${dishName} quantity increased`, {
+        icon: <Plus className="h-4 w-4 text-primary" />,
+      })
+    } else {
+      toast(`${dishName} quantity decreased`, {
+        icon: <Minus className="h-4 w-4 text-primary" />,
+      })
+    }
   }
 
   const removeItem = (id: number) => {
@@ -61,13 +61,12 @@ export function CartPage() {
 
   const addToCart = (id: number) => {
     const dishName = DISHES.find(d => d.id === id)?.name ?? "Item"
-    setCartCounts((prev) => {
-      const updated = { ...prev, [id]: (prev[id] || 0) + 1 }
-      saveCartToStorage(updated)
-      toast(`${dishName} added to cart`, {
-        icon: <ShoppingCart className="h-4 w-4 text-primary" />,
-      })
-      return updated
+    const updated = { ...cartCounts, [id]: (cartCounts[id] || 0) + 1 }
+
+    setCartCounts(updated)
+    saveCartToStorage(updated)
+    toast(`${dishName} added to cart`, {
+      icon: <ShoppingCart className="h-4 w-4 text-primary" />,
     })
   }
 

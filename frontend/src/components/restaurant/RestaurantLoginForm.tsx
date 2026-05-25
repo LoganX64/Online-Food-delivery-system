@@ -25,7 +25,7 @@ export function RestaurantLoginForm({ className, ...props }: RestaurantLoginForm
     setIsLoading(true)
 
     try {
-      await login({ email, password })
+      await login({ email, password }, "restaurantOwner")
       toast.success("Welcome back, Restaurant Partner!", {
         description: "Redirecting to your dashboard...",
         icon: <Store className="h-5 w-5 text-primary" />,

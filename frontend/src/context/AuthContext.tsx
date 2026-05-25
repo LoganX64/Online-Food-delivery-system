@@ -11,12 +11,14 @@ import {
 } from '../api/user.api';
 import { toast } from 'sonner';
 
+type UserRole = 'customer' | 'restaurantOwner' | 'admin';
+
 export interface AuthContextType {
   user: User | null;
-  role: 'customer' | 'restaurantOwner' | 'admin' | null;
+  role: UserRole | null;
   isAuthenticated: boolean;
   isLoading: boolean;
-  login: (credentials: LoginCredentials) => Promise<User>;
+  login: (credentials: LoginCredentials, expectedRole?: UserRole) => Promise<User>;
   registerCustomer: (data: Omit<RegisterCredentials, 'role'>) => Promise<User>;
   registerRestaurant: (userData: RegisterCredentials, restaurantData: any) => Promise<void>;
   logout: () => Promise<void>;
@@ -51,8 +53,17 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     checkSession();
   }, [checkSession]);
 
-  const login = async (credentials: LoginCredentials) => {
+  const login = async (credentials: LoginCredentials, expectedRole?: UserRole) => {
     const { user: loggedInUser } = await authApi.login(credentials);
+
+    if (expectedRole && loggedInUser.role !== expectedRole) {
+      await authApi.logout().catch(() => undefined);
+      setUser(null);
+      throw new Error(
+        'Invalid credentials for this login portal.'
+      );
+    }
+
     setUser(loggedInUser);
     return loggedInUser;
   };

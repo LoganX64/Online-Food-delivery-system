@@ -30,17 +30,12 @@ export function LoginForm({
     setIsLoading(true)
 
     try {
-      const user = await login({ email, password })
+      await login({ email, password }, "customer")
       toast.success("Welcome to FoodieFlow!", {
         description: "Login successful. Redirecting to your dashboard...",
       })
 
-      let defaultPath = "/";
-      if (user.role === "restaurantOwner") defaultPath = "/restaurant-dashboard";
-      if (user.role === "admin") defaultPath = "/admin-dashboard";
-
-      // Redirect back to intended page (e.g. checkout) or the role-based default
-      const from = location.state?.from?.pathname || defaultPath
+      const from = location.state?.from?.pathname || "/"
       navigate(from, { replace: true })
     } catch (error: any) {
       toast.error("Login Failed", {

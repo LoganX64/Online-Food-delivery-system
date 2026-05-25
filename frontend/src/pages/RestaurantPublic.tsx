@@ -233,28 +233,26 @@ export default function RestaurantPublic() {
   }, [])
 
   const updateCount = (dishId: number, delta: number, dishName: string) => {
-    setCartCounts((prev) => {
-      const current = prev[dishId] || 0
-      const next = current + delta
-      let updated: CartItems
-      
-      if (next <= 0) {
-        const { [dishId]: _, ...rest } = prev
-        updated = rest
-      } else {
-        updated = { ...prev, [dishId]: next }
-      }
-      
-      saveCartToStorage(updated)
-      
-      if (delta > 0) {
-        toast.success(`${dishName} added to cart!`, {
-          icon: <ShoppingCart className="h-4 w-4 text-primary" />,
-          duration: 1500
-        })
-      }
-      return updated
-    })
+    const current = cartCounts[dishId] || 0
+    const next = current + delta
+    let updated: CartItems
+    
+    if (next <= 0) {
+      const { [dishId]: _, ...rest } = cartCounts
+      updated = rest
+    } else {
+      updated = { ...cartCounts, [dishId]: next }
+    }
+    
+    setCartCounts(updated)
+    saveCartToStorage(updated)
+    
+    if (delta > 0) {
+      toast.success(`${dishName} added to cart!`, {
+        icon: <ShoppingCart className="h-4 w-4 text-primary" />,
+        duration: 1500
+      })
+    }
   }
 
   // Filtered menu search
@@ -271,17 +269,13 @@ export default function RestaurantPublic() {
   }
 
   const handleReorder = (items: any[]) => {
-    setCartCounts((prev) => {
-      const updated = { ...prev }
-      items.forEach((item) => {
-        updated[item.dishId] = (updated[item.dishId] || 0) + item.quantity
-      })
-      saveCartToStorage(updated)
-      
-      // Dispatch custom cart event to notify other parts of the app
-      window.dispatchEvent(new Event("cartUpdated"))
-      return updated
+    const updated = { ...cartCounts }
+    items.forEach((item) => {
+      updated[item.dishId] = (updated[item.dishId] || 0) + item.quantity
     })
+    setCartCounts(updated)
+    saveCartToStorage(updated)
+
     toast.success("Previous order items added to your cart!", {
       icon: <ShoppingCart className="h-4 w-4 text-primary" />,
       description: `Successfully added ${items.length} item(s) to checkout.`

@@ -25,7 +25,7 @@ export function AdminLoginForm({ className, ...props }: AdminLoginFormProps) {
     setIsLoading(true)
 
     try {
-      await login({ email, password })
+      await login({ email, password }, "admin")
       toast.success("Administrator Authenticated!", {
         description: "Welcome to FoodieFlow HQ. Launching console...",
         icon: <ShieldCheck className="h-5 w-5 text-primary" />,

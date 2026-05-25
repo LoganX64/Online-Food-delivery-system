@@ -222,6 +222,18 @@ change.
   - Wired `MenuEditor.tsx` to execute full CRUD operations against `MenuItem` collections, including native `FormData` handling for Cloudinary image uploads.
   - Integrated `sonner` toasts for all API feedback and error handling.
 
+- Auth Portal Role Guard & Restaurant Logout Bug Fix:
+  - Extended `AuthContext.login()` with an optional expected role guard that clears the HTTP-only cookie and frontend auth state when credentials are submitted through the wrong portal.
+  - Enforced customer-only login at `/login`, restaurant-owner-only login at `/restaurant/login`, and admin-only login at `/admin/login`.
+  - Kept wrong-portal login errors generic so the UI does not reveal account role information.
+  - Updated restaurant dashboard logout to use shared `AuthContext.logout()` so both backend cookie state and frontend auth state are cleared before redirecting to `/restaurant/login`.
+  - Made the restaurant sidebar logout control an explicit button and close the mobile sidebar before logging out.
+
+- Cart Toast De-duplication Bug Fix:
+  - Moved cart persistence and toast notifications out of React state updater callbacks in `menus-page.tsx`, `cart-page.tsx`, and `RestaurantPublic.tsx`.
+  - Prevented React StrictMode from firing duplicate add/remove cart toast messages while preserving localStorage cart updates and navbar cart badge refresh events.
+  - Removed an extra manual `cartUpdated` dispatch from reorder flow because `saveCartToStorage()` already emits the cart update event.
+
 ## In Progress
 
 ## Next Up
@@ -335,5 +347,3 @@ change.
   - **Change Password Card:** Integrated inline Change Password functionality within the Settings dashboard tab, complete with visibility toggle controls and clientside validation checks.
   - **Category Endpoint:** Created Category DB model, service methods, controllers, and Express routes scoped to the restaurant owner. Enabled unique categories per restaurant.
   - **Menu Editor Wiring:** Rewired frontend `MenuEditor.tsx` to dynamically query and manage categories. Updated food item creation modal to select from available categories and auto-assign `restaurantId` on the backend, securing the request pipeline.
-
-

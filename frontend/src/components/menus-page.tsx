@@ -88,25 +88,26 @@ export function MenusPage() {
   // Storing/Quantity Trigger Handler
   const updateCount = (id: number, delta: number) => {
     const dishName = DISHES.find(d => d.id === id)?.name ?? "Item";
-    setCartCounts((prev) => {
-      const current = prev[id] || 0;
-      const next = current + delta;
-      let updated: CartItems;
-      if (next <= 0) {
-        const { [id]: _, ...rest } = prev;
-        updated = rest;
-      } else {
-        updated = { ...prev, [id]: next };
-      }
-      saveCartToStorage(updated);
-      if (delta > 0) {
-        toast(dishName + " added to cart", {
-          icon: <ShoppingCart className="h-4 w-4 text-primary" />,
-          duration: 2000,
-        });
-      }
-      return updated;
-    });
+    const current = cartCounts[id] || 0;
+    const next = current + delta;
+    let updated: CartItems;
+
+    if (next <= 0) {
+      const { [id]: _, ...rest } = cartCounts;
+      updated = rest;
+    } else {
+      updated = { ...cartCounts, [id]: next };
+    }
+
+    setCartCounts(updated);
+    saveCartToStorage(updated);
+
+    if (delta > 0) {
+      toast(dishName + " added to cart", {
+        icon: <ShoppingCart className="h-4 w-4 text-primary" />,
+        duration: 2000,
+      });
+    }
   };
 
   // Filter & Sort Logic

@@ -112,7 +112,14 @@ export function RestaurantSidebar({ activeTab, setActiveTab, onQuickCreate, onLo
       <SidebarFooter className="p-4 border-t">
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton onClick={onLogout} className="gap-3 text-destructive hover:text-destructive hover:bg-destructive/5 rounded-md px-3 h-9">
+            <SidebarMenuButton
+              type="button"
+              onClick={() => {
+                setOpenMobile(false)
+                onLogout?.()
+              }}
+              className="gap-3 text-destructive hover:text-destructive hover:bg-destructive/5 rounded-md px-3 h-9"
+            >
               <LogOutIcon className="size-4" />
               <span className="font-medium group-data-[collapsible=icon]:hidden">Logout</span>
             </SidebarMenuButton>

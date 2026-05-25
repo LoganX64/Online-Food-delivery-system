@@ -7,7 +7,7 @@ import { LiveOrders } from "../components/restaurant/LiveOrders"
 import { MenuEditor } from "../components/restaurant/MenuEditor"
 import { OrderHistory } from "../components/restaurant/OrderHistory"
 import { Settings } from "../components/restaurant/Settings"
-import { authApi } from "@/api/auth.api"
+import { useAuth } from "@/hooks/useAuth"
 import { cn } from "@/lib/utils"
 import {
   SearchIcon,
@@ -38,6 +38,7 @@ const mobileNavItems = [
 
 export default function RestaurantDashboard() {
   const navigate = useNavigate()
+  const { logout } = useAuth()
   const [activeTab, setActiveTab] = useState("Dashboard")
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false)
 
@@ -48,8 +49,8 @@ export default function RestaurantDashboard() {
 
   const handleLogout = async () => {
     try {
-      await authApi.logout()
-      navigate("/restaurant/login")
+      await logout()
+      navigate("/restaurant/login", { replace: true })
     } catch (error) {
       console.error("Failed to logout", error)
     }
