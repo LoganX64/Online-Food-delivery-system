@@ -14,9 +14,10 @@ A comprehensive, multi-restaurant food ordering system where users can browse re
 This platform supports three primary roles—**Customer**, **Restaurant Owner**, and **Admin**—enforced by strict Role-Based Access Control (RBAC).
 
 ### Key Features (Completed & In-Progress)
+
 - **Multi-Restaurant Cart & Checkout:** Users can mix items from different restaurants in one cart. The backend intelligently splits a single checkout transaction into separate orders per restaurant.
 - **Robust Authentication:** JWT-based authentication stored securely in **HTTP-only cookies** to prevent XSS attacks.
-- **Role-Based Dashboards:** 
+- **Role-Based Dashboards:**
   - **Customers** can manage profiles, addresses, and track order lifecycles.
   - **Restaurant Owners** can manage menus (with Cloudinary image uploads), view incoming orders, and update order statuses.
   - **Admins** approve/reject restaurant applications and monitor platform activity.
@@ -25,9 +26,10 @@ This platform supports three primary roles—**Customer**, **Restaurant Owner**,
 
 ## 🤖 AI-Assisted Development Workflow
 
-This project was built from the ground up using **Antigravity** (an advanced AI coding agent) driven by a highly structured **Spec-First AI Workflow**. 
+This project was built from the ground up using **Antigravity** (an advanced AI coding agent) driven by a highly structured **Spec-First AI Workflow**.
 
-Rather than relying on ad-hoc prompts, the AI's behavior is strictly governed by the `context/` directory in this repository. 
+Rather than relying on ad-hoc prompts, the AI's behavior is strictly governed by the `context/` directory in this repository.
+
 - **`ai-workflow-rules.md`**: Imposes strict scoping—the AI is forced to work on one isolated feature at a time, preventing hallucinations and scope creep.
 - **`architecture.md` / `project-overview.md`**: Provides the AI with the immutable boundaries of the system (e.g., stateless backend, strict HTTP-only cookies).
 - **`progress-tracker.md`**: Acts as the system's memory, ensuring the AI and the developer are perfectly aligned on what is finished and what is next.
@@ -37,6 +39,7 @@ This approach demonstrates how to effectively manage, govern, and scale AI-gener
 ## 💻 Tech Stack
 
 **Backend:**
+
 - Node.js & Express
 - TypeScript
 - MongoDB & Mongoose
@@ -45,20 +48,30 @@ This approach demonstrates how to effectively manage, govern, and scale AI-gener
 - Cloudinary & Multer (Image Management)
 
 **Frontend:**
+
 - React (Vite)
 - TypeScript
 - Tailwind CSS & Shadcn/ui (UI Components)
 - React Router
+
+## 🎬 Demo Video
+
+Watch the application flow and key features in action:
+
+- **Demo:** [View the walkthrough video](https://example.com/demo.mp4)
+
+> Replace the link above with your hosted demo video URL or a relative path once the demo file is added to the repository.
 
 ## 🚀 Setup & Installation (Coming Soon)
 
 Docker configuration will be added soon to allow running both the frontend, backend, and database in a single command.
 
 Currently, the project is divided into:
+
 - `/backend`: Contains the Express server and API endpoints.
 - `/frontend`: Contains the React Vite application.
 - `/context`: Contains the system architecture, UI tokens, and AI workflow constraints.
 
 ---
 
-*Designed and developed with 💡 and Antigravity AI.*
+_Designed and developed with 💡 and Antigravity AI._
