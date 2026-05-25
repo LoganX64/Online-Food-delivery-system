@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect, useRef } from "react"
 import { Button } from "@/components/ui/button"
 import {
   PlusIcon,
@@ -6,7 +6,8 @@ import {
   Trash2Icon,
   GripVerticalIcon,
   ImagePlusIcon,
-  SearchIcon
+  SearchIcon,
+  Loader2
 } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
@@ -23,6 +24,9 @@ import {
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { cn } from "@/lib/utils"
+import { getRestaurantMenu, createMenuItem, updateMenuItem, deleteMenuItem, type MenuItem } from "@/api/menu.api"
+import { getRestaurantMe } from "@/api/restaurant.api"
+import { toast } from "sonner"
 
 // Mock Data
 const INITIAL_CATEGORIES = [
@@ -71,25 +75,132 @@ interface MenuEditorProps {
 }
 
 export function MenuEditor({ isAddDialogOpen, onAddDialogChange }: MenuEditorProps) {
-  const [categories] = useState(INITIAL_CATEGORIES)
+  const [categories, setCategories] = useState(INITIAL_CATEGORIES)
   const [activeCategoryId, setActiveCategoryId] = useState("1")
-  const [items, setItems] = useState(INITIAL_ITEMS)
+  const [items, setItems] = useState<MenuItem[]>([])
   const [searchQuery, setSearchQuery] = useState("")
+  const [isLoading, setIsLoading] = useState(true)
+  const [isSaving, setIsSaving] = useState(false)
+  
+  const [restaurantId, setRestaurantId] = useState<string | null>(null)
+  
+  const [formData, setFormData] = useState({ name: "", price: "", description: "", categoryId: "1" })
+  const [imageFile, setImageFile] = useState<File | null>(null)
+  const [editingItemId, setEditingItemId] = useState<string | null>(null)
+  
+  const fileInputRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const restaurant = await getRestaurantMe()
+        setRestaurantId(restaurant._id)
+        const menuData = await getRestaurantMenu(restaurant._id)
+        setItems(menuData)
+      } catch (error) {
+        toast.error("Failed to load menu")
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    fetchData()
+  }, [])
 
   const activeCategory = categories.find(c => c.id === activeCategoryId) || categories[0]
 
   const filteredItems = items.filter(item =>
     item.category === activeCategory.name &&
     (item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.description.toLowerCase().includes(searchQuery.toLowerCase()))
+      (item.description && item.description.toLowerCase().includes(searchQuery.toLowerCase())))
   )
 
-  const handleToggleStatus = (id: string) => {
-    setItems(items.map(item =>
-      item.id === id
-        ? { ...item, status: item.status === "Available" ? "Sold Out" : "Available" }
-        : item
-    ))
+  const handleToggleStatus = async (id: string, currentStatus: boolean) => {
+    try {
+      const formData = new FormData()
+      formData.append('isAvailable', String(!currentStatus))
+      await updateMenuItem(id, formData)
+      setItems(items.map(item => item._id === id ? { ...item, isAvailable: !currentStatus } : item))
+      toast.success("Status updated")
+    } catch (error) {
+      toast.error("Failed to update status")
+    }
+  }
+
+  const resetForm = () => {
+    setFormData({ name: "", price: "", description: "", categoryId: activeCategoryId })
+    setImageFile(null)
+    setEditingItemId(null)
+  }
+
+  const handleSaveItem = async () => {
+    if (!formData.name || !formData.price) {
+      toast.error("Name and price are required")
+      return
+    }
+
+    try {
+      setIsSaving(true)
+      const data = new FormData()
+      data.append('name', formData.name)
+      data.append('price', formData.price)
+      data.append('description', formData.description)
+      const categoryName = categories.find(c => c.id === formData.categoryId)?.name || activeCategory.name
+      data.append('category', categoryName)
+      if (imageFile) {
+        data.append('image', imageFile)
+      }
+
+      if (editingItemId) {
+        await updateMenuItem(editingItemId, data)
+        toast.success("Menu item updated")
+      } else {
+        await createMenuItem(data)
+        toast.success("Menu item created")
+      }
+      
+      if (restaurantId) {
+        const menuData = await getRestaurantMenu(restaurantId)
+        setItems(menuData)
+      }
+      onAddDialogChange?.(false)
+      resetForm()
+    } catch (error) {
+      toast.error("Failed to save menu item")
+    } finally {
+      setIsSaving(false)
+    }
+  }
+
+  const handleDelete = async (id: string) => {
+    if (!window.confirm("Are you sure you want to delete this item?")) return
+    try {
+      await deleteMenuItem(id)
+      setItems(items.filter(i => i._id !== id))
+      toast.success("Item deleted")
+    } catch (error) {
+      toast.error("Failed to delete item")
+    }
+  }
+
+  const openEdit = (item: MenuItem) => {
+    const catId = categories.find(c => c.name === item.category)?.id || "1"
+    setFormData({
+      name: item.name,
+      price: item.price.toString(),
+      description: item.description || "",
+      categoryId: catId
+    })
+    setImageFile(null)
+    setEditingItemId(item._id)
+    onAddDialogChange?.(true)
+  }
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-64">
+        <Loader2 className="animate-spin size-8 text-primary" />
+      </div>
+    )
   }
 
   return (
@@ -160,7 +271,10 @@ export function MenuEditor({ isAddDialogOpen, onAddDialogChange }: MenuEditorPro
             <p className="text-slate-400 text-[13px] font-medium">{activeCategory.description}</p>
           </div>
           
-          <Dialog open={isAddDialogOpen} onOpenChange={onAddDialogChange}>
+          <Dialog open={isAddDialogOpen} onOpenChange={(open) => {
+            if (!open) resetForm()
+            onAddDialogChange?.(open)
+          }}>
             <DialogTrigger asChild>
               <Button className="gap-2 rounded-xl h-10 px-5 bg-white text-[#F97316] border-2 border-[#F97316]/20 hover:bg-[#F97316] hover:text-white hover:border-[#F97316] transition-all duration-300 text-xs font-bold shadow-sm active:scale-95 group">
                 <PlusIcon className="size-4 transition-transform group-hover:rotate-90" />
@@ -176,29 +290,42 @@ export function MenuEditor({ isAddDialogOpen, onAddDialogChange }: MenuEditorPro
               </DialogHeader>
               <div className="grid gap-6 py-4">
                 <div className="flex justify-center">
-                  <div className="size-24 rounded-2xl border-2 border-dashed border-slate-100 flex flex-col items-center justify-center gap-1 cursor-pointer hover:bg-slate-50 hover:border-primary/30 transition-all group">
-                    <ImagePlusIcon className="size-6 text-slate-300 group-hover:text-primary transition-colors" />
-                    <span className="text-[9px] font-black text-slate-300 uppercase tracking-widest">Photo</span>
+                  <div 
+                    onClick={() => fileInputRef.current?.click()}
+                    className="size-24 rounded-2xl border-2 border-dashed border-slate-100 flex flex-col items-center justify-center gap-1 cursor-pointer hover:bg-slate-50 hover:border-primary/30 transition-all group overflow-hidden"
+                  >
+                    {imageFile ? (
+                      <img src={URL.createObjectURL(imageFile)} alt="Preview" className="w-full h-full object-cover" />
+                    ) : (
+                      <>
+                        <ImagePlusIcon className="size-6 text-slate-300 group-hover:text-primary transition-colors" />
+                        <span className="text-[9px] font-black text-slate-300 uppercase tracking-widest">Photo</span>
+                      </>
+                    )}
                   </div>
+                  <input type="file" ref={fileInputRef} className="hidden" accept="image/*" onChange={(e) => setImageFile(e.target.files?.[0] || null)} />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="grid gap-1.5">
                     <Label htmlFor="item-name" className="font-bold text-[10px] uppercase tracking-widest text-slate-400 ml-1">Item Name</Label>
-                    <Input id="item-name" placeholder="e.g. Crispy Wings" className="h-10 rounded-xl bg-slate-50 border-none" />
+                    <Input id="item-name" value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} placeholder="e.g. Crispy Wings" className="h-10 rounded-xl bg-slate-50 border-none" />
                   </div>
                   <div className="grid gap-1.5">
                     <Label htmlFor="item-price" className="font-bold text-[10px] uppercase tracking-widest text-slate-400 ml-1">Price ($)</Label>
-                    <Input id="item-price" type="number" step="0.01" placeholder="10.00" className="h-10 rounded-xl bg-slate-50 border-none font-mono font-bold" />
+                    <Input id="item-price" type="number" step="0.01" value={formData.price} onChange={(e) => setFormData({...formData, price: e.target.value})} placeholder="10.00" className="h-10 rounded-xl bg-slate-50 border-none font-mono font-bold" />
                   </div>
                 </div>
                 <div className="grid gap-1.5">
                   <Label htmlFor="item-desc" className="font-bold text-[10px] uppercase tracking-widest text-slate-400 ml-1">Description</Label>
-                  <Textarea id="item-desc" placeholder="What makes this dish special?" className="min-h-[100px] rounded-xl bg-slate-50 border-none resize-none" />
+                  <Textarea id="item-desc" value={formData.description} onChange={(e) => setFormData({...formData, description: e.target.value})} placeholder="What makes this dish special?" className="min-h-[100px] rounded-xl bg-slate-50 border-none resize-none" />
                 </div>
               </div>
               <DialogFooter className="gap-2">
-                <Button variant="ghost" className="rounded-xl h-10 font-bold flex-1 text-xs">Cancel</Button>
-                <Button type="submit" className="h-10 rounded-xl font-bold flex-[2] shadow-lg shadow-primary/20 text-xs">Save Item</Button>
+                <Button variant="ghost" onClick={() => onAddDialogChange?.(false)} className="rounded-xl h-10 font-bold flex-1 text-xs">Cancel</Button>
+                <Button onClick={handleSaveItem} disabled={isSaving} className="h-10 rounded-xl font-bold flex-[2] shadow-lg shadow-primary/20 text-xs">
+                  {isSaving ? <Loader2 className="animate-spin size-4 mr-2" /> : null}
+                  {editingItemId ? 'Update Item' : 'Save Item'}
+                </Button>
               </DialogFooter>
             </DialogContent>
           </Dialog>
@@ -218,14 +345,18 @@ export function MenuEditor({ isAddDialogOpen, onAddDialogChange }: MenuEditorPro
           {filteredItems.length > 0 ? (
             filteredItems.map((item) => (
               <div 
-                key={item.id} 
+                key={item._id} 
                 className="overflow-hidden border border-slate-100 shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] transition-all duration-500 group rounded-[1.5rem] bg-white flex flex-col sm:flex-row"
               >
                 {/* Item Image Container - Fixed alignment */}
                 <div className="w-full sm:w-32 md:w-36 aspect-video sm:aspect-square bg-slate-50/50 flex items-center justify-center shrink-0 border-r border-slate-100/50 relative overflow-hidden">
-                  <div className="size-16 md:size-20 bg-white rounded-2xl shadow-[0_4px_12px_rgba(0,0,0,0.03)] flex items-center justify-center text-4xl transition-transform duration-500 group-hover:scale-110 relative z-10">
-                    {item.image}
-                  </div>
+                  {item.image ? (
+                     <img src={item.image} alt={item.name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                  ) : (
+                    <div className="size-16 md:size-20 bg-white rounded-2xl shadow-[0_4px_12px_rgba(0,0,0,0.03)] flex items-center justify-center text-4xl transition-transform duration-500 group-hover:scale-110 relative z-10">
+                      🍽️
+                    </div>
+                  )}
                   <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                 </div>
                 
@@ -246,17 +377,7 @@ export function MenuEditor({ isAddDialogOpen, onAddDialogChange }: MenuEditorPro
                   </div>
                   
                   <div className="flex flex-wrap gap-2 mt-1">
-                    {item.tags.map((tag) => (
-                      <Badge key={tag} variant="secondary" className={cn(
-                        "text-[9px] px-2 py-0.5 font-black uppercase tracking-widest border-none shadow-sm",
-                        tag === "Spicy" && "bg-red-50 text-red-400",
-                        tag === "Vegetarian" && "bg-emerald-50 text-emerald-500",
-                        tag === "Popular" && "bg-orange-50 text-orange-500",
-                        tag === "Seafood" && "bg-blue-50 text-blue-500",
-                      )}>
-                        {tag}
-                      </Badge>
-                    ))}
+                    {/* Tags disabled since not in schema */}
                   </div>
                 </div>
 
@@ -265,22 +386,22 @@ export function MenuEditor({ isAddDialogOpen, onAddDialogChange }: MenuEditorPro
                   <div className="flex flex-col items-center gap-1.5">
                     <span className={cn(
                       "text-[9px] font-black uppercase tracking-widest",
-                      item.status === "Available" ? "text-primary" : "text-slate-300"
+                      item.isAvailable ? "text-primary" : "text-slate-300"
                     )}>
-                      {item.status}
+                      {item.isAvailable ? "Available" : "Sold Out"}
                     </span>
                     <Switch 
-                      checked={item.status === "Available"} 
-                      onCheckedChange={() => handleToggleStatus(item.id)}
+                      checked={item.isAvailable} 
+                      onCheckedChange={() => handleToggleStatus(item._id, item.isAvailable)}
                       className="scale-90"
                     />
                   </div>
                   
                   <div className="flex items-center gap-1.5">
-                    <Button variant="ghost" size="icon" className="size-8 rounded-xl bg-white hover:bg-primary hover:text-white shadow-sm border border-slate-50 transition-all duration-300">
+                    <Button variant="ghost" onClick={() => openEdit(item)} size="icon" className="size-8 rounded-xl bg-white hover:bg-primary hover:text-white shadow-sm border border-slate-50 transition-all duration-300">
                       <PencilIcon className="size-3.5" />
                     </Button>
-                    <Button variant="ghost" size="icon" className="size-8 rounded-xl bg-white hover:bg-red-500 hover:text-white shadow-sm border border-slate-50 transition-all duration-300">
+                    <Button variant="ghost" onClick={() => handleDelete(item._id)} size="icon" className="size-8 rounded-xl bg-white hover:bg-red-500 hover:text-white shadow-sm border border-slate-50 transition-all duration-300">
                       <Trash2Icon className="size-3.5" />
                     </Button>
                   </div>

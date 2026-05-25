@@ -1,4 +1,5 @@
 import * as React from "react"
+import { useState, useEffect } from "react"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
@@ -9,8 +10,10 @@ import {
   UsersIcon, 
   ActivityIcon, 
   CreditCardIcon, 
-  DollarSignIcon 
+  DollarSignIcon,
+  Loader2
 } from "lucide-react"
+import { getRestaurantEarnings } from "@/api/restaurant.api"
 import {
   Area,
   AreaChart,
@@ -37,11 +40,28 @@ const chartData = [
 ]
 
 export function DashboardOverview() {
+  const [earnings, setEarnings] = useState({ totalEarnings: 0, totalOrders: 0 })
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchEarnings = async () => {
+      try {
+        const data = await getRestaurantEarnings()
+        setEarnings(data)
+      } catch (error) {
+        console.error("Failed to fetch earnings:", error)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    fetchEarnings()
+  }, [])
+
   const stats = [
     {
       title: "Total Revenue",
-      value: "$1,250.00",
-      description: "Trending up this month",
+      value: isLoading ? "..." : `$${(earnings?.totalEarnings || 0).toFixed(2)}`,
+      description: "Total earnings from delivered orders",
       change: "+12.5%",
       icon: DollarSignIcon,
     },
@@ -53,9 +73,9 @@ export function DashboardOverview() {
       icon: UsersIcon,
     },
     {
-      title: "Active Accounts",
-      value: "45,678",
-      description: "Strong user retention",
+      title: "Total Orders",
+      value: isLoading ? "..." : (earnings?.totalOrders || 0).toString(),
+      description: "Successfully delivered orders",
       change: "+2.5%",
       icon: CreditCardIcon,
     },

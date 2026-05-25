@@ -213,6 +213,15 @@ change.
     - **Admin Dashboard**: Refined mobile layout by hiding the redundant sidebar trigger and tightening the top header.
   - TypeScript: zero errors post-refactor (`tsc --noEmit` clean).
 
+- `25-Restaurant-dashboard.md` — Full API Wiring Implementation:
+  - Created `src/api/restaurant.api.ts` and `src/api/menu.api.ts` clients.
+  - Wired `DashboardOverview.tsx` to display real-time earnings and order counts.
+  - Wired `Settings.tsx` for updating core restaurant profile information via `GET /restaurant/me` and `PUT /restaurant/me`.
+  - Wired `LiveOrders.tsx` to handle the real-time order lifecycle (`PENDING` -> `ACCEPTED` -> `PREPARING` -> `HANDED_OFF`) with accept, reject (including reason notes), and status advance actions.
+  - Wired `OrderHistory.tsx` to filter and display historical records (`DELIVERED`, `CANCELLED`, `REJECTED`).
+  - Wired `MenuEditor.tsx` to execute full CRUD operations against `MenuItem` collections, including native `FormData` handling for Cloudinary image uploads.
+  - Integrated `sonner` toasts for all API feedback and error handling.
+
 ## In Progress
 
 ## Next Up

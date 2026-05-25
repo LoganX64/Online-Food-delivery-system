@@ -1,58 +1,52 @@
+import { useState, useEffect } from "react"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
-import { SearchIcon, FilterIcon, FileDownIcon, MoreHorizontalIcon } from "lucide-react"
+import { SearchIcon, FilterIcon, FileDownIcon, MoreHorizontalIcon, Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { getRestaurantOrders, type Order } from "@/api/restaurant.api"
+import { toast } from "sonner"
 
 export function OrderHistory() {
-  const history = [
-    {
-      id: "ORD-9750",
-      customer: "Alice Brown",
-      date: "2024-05-15 14:30",
-      items: ["1x Veggie Burger", "1x Water"],
-      total: "$15.50",
-      status: "Delivered",
-      note: ""
-    },
-    {
-      id: "ORD-9745",
-      customer: "Robert Miller",
-      date: "2024-05-15 13:15",
-      items: ["2x Pepperoni Pizza", "1x Garlic Knots"],
-      total: "$45.00",
-      status: "Delivered",
-      note: "Extra crispy crust"
-    },
-    {
-      id: "ORD-9740",
-      customer: "Emily Watson",
-      date: "2024-05-15 12:45",
-      items: ["1x Pasta Primavera", "1x Salad"],
-      total: "$24.20",
-      status: "Cancelled",
-      note: ""
-    },
-    {
-      id: "ORD-9735",
-      customer: "Tom Hanks",
-      date: "2024-05-15 11:20",
-      items: ["3x Sushi Platter", "2x Miso Soup"],
-      total: "$82.00",
-      status: "Delivered",
-      note: "Include extra soy sauce"
-    },
-    {
-      id: "ORD-9730",
-      customer: "Lucia Garcia",
-      date: "2024-05-14 20:10",
-      items: ["1x Beef Tacos (3pc)", "1x Nachos"],
-      total: "$22.50",
-      status: "Delivered",
-      note: ""
+  const [orders, setOrders] = useState<Order[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const data = await getRestaurantOrders()
+        setOrders(data)
+      } catch (error) {
+        toast.error("Failed to load order history")
+      } finally {
+        setIsLoading(false)
+      }
     }
-  ]
+    fetchOrders()
+  }, [])
+
+  const history = orders.filter(o => ['DELIVERED', 'CANCELLED', 'REJECTED'].includes(o.status))
+
+  const formatDate = (dateString: string) => {
+    const d = new Date(dateString)
+    return d.toLocaleString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    })
+  }
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-64">
+        <Loader2 className="animate-spin size-8 text-primary" />
+      </div>
+    )
+  }
+
 
   return (
     <div className="space-y-6">
@@ -99,32 +93,32 @@ export function OrderHistory() {
             </TableHeader>
             <TableBody>
               {history.map((order) => (
-                <TableRow key={order.id} className="cursor-pointer group hover:bg-muted/30 transition-colors text-xs">
+                <TableRow key={order._id} className="cursor-pointer group hover:bg-muted/30 transition-colors text-xs">
                   <TableCell className="py-4 px-6">
                     <div className="flex flex-col">
-                      <span className="font-bold group-hover:text-primary transition-colors">{order.id}</span>
-                      <span className="text-[10px] text-muted-foreground font-medium">{order.customer}</span>
+                      <span className="font-bold group-hover:text-primary transition-colors text-foreground uppercase tracking-widest">{order._id.substring(order._id.length - 6)}</span>
+                      <span className="text-[10px] text-muted-foreground font-medium">{order.userId?.name || 'Guest'}</span>
                     </div>
                   </TableCell>
                   <TableCell className="hidden md:table-cell text-[11px] text-muted-foreground font-medium">
-                    {order.date}
+                    {formatDate(order.createdAt)}
                   </TableCell>
                   <TableCell>
                     <div className="flex flex-col gap-1 max-w-[250px]">
-                      <p className="text-[11px] line-clamp-1 font-medium text-foreground/80">{order.items.join(", ")}</p>
-                      {order.note && (
+                      <p className="text-[11px] line-clamp-1 font-medium text-foreground/80">{order.items.map(item => `${item.quantity}x ${item.name}`).join(", ")}</p>
+                      {(order.rejectionReason || order.rejectionNote) && (
                          <span className="text-[9px] text-orange-600 bg-orange-50 px-1.5 py-0.5 rounded border border-orange-100 w-fit italic font-medium">
-                            {order.note}
+                            {order.rejectionReason} {order.rejectionNote && `- ${order.rejectionNote}`}
                          </span>
                       )}
                     </div>
                   </TableCell>
                   <TableCell className="font-bold">
-                    {order.total}
+                    ${order.totalAmount.toFixed(2)}
                   </TableCell>
                   <TableCell>
                     <div className="flex items-center gap-1.5">
-                       <div className={`size-1.5 rounded-full ${order.status === "Delivered" ? "bg-green-500" : "bg-red-500"}`} />
+                       <div className={`size-1.5 rounded-full ${order.status === "DELIVERED" ? "bg-green-500" : "bg-red-500"}`} />
                        <span className="font-medium text-[11px]">{order.status}</span>
                     </div>
                   </TableCell>

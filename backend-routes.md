@@ -57,14 +57,14 @@ This document provides a comprehensive list of all API endpoints available in th
 | GET | `/restaurants/:id` | Fetch restaurant details | No |
 | GET | `/restaurants/:id/menu` | Fetch restaurant menu items | No |
 
-## 🍕 Menu Management (`/menu`)
+## 🍕 Menu Management (`/menus`)
 | Method | Endpoint | Description | Auth Required |
 | :--- | :--- | :--- | :---: |
-| POST | `/menu` | Add a new menu item | Yes(to check owner is adding menu item to his own restaurant or not) |
-| GET | `/menu` | Fetch all menu items | No |
-| GET | `/menu/:id` | Fetch menu item by ID | No |
-| PUT | `/menu/:id` | Update menu item by ID | Yes(to check owner is updating his own menu item or not) |
-| DELETE | `/menu/:id` | Delete menu item by ID | Yes(to check owner is deleting his own menu item or not) |
+| POST | `/menus` | Add a new menu item | Yes(to check owner is adding menu item to his own restaurant or not) |
+| GET | `/menus` | Fetch all menu items | No |
+| GET | `/menus/:id` | Fetch menu item by ID | No |
+| PUT | `/menus/:id` | Update menu item by ID | Yes(to check owner is updating his own menu item or not) |
+| DELETE | `/menus/:id` | Delete menu item by ID | Yes(to check owner is deleting his own menu item or not) |
 
 ## 🛒 Cart Management (`/cart`)
 | Method | Endpoint | Description | Auth Required |
@@ -83,10 +83,27 @@ This document provides a comprehensive list of all API endpoints available in th
 | GET | `/orders/:id` | Fetch order details | Yes |
 | POST | `/checkout` | Checkout and place order | Yes(to check if its login or not) |
 
-## 💰 Payments (`/payment`)
+## 💰 Payments (`/payments`)
 | Method | Endpoint | Description | Auth Required |
 | :--- | :--- | :--- | :---: |
-| POST | `/payment/webhook` | Handle Stripe/Payment webhooks | Yes |
+| POST | `/payments/webhook` | Handle Stripe/Payment webhooks | Yes |
+
+## 💳 Payment Methods (`/payment-methods`)
+| Method | Endpoint | Description | Auth Required |
+| :--- | :--- | :--- | :---: |
+| GET | `/payment-methods` | Fetch all payment methods for user | Yes |
+| POST | `/payment-methods` | Create a new payment method | Yes |
+| PUT | `/payment-methods/:id` | Update a payment method | Yes |
+| DELETE | `/payment-methods/:id` | Delete a payment method | Yes |
+
+## 🔔 Notifications (`/notifications`)
+| Method | Endpoint | Description | Auth Required |
+| :--- | :--- | :--- | :---: |
+| GET | `/notifications` | Fetch user notifications | Yes |
+| POST | `/notifications` | Create a notification (Internal/Admin) | Yes |
+| PUT | `/notifications/read-all` | Mark all notifications as read | Yes |
+| PUT | `/notifications/:id/read` | Mark specific notification as read | Yes |
+| DELETE | `/notifications/:id` | Delete a notification | Yes |
 
 ## 🛡️ Admin Dashboard (`/admin`)
 | Method | Endpoint | Description | Auth Required |

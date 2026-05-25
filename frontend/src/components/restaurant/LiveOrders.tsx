@@ -1,4 +1,5 @@
 import * as React from "react"
+import { useState, useEffect } from "react"
 import { Card, CardContent, CardHeader, CardFooter } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -8,93 +9,135 @@ import {
   ClockIcon, 
   ChefHatIcon, 
   PackageCheckIcon,
-  MessageSquareIcon
+  MessageSquareIcon,
+  Loader2
 } from "lucide-react"
+import { getRestaurantOrders, acceptOrder, rejectOrder, updateOrderStatus, type Order } from "@/api/restaurant.api"
+import { toast } from "sonner"
 
 export function LiveOrders() {
-  const liveOrders = [
-    {
-      id: "ORD-9821",
-      customer: "Alex Rivers",
-      items: ["2x Cheeseburger", "1x French Fries", "1x Coke"],
-      total: "$34.50",
-      time: "2 mins ago",
-      note: "Extra ketchup please!",
-      status: "Live"
-    },
-    {
-      id: "ORD-9825",
-      customer: "Jordan Lee",
-      items: ["1x Margherita Pizza (L)", "2x Garlic Bread"],
-      total: "$28.00",
-      time: "5 mins ago",
-      note: "Don't ring the bell, baby sleeping.",
-      status: "Live"
-    }
-  ]
+  const [orders, setOrders] = useState<Order[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [actionLoading, setActionLoading] = useState<string | null>(null)
 
-  const preparingOrders = [
-    {
-      id: "ORD-9810",
-      customer: "Sarah Johnson",
-      items: ["3x Chicken Tacos", "1x Nachos Supreme"],
-      total: "$42.10",
-      time: "15 mins ago",
-      note: "No onions in the tacos.",
-      status: "Preparing"
+  const fetchOrders = async () => {
+    try {
+      const data = await getRestaurantOrders()
+      setOrders(data)
+    } catch (error) {
+      console.error("Failed to fetch orders:", error)
+      toast.error("Failed to load live orders")
+    } finally {
+      setIsLoading(false)
     }
-  ]
+  }
 
-  const readyOrders = [
-    {
-      id: "ORD-9805",
-      customer: "Mike Davis",
-      items: ["1x Family Meal Box", "4x Pepsi"],
-      total: "$55.00",
-      time: "25 mins ago",
-      note: "",
-      status: "Ready"
+  useEffect(() => {
+    fetchOrders()
+    // Poll every 30 seconds
+    const interval = setInterval(fetchOrders, 30000)
+    return () => clearInterval(interval)
+  }, [])
+
+  const handleAccept = async (orderId: string) => {
+    try {
+      setActionLoading(orderId)
+      await acceptOrder(orderId)
+      toast.success("Order accepted")
+      await fetchOrders()
+    } catch (error) {
+      toast.error("Failed to accept order")
+    } finally {
+      setActionLoading(null)
     }
-  ]
+  }
 
-  const OrderCard = ({ order, actions }: { order: any, actions?: React.ReactNode }) => (
+  const handleReject = async (orderId: string) => {
+    try {
+      const reason = window.prompt("Reason for rejection:")
+      if (reason === null) return // Cancelled
+      
+      setActionLoading(orderId)
+      await rejectOrder(orderId, { reason: reason || "Restaurant busy" })
+      toast.success("Order rejected")
+      await fetchOrders()
+    } catch (error) {
+      toast.error("Failed to reject order")
+    } finally {
+      setActionLoading(null)
+    }
+  }
+
+  const handleUpdateStatus = async (orderId: string, status: string) => {
+    try {
+      setActionLoading(orderId)
+      await updateOrderStatus(orderId, status)
+      toast.success("Order status updated")
+      await fetchOrders()
+    } catch (error) {
+      toast.error("Failed to update status")
+    } finally {
+      setActionLoading(null)
+    }
+  }
+
+  const formatTime = (dateString: string) => {
+    const diff = Math.floor((new Date().getTime() - new Date(dateString).getTime()) / 60000)
+    if (diff < 1) return "Just now"
+    return `${diff} min${diff !== 1 ? 's' : ''} ago`
+  }
+
+  const liveOrders = orders.filter(o => o.status === "PENDING")
+  const preparingOrders = orders.filter(o => o.status === "ACCEPTED" || o.status === "PREPARING")
+  const readyOrders = orders.filter(o => o.status === "HANDED_OFF") // Reusing HANDED_OFF as ready for pickup before delivery
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-64">
+        <Loader2 className="animate-spin size-8 text-primary" />
+      </div>
+    )
+  }
+  const OrderCard = ({ order, actions }: { order: Order, actions?: React.ReactNode }) => (
     <Card className="border shadow-none overflow-hidden mb-4 bg-background p-0">
       <CardHeader className="bg-muted/10 p-6 pt-4 pb-3 flex flex-row items-center justify-between border-b border-muted/20">
         <div className="flex flex-col">
           <div className="flex items-center gap-2">
-            <span className="font-bold text-sm">{order.id}</span>
+            <span className="font-bold text-sm text-foreground uppercase tracking-widest">{order._id.substring(order._id.length - 6)}</span>
             <Badge variant="outline" className="text-[9px] uppercase font-bold tracking-wider px-1.5 py-0 border-primary/20 text-primary bg-primary/5">
               {order.status}
             </Badge>
           </div>
-          <span className="text-[10px] text-muted-foreground font-medium">{order.time}</span>
+          <span className="text-[10px] text-muted-foreground font-medium">{formatTime(order.createdAt)}</span>
         </div>
         <div className="text-right">
-          <div className="text-sm font-bold text-primary">{order.total}</div>
+          <div className="text-sm font-bold text-primary">${order.totalAmount.toFixed(2)}</div>
         </div>
       </CardHeader>
       <CardContent className="pt-4 space-y-4">
         <div>
           <div className="text-[10px] font-bold text-muted-foreground mb-1 tracking-tight uppercase">Customer</div>
-          <div className="text-sm font-bold">{order.customer}</div>
+          <div className="text-sm font-bold">{order.userId?.name || 'Guest'}</div>
         </div>
         <div>
           <div className="text-[10px] font-bold text-muted-foreground mb-1 tracking-tight uppercase">Items</div>
           <ul className="text-xs space-y-1.5">
-            {order.items.map((item: string, i: number) => (
+            {order.items.map((item: any, i: number) => (
               <li key={i} className="flex items-center gap-2 text-foreground/80">
                 <div className="size-1 bg-primary/40 rounded-full" />
-                {item}
+                {item.quantity}x {item.name}
               </li>
             ))}
           </ul>
         </div>
+        {/*
         {order.note && (
           <div className="bg-orange-50/50 p-2 rounded border border-orange-100 flex gap-2">
             <MessageSquareIcon className="size-3.5 text-orange-500 shrink-0 mt-0.5" />
             <p className="text-[10px] text-orange-700 font-medium leading-relaxed italic">"{order.note}"</p>
           </div>
         )}
+        */}
       </CardContent>
       {actions && (
         <CardFooter className="border-t bg-muted/5 p-3 gap-2">
@@ -118,16 +161,16 @@ export function LiveOrders() {
         <div className="flex flex-col">
           {liveOrders.map(order => (
             <OrderCard 
-              key={order.id} 
+              key={order._id} 
               order={order} 
               actions={
                 <>
-                  <Button variant="outline" size="sm" className="flex-1 h-8 text-[10px] font-bold gap-1 text-destructive hover:bg-destructive/5 hover:text-destructive border-destructive/20 rounded">
-                    <XIcon className="size-3.5" />
+                  <Button disabled={actionLoading === order._id} onClick={() => handleReject(order._id)} variant="outline" size="sm" className="flex-1 h-8 text-[10px] font-bold gap-1 text-destructive hover:bg-destructive/5 hover:text-destructive border-destructive/20 rounded">
+                    {actionLoading === order._id ? <Loader2 className="size-3.5 animate-spin" /> : <XIcon className="size-3.5" />}
                     Reject
                   </Button>
-                  <Button size="sm" className="flex-1 h-8 text-[10px] font-bold gap-1 bg-green-600 hover:bg-green-700 shadow-none rounded">
-                    <CheckIcon className="size-3.5" />
+                  <Button disabled={actionLoading === order._id} onClick={() => handleAccept(order._id)} size="sm" className="flex-1 h-8 text-[10px] font-bold gap-1 bg-green-600 hover:bg-green-700 shadow-none rounded">
+                    {actionLoading === order._id ? <Loader2 className="size-3.5 animate-spin" /> : <CheckIcon className="size-3.5" />}
                     Accept
                   </Button>
                 </>
@@ -155,11 +198,11 @@ export function LiveOrders() {
         <div className="flex flex-col">
           {preparingOrders.map(order => (
             <OrderCard 
-              key={order.id} 
+              key={order._id} 
               order={order} 
               actions={
-                <Button size="sm" className="w-full h-8 text-[10px] font-bold gap-1 bg-blue-600 hover:bg-blue-700 shadow-none rounded">
-                  <ChefHatIcon className="size-3.5" />
+                <Button disabled={actionLoading === order._id} onClick={() => handleUpdateStatus(order._id, 'HANDED_OFF')} size="sm" className="w-full h-8 text-[10px] font-bold gap-1 bg-blue-600 hover:bg-blue-700 shadow-none rounded">
+                  {actionLoading === order._id ? <Loader2 className="size-3.5 animate-spin" /> : <ChefHatIcon className="size-3.5" />}
                   Mark as Ready
                 </Button>
               }
@@ -186,11 +229,11 @@ export function LiveOrders() {
         <div className="flex flex-col">
           {readyOrders.map(order => (
             <OrderCard 
-              key={order.id} 
+              key={order._id} 
               order={order} 
               actions={
-                <Button size="sm" className="w-full h-8 text-[10px] font-bold gap-1 bg-green-600 hover:bg-green-700 shadow-none rounded">
-                  <PackageCheckIcon className="size-3.5" />
+                <Button disabled={actionLoading === order._id} onClick={() => handleUpdateStatus(order._id, 'DELIVERED')} size="sm" className="w-full h-8 text-[10px] font-bold gap-1 bg-green-600 hover:bg-green-700 shadow-none rounded">
+                  {actionLoading === order._id ? <Loader2 className="size-3.5 animate-spin" /> : <PackageCheckIcon className="size-3.5" />}
                   Handed Off
                 </Button>
               }
