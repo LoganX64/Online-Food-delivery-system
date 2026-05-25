@@ -89,6 +89,23 @@ export const addressUpdateSchema = z.object({
   }),
 });
 
+// ─── Category Schemas ────────────────────────────────────────
+
+export const categoryCreateSchema = z.object({
+  body: z.object({
+    name: z.string().trim().min(1, 'Category name is required'),
+    description: z.string().trim().optional(),
+  }),
+});
+
+export const categoryUpdateSchema = z.object({
+  body: z.object({
+    name: z.string().trim().min(1, 'Category name cannot be empty').optional(),
+    description: z.string().trim().optional(),
+    isActive: z.boolean().optional(),
+  }),
+});
+
 // ─── Restaurant Schemas ──────────────────────────────────────
 
 export const restaurantCreateSchema = z.object({

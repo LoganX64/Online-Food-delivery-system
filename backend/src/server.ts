@@ -18,6 +18,7 @@ import adminRoutes from './routes/admin.routes.js';
 import healthRoutes from './routes/health.routes.js';
 import paymentMethodRoutes from './routes/paymentMethod.routes.js';
 import notificationRoutes from './routes/notification.routes.js';
+import categoryRoutes from './routes/category.routes.js';
 import { errorHandler } from './middleware/error.middleware.js';
 import { logRoutes } from './utils/routeLogger.js';
 import morgan from 'morgan';
@@ -63,6 +64,7 @@ app.use('/api/payments', paymentRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/payment-methods', paymentMethodRoutes);
 app.use('/api/notifications', notificationRoutes);
+app.use('/api/categories', categoryRoutes);
 
 // Error handling middleware (must be last)
 app.use(errorHandler);
