@@ -6,17 +6,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { Input } from "@/components/ui/input"
 import { toast } from "sonner"
 import { getCartFromStorage } from "@/utils/cart-storage"
-
-const DISHES = [
-  { id: 1, name: "Margherita Pizza", restaurant: "Domino's", price: 12.99, type: "veg", image: "https://images.unsplash.com/photo-1604068549290-dea0e4a305ca?q=80&w=800&auto=format&fit=crop" },
-  { id: 2, name: "Chicken Tikka Masala", restaurant: "Spice Route", price: 15.50, type: "non-veg", image: "https://images.unsplash.com/photo-1565557623262-b51c2513a641?q=80&w=800&auto=format&fit=crop" },
-  { id: 3, name: "Classic Veggie Burger", restaurant: "Burger King", price: 8.99, type: "veg", image: "https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=800&auto=format&fit=crop" },
-  { id: 4, name: "Spicy Tuna Roll", restaurant: "Sushi Master", price: 18.00, type: "non-veg", image: "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?q=80&w=800&auto=format&fit=crop" },
-  { id: 5, name: "Paneer Butter Masala", restaurant: "Tandoor Express", price: 13.50, type: "veg", image: "https://images.unsplash.com/photo-1631452180519-c014fe946cb0?q=80&w=800&auto=format&fit=crop" },
-  { id: 6, name: "Grilled Salmon", restaurant: "Ocean Catch", price: 22.99, type: "non-veg", image: "https://images.unsplash.com/photo-1485921325833-c519f76c4927?q=80&w=800&auto=format&fit=crop" },
-  { id: 7, name: "Caesar Salad", restaurant: "Green Leaf", price: 9.50, type: "veg", image: "https://images.unsplash.com/photo-1550304943-4f24f54ddde9?q=80&w=800&auto=format&fit=crop" },
-  { id: 8, name: "Beef Steak", restaurant: "The Grill", price: 28.00, type: "non-veg", image: "https://images.unsplash.com/photo-1600891964092-4316c288032e?q=80&w=800&auto=format&fit=crop" },
-]
+import { DISHES } from "@/utils/dishes"
 
 export function CheckoutPage() {
   const navigate = useNavigate()
