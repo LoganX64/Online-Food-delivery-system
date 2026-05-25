@@ -330,3 +330,10 @@ change.
   - **Footer & Static Pages:** Constructed a unified `InfoPages.tsx` template engine and generated 11 responsive, highly-styled static pages (About Us, Careers, Contact, FAQs, Privacy Policy, etc.). Stripped dead anchor tags (`href="#"`) and the "Track Order" link from the Footer, replacing them with functional router `<Link>` elements mapped to the new info pages.
   - **Login UX Polish:** Integrated password visibility eye/eye-off toggle triggers across all login portal interfaces and resolved low-contrast text visibility bugs on authentication failure toasts.
 
+- `25-Restaurant-dashboard.md` — Full API & Category Wiring Implementation:
+  - **Settings UI & Sync:** Resolved schema mismatch by adding `state` to Zod validators on the backend, enabling successful profile updates.
+  - **Change Password Card:** Integrated inline Change Password functionality within the Settings dashboard tab, complete with visibility toggle controls and clientside validation checks.
+  - **Category Endpoint:** Created Category DB model, service methods, controllers, and Express routes scoped to the restaurant owner. Enabled unique categories per restaurant.
+  - **Menu Editor Wiring:** Rewired frontend `MenuEditor.tsx` to dynamically query and manage categories. Updated food item creation modal to select from available categories and auto-assign `restaurantId` on the backend, securing the request pipeline.
+
+
