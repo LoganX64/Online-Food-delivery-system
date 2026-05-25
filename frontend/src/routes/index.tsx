@@ -17,6 +17,8 @@ import AllRestaurants from "@/pages/AllRestaurants"
 import NotFound from "@/pages/NotFound"
 import ForgotPassword from "@/pages/ForgotPassword"
 import ResetPassword from "@/pages/ResetPassword"
+import RestaurantForgotPassword from "@/pages/RestaurantForgotPassword"
+import RestaurantResetPassword from "@/pages/RestaurantResetPassword"
 import { 
   AboutUs, Careers, Contact, Blog, Support, SafetyConcerns, FAQs, 
   PrivacyPolicy, TermsOfService, CookiePolicy, Accessibility 
@@ -83,6 +85,14 @@ export const router = createBrowserRouter([
       {
         path: "restaurant/register",
         element: <RestaurantRegister />,
+      },
+      {
+        path: "restaurant/forgot-password",
+        element: <RestaurantForgotPassword />,
+      },
+      {
+        path: "restaurant/reset-password/:token",
+        element: <RestaurantResetPassword />,
       },
       {
         path: "admin/login",

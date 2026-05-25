@@ -6,6 +6,7 @@ export interface IRestaurant extends Document {
   description?: string;
   addressLine: string;
   city: string;
+  state: string;
   pincode: string;
   isApproved: boolean;
   isActive: boolean;
@@ -21,6 +22,7 @@ const RestaurantSchema: Schema = new Schema(
     description: { type: String, trim: true },
     addressLine: { type: String, required: true },
     city: { type: String, required: true },
+    state: { type: String, required: true },
     pincode: { type: String, required: true },
     isApproved: { type: Boolean, default: false }, // Admin needs to approve
     isActive: { type: Boolean, default: true },

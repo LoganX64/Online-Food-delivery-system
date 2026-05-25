@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 import { SidebarProvider, SidebarTrigger, SidebarInset } from "@/components/ui/sidebar"
 import { RestaurantSidebar } from "../components/restaurant/RestaurantSidebar"
 import { DashboardOverview } from "../components/restaurant/DashboardOverview"
@@ -6,6 +7,7 @@ import { LiveOrders } from "../components/restaurant/LiveOrders"
 import { MenuEditor } from "../components/restaurant/MenuEditor"
 import { OrderHistory } from "../components/restaurant/OrderHistory"
 import { Settings } from "../components/restaurant/Settings"
+import { authApi } from "@/api/auth.api"
 import { cn } from "@/lib/utils"
 import {
   SearchIcon,
@@ -35,12 +37,22 @@ const mobileNavItems = [
 ]
 
 export default function RestaurantDashboard() {
+  const navigate = useNavigate()
   const [activeTab, setActiveTab] = useState("Dashboard")
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false)
 
   const handleQuickCreate = () => {
     setActiveTab("Menu editor")
     setIsAddDialogOpen(true)
+  }
+
+  const handleLogout = async () => {
+    try {
+      await authApi.logout()
+      navigate("/restaurant/login")
+    } catch (error) {
+      console.error("Failed to logout", error)
+    }
   }
 
   const renderContent = () => {
@@ -62,6 +74,7 @@ export default function RestaurantDashboard() {
           activeTab={activeTab}
           setActiveTab={(tab) => setActiveTab(tab)}
           onQuickCreate={handleQuickCreate}
+          onLogout={handleLogout}
         />
 
         <SidebarInset className="flex flex-col flex-1 w-full pb-16 md:pb-0 overflow-x-hidden">

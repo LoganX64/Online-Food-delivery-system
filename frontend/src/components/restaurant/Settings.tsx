@@ -5,51 +5,74 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { MapPinIcon, PhoneIcon, MailIcon, StoreIcon, Loader2 } from "lucide-react"
+import { MapPinIcon, PhoneIcon, MailIcon, StoreIcon, Loader2, LockIcon, EyeIcon, EyeOffIcon } from "lucide-react"
 import { getRestaurantMe, updateRestaurantMe, type Restaurant } from "@/api/restaurant.api"
+import { authApi, type User } from "@/api/auth.api"
+import { getMyProfile, updateMyProfile, updateMyPassword } from "@/api/user.api"
+import { addressApi, type Address } from "@/api/address.api"
 import { toast } from "sonner"
 
 export function Settings() {
   const [restaurant, setRestaurant] = useState<Restaurant | null>(null)
+  const [user, setUser] = useState<User | null>(null)
+  const [address, setAddress] = useState<Address | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [isSaving, setIsSaving] = useState(false)
+  const [passwordForm, setPasswordForm] = useState({ currentPassword: "", newPassword: "", confirmPassword: "" })
+  const [showCurrentPwd, setShowCurrentPwd] = useState(false)
+  const [showNewPwd, setShowNewPwd] = useState(false)
+  const [isChangingPwd, setIsChangingPwd] = useState(false)
   
   const [formData, setFormData] = useState({
-    name: "",
-    contactEmail: "",
-    contactPhone: "",
-    street: "",
+    userName: "",
+    userEmail: "",
+    userPhone: "",
+    restaurantName: "",
+    restaurantDescription: "",
+    addressLine: "",
     city: "",
     state: "",
     pincode: "",
-    country: "",
   })
 
-  useEffect(() => {
-    fetchRestaurant()
-  }, [])
-
-  const fetchRestaurant = async () => {
+  const fetchData = async () => {
     try {
       setIsLoading(true)
-      const data = await getRestaurantMe()
-      setRestaurant(data)
+      
+      const [currentUser, currentRestaurant, addresses] = await Promise.all([
+        authApi.getMe(),
+        getRestaurantMe().catch(() => null), // Allow to fail if no restaurant created yet
+        addressApi.getAll()
+      ])
+
+      // Enforce 1 address per restaurant owner: always use the very first address found.
+      const existingAddress = addresses.length > 0 ? addresses[0] : null;
+
+      setUser(currentUser)
+      setRestaurant(currentRestaurant)
+      setAddress(existingAddress)
+
       setFormData({
-        name: data.name || "",
-        contactEmail: data.contactEmail || "",
-        contactPhone: data.contactPhone || "",
-        street: data.address?.street || "",
-        city: data.address?.city || "",
-        state: data.address?.state || "",
-        pincode: data.address?.pincode || "",
-        country: data.address?.country || "USA",
+        userName: currentUser.name || "",
+        userEmail: currentUser.email || "",
+        userPhone: currentUser.phone || "",
+        restaurantName: currentRestaurant?.name || "",
+        restaurantDescription: currentRestaurant?.description || "",
+        addressLine: existingAddress?.addressLine || currentRestaurant?.addressLine || "",
+        city: existingAddress?.city || currentRestaurant?.city || "",
+        state: existingAddress?.state || currentRestaurant?.state || "",
+        pincode: existingAddress?.pincode || currentRestaurant?.pincode || "",
       })
     } catch (error: any) {
-      toast.error(error.response?.data?.error || "Failed to load restaurant details")
+      toast.error(error.response?.data?.error || "Failed to load details")
     } finally {
       setIsLoading(false)
     }
   }
+
+  useEffect(() => {
+    fetchData()
+  }, [])
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target
@@ -59,26 +82,72 @@ export function Settings() {
   const handleSave = async () => {
     try {
       setIsSaving(true)
-      const updateData = {
-        name: formData.name,
-        contactEmail: formData.contactEmail,
-        contactPhone: formData.contactPhone,
-        address: {
-          street: formData.street,
+      
+      // 1. Update User Profile (Name, Phone)
+      await updateMyProfile({
+        name: formData.userName,
+        phone: formData.userPhone
+      })
+
+      // 2. Update or Create Address (Strictly enforcing ONE address)
+      const addressPayload = {
+        label: "home" as const,
+        addressLine: formData.addressLine,
+        city: formData.city,
+        state: formData.state,
+        pincode: formData.pincode,
+        isDefault: true
+      }
+
+      if (address && address._id) {
+        await addressApi.update(address._id, addressPayload)
+      } else {
+        await addressApi.create(addressPayload)
+      }
+
+      // 3. Update Restaurant (Name, Description, and sync address fields)
+      if (restaurant) {
+        await updateRestaurantMe({
+          name: formData.restaurantName,
+          description: formData.restaurantDescription,
+          addressLine: formData.addressLine,
           city: formData.city,
           state: formData.state,
-          pincode: formData.pincode,
-          country: formData.country,
-        }
+          pincode: formData.pincode
+        })
       }
-      
-      const updated = await updateRestaurantMe(updateData)
-      setRestaurant(updated)
-      toast.success("Restaurant details updated successfully!")
+
+      await fetchData()
+      toast.success("Settings updated successfully!")
     } catch (error: any) {
-      toast.error(error.response?.data?.error || "Failed to update restaurant details")
+      toast.error(error.message || "Failed to update settings")
     } finally {
       setIsSaving(false)
+    }
+  }
+
+  const handleChangePassword = async () => {
+    if (!passwordForm.currentPassword || !passwordForm.newPassword) {
+      toast.error("Please fill in all password fields"); return
+    }
+    if (passwordForm.newPassword.length < 8) {
+      toast.error("New password must be at least 8 characters"); return
+    }
+    if (passwordForm.newPassword !== passwordForm.confirmPassword) {
+      toast.error("New passwords do not match"); return
+    }
+    try {
+      setIsChangingPwd(true)
+      await updateMyPassword({
+        currentPassword: passwordForm.currentPassword,
+        newPassword: passwordForm.newPassword,
+      })
+      toast.success("Password changed successfully!")
+      setPasswordForm({ currentPassword: "", newPassword: "", confirmPassword: "" })
+    } catch (error: any) {
+      toast.error(error.message || "Failed to change password")
+    } finally {
+      setIsChangingPwd(false)
     }
   }
 
@@ -120,25 +189,29 @@ export function Settings() {
             <div className="space-y-4">
                <h3 className="font-bold flex items-center gap-2 text-primary text-lg">
                   <StoreIcon className="size-5" />
-                  Restaurant Information
+                  Account & Restaurant Profile
                </h3>
                <div className="space-y-2">
-                 <Label htmlFor="name" className="font-semibold text-muted-foreground">Restaurant Name</Label>
-                 <Input id="name" value={formData.name} onChange={handleInputChange} className="rounded-md border bg-muted/20 h-12 focus-visible:ring-primary/20" />
+                 <Label htmlFor="userName" className="font-semibold text-muted-foreground">Owner Name</Label>
+                 <Input id="userName" value={formData.userName} onChange={handleInputChange} className="rounded-md border bg-muted/20 h-12 focus-visible:ring-primary/20" />
                </div>
                <div className="space-y-2">
-                 <Label htmlFor="contactEmail" className="font-semibold text-muted-foreground">Business Email</Label>
+                 <Label htmlFor="userEmail" className="font-semibold text-muted-foreground">Login Email</Label>
                  <div className="relative">
                    <MailIcon className="absolute left-4 top-1/2 -translate-y-1/2 size-5 text-muted-foreground" />
-                   <Input id="contactEmail" value={formData.contactEmail} onChange={handleInputChange} className="pl-12 rounded-md border bg-muted/20 h-12 focus-visible:ring-primary/20" />
+                   <Input id="userEmail" disabled value={formData.userEmail} className="pl-12 rounded-md border bg-muted/20 h-12 text-muted-foreground cursor-not-allowed" />
                  </div>
                </div>
                <div className="space-y-2">
-                 <Label htmlFor="contactPhone" className="font-semibold text-muted-foreground">Phone Number</Label>
+                 <Label htmlFor="userPhone" className="font-semibold text-muted-foreground">Contact Phone</Label>
                  <div className="relative">
                    <PhoneIcon className="absolute left-4 top-1/2 -translate-y-1/2 size-5 text-muted-foreground" />
-                   <Input id="contactPhone" value={formData.contactPhone} onChange={handleInputChange} className="pl-12 rounded-md border bg-muted/20 h-12 focus-visible:ring-primary/20" />
+                   <Input id="userPhone" value={formData.userPhone} onChange={handleInputChange} className="pl-12 rounded-md border bg-muted/20 h-12 focus-visible:ring-primary/20" />
                  </div>
+               </div>
+               <div className="space-y-2 pt-4">
+                 <Label htmlFor="restaurantName" className="font-semibold text-muted-foreground">Restaurant Name</Label>
+                 <Input id="restaurantName" value={formData.restaurantName} onChange={handleInputChange} className="rounded-md border bg-muted/20 h-12 focus-visible:ring-primary/20" />
                </div>
             </div>
 
@@ -148,8 +221,8 @@ export function Settings() {
                   Address Details
                </h3>
                <div className="space-y-2">
-                 <Label htmlFor="street" className="font-semibold text-muted-foreground">Street Address</Label>
-                 <Input id="street" value={formData.street} onChange={handleInputChange} className="rounded-md border bg-muted/20 h-12 focus-visible:ring-primary/20" />
+                 <Label htmlFor="addressLine" className="font-semibold text-muted-foreground">Street Address</Label>
+                 <Input id="addressLine" value={formData.addressLine} onChange={handleInputChange} className="rounded-md border bg-muted/20 h-12 focus-visible:ring-primary/20" />
                </div>
                <div className="grid grid-cols-2 gap-4">
                  <div className="space-y-2">
@@ -161,24 +234,91 @@ export function Settings() {
                    <Input id="state" value={formData.state} onChange={handleInputChange} className="rounded-md border bg-muted/20 h-12 focus-visible:ring-primary/20" />
                  </div>
                </div>
-               <div className="grid grid-cols-2 gap-4">
-                 <div className="space-y-2">
-                   <Label htmlFor="pincode" className="font-semibold text-muted-foreground">Zip Code</Label>
-                   <Input id="pincode" value={formData.pincode} onChange={handleInputChange} className="rounded-md border bg-muted/20 h-12 focus-visible:ring-primary/20" />
-                 </div>
-                 <div className="space-y-2">
-                   <Label htmlFor="country" className="font-semibold text-muted-foreground">Country</Label>
-                   <Input id="country" value={formData.country} onChange={handleInputChange} className="rounded-md border bg-muted/20 h-12 focus-visible:ring-primary/20" />
-                 </div>
+               <div className="space-y-2">
+                 <Label htmlFor="pincode" className="font-semibold text-muted-foreground">Zip Code</Label>
+                 <Input id="pincode" value={formData.pincode} onChange={handleInputChange} className="rounded-md border bg-muted/20 h-12 focus-visible:ring-primary/20" />
                </div>
             </div>
           </div>
           
           <div className="flex justify-end gap-3 pt-6 border-t">
-            <Button variant="outline" onClick={() => fetchRestaurant()} disabled={isSaving} className="rounded-md h-12 px-10 bg-muted/20 font-bold hover:bg-muted/30">Reset</Button>
+            <Button variant="outline" onClick={() => fetchData()} disabled={isSaving} className="rounded-md h-12 px-10 bg-muted/20 font-bold hover:bg-muted/30">Reset</Button>
             <Button onClick={handleSave} disabled={isSaving} className="rounded-md h-12 px-10 shadow-sm font-bold">
               {isSaving ? <Loader2 className="animate-spin size-5 mr-2" /> : null}
               Save Changes
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* ── Change Password ──────────────────────────────────── */}
+      <Card className="rounded-xl shadow-lg border-muted/50 overflow-hidden">
+        <CardHeader className="p-6 md:p-8">
+          <div className="flex items-center gap-3">
+            <div className="flex size-12 items-center justify-center rounded-full bg-primary/10">
+              <LockIcon className="size-5 text-primary" />
+            </div>
+            <div>
+              <CardTitle className="text-lg font-bold tracking-tight">Change Password</CardTitle>
+              <CardDescription className="text-sm">Update your account password. You'll need your current password to set a new one.</CardDescription>
+            </div>
+          </div>
+        </CardHeader>
+        <CardContent className="p-6 md:p-8 pt-0 md:pt-0 space-y-5">
+          <div className="max-w-md space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="currentPassword" className="font-semibold text-muted-foreground">Current Password</Label>
+              <div className="relative">
+                <Input
+                  id="currentPassword"
+                  type={showCurrentPwd ? "text" : "password"}
+                  value={passwordForm.currentPassword}
+                  onChange={(e) => setPasswordForm(p => ({ ...p, currentPassword: e.target.value }))}
+                  placeholder="Enter current password"
+                  className="pr-10 rounded-md border bg-muted/20 h-12 focus-visible:ring-primary/20"
+                />
+                <button type="button" onClick={() => setShowCurrentPwd(!showCurrentPwd)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground">
+                  {showCurrentPwd ? <EyeOffIcon className="size-4" /> : <EyeIcon className="size-4" />}
+                </button>
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="newPassword" className="font-semibold text-muted-foreground">New Password</Label>
+              <div className="relative">
+                <Input
+                  id="newPassword"
+                  type={showNewPwd ? "text" : "password"}
+                  value={passwordForm.newPassword}
+                  onChange={(e) => setPasswordForm(p => ({ ...p, newPassword: e.target.value }))}
+                  placeholder="Enter new password"
+                  className="pr-10 rounded-md border bg-muted/20 h-12 focus-visible:ring-primary/20"
+                />
+                <button type="button" onClick={() => setShowNewPwd(!showNewPwd)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground">
+                  {showNewPwd ? <EyeOffIcon className="size-4" /> : <EyeIcon className="size-4" />}
+                </button>
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="confirmPassword" className="font-semibold text-muted-foreground">Confirm New Password</Label>
+              <Input
+                id="confirmPassword"
+                type="password"
+                value={passwordForm.confirmPassword}
+                onChange={(e) => setPasswordForm(p => ({ ...p, confirmPassword: e.target.value }))}
+                placeholder="Re-enter new password"
+                className={`rounded-md border bg-muted/20 h-12 focus-visible:ring-primary/20 ${passwordForm.confirmPassword && passwordForm.confirmPassword !== passwordForm.newPassword ? "border-destructive" : ""}`}
+              />
+              {passwordForm.confirmPassword && passwordForm.confirmPassword !== passwordForm.newPassword && (
+                <p className="text-xs text-destructive">Passwords do not match</p>
+              )}
+            </div>
+          </div>
+          <div className="flex justify-end pt-4 border-t">
+            <Button onClick={handleChangePassword} disabled={isChangingPwd} className="rounded-md h-12 px-10 shadow-sm font-bold">
+              {isChangingPwd ? <Loader2 className="animate-spin size-5 mr-2" /> : null}
+              Update Password
             </Button>
           </div>
         </CardContent>

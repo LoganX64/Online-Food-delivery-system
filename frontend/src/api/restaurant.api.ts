@@ -13,15 +13,10 @@ export interface Restaurant {
   ownerId: string;
   name: string;
   description?: string;
-  address: {
-    street: string;
-    city: string;
-    state: string;
-    country: string;
-    pincode: string;
-  };
-  contactEmail: string;
-  contactPhone: string;
+  addressLine: string;
+  city: string;
+  state: string;
+  pincode: string;
   cuisines: string[];
   imageUrl?: string;
   rating: number;

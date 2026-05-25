@@ -55,9 +55,10 @@ interface RestaurantSidebarProps extends React.ComponentProps<typeof Sidebar> {
   activeTab: string
   setActiveTab: (tab: string) => void
   onQuickCreate?: () => void
+  onLogout?: () => void
 }
 
-export function RestaurantSidebar({ activeTab, setActiveTab, onQuickCreate, ...props }: RestaurantSidebarProps) {
+export function RestaurantSidebar({ activeTab, setActiveTab, onQuickCreate, onLogout, ...props }: RestaurantSidebarProps) {
   const { setOpenMobile } = useSidebar()
 
   return (
@@ -111,7 +112,7 @@ export function RestaurantSidebar({ activeTab, setActiveTab, onQuickCreate, ...p
       <SidebarFooter className="p-4 border-t">
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton onClick={() => {}} className="gap-3 text-destructive hover:text-destructive hover:bg-destructive/5 rounded-md px-3 h-9">
+            <SidebarMenuButton onClick={onLogout} className="gap-3 text-destructive hover:text-destructive hover:bg-destructive/5 rounded-md px-3 h-9">
               <LogOutIcon className="size-4" />
               <span className="font-medium group-data-[collapsible=icon]:hidden">Logout</span>
             </SidebarMenuButton>

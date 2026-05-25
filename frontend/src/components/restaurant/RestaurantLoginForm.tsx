@@ -81,12 +81,12 @@ export function RestaurantLoginForm({ className, ...props }: RestaurantLoginForm
                   <Label htmlFor="password" className="font-semibold text-xs uppercase tracking-wider text-muted-foreground">
                     Password
                   </Label>
-                  <a
-                    href="#"
+                  <Link
+                    to="/restaurant/forgot-password"
                     className="text-xs text-primary font-semibold hover:underline underline-offset-4"
                   >
                     Forgot password?
-                  </a>
+                  </Link>
                 </div>
                 <div className="relative">
                   <Lock className="absolute left-3 top-3 h-4.5 w-4.5 text-muted-foreground/70" />
