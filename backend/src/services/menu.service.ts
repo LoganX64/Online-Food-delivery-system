@@ -8,8 +8,8 @@ export const createMenuItem = async (
   data: Partial<IMenuItem>,
   file?: Express.Multer.File
 ) => {
-  // Ensure the restaurant belongs to the user creating the menu item
-  const restaurant = await Restaurant.findOne({ _id: data.restaurantId, ownerId }).lean();
+  // Find the restaurant belonging to the user creating the menu item
+  const restaurant = await Restaurant.findOne({ ownerId }).lean();
   if (!restaurant) {
     throw new AppError('Restaurant not found or unauthorized', 403);
   }
@@ -19,7 +19,11 @@ export const createMenuItem = async (
     imageUrl = await uploadImage(file.buffer, 'menu_items');
   }
 
-  const menuItem = new MenuItem({ ...data, image: imageUrl });
+  const menuItem = new MenuItem({
+    ...data,
+    restaurantId: restaurant._id,
+    image: imageUrl
+  });
   await menuItem.save();
   return menuItem.toObject();
 };

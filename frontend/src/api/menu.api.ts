@@ -18,21 +18,21 @@ export const getRestaurantMenu = async (restaurantId: string): Promise<MenuItem[
 };
 
 export const createMenuItem = async (formData: FormData): Promise<MenuItem> => {
-  return apiClient<MenuItem>('/menu', {
+  return apiClient<MenuItem>('/menus', {
     method: 'POST',
     body: formData
   });
 };
 
 export const updateMenuItem = async (id: string, formData: FormData): Promise<MenuItem> => {
-  return apiClient<MenuItem>(`/menu/${id}`, {
+  return apiClient<MenuItem>(`/menus/${id}`, {
     method: 'PUT',
     body: formData
   });
 };
 
 export const deleteMenuItem = async (id: string): Promise<void> => {
-  await apiClient<void>(`/menu/${id}`, {
+  await apiClient<void>(`/menus/${id}`, {
     method: 'DELETE'
   });
 };

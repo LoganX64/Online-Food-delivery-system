@@ -153,7 +153,7 @@ export const orderStatusUpdateSchema = z.object({
 
 export const menuCreateSchema = z.object({
   body: z.object({
-    restaurantId: z.string().regex(/^[0-9a-fA-F]{24}$/, 'Invalid restaurant ID'),
+    restaurantId: z.string().regex(/^[0-9a-fA-F]{24}$/, 'Invalid restaurant ID').optional(),
     name: z.string().trim().min(1, 'Menu item name is required'),
     description: z.string().trim().optional(),
     price: z.coerce.number().min(0, 'Price must be a positive number'),
