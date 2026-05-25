@@ -56,7 +56,7 @@ This approach demonstrates how to effectively manage, govern, and scale AI-gener
 
 ## Demo
 
-https://github.com/user-attachments/assets/5ae5ee14-1eb4-4011-bfb9-bd8f0c4ae6fc
+https://github.com/user-attachments/assets/39952738-2a34-4988-b916-9fc1b4c6cbbc
 
 ## 🚀 Setup & Installation (Coming Soon)
 
