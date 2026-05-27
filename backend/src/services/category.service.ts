@@ -3,12 +3,24 @@ import { AppError } from '../utils/AppError.js';
 
 /**
  * Create a new category for a restaurant.
+ * If a soft-deleted category with the same name exists, reactivate it.
  */
 export const createCategory = async (restaurantId: string, data: Partial<ICategory>) => {
-  const existing = await Category.findOne({ restaurantId, name: data.name }).lean();
+  // Check for any existing record (active or soft-deleted) with the same name
+  const existing = await Category.findOne({ restaurantId, name: data.name });
+
   if (existing) {
-    throw new AppError('Category with this name already exists', 400);
+    if (existing.isActive) {
+      // Truly a duplicate — reject
+      throw new AppError('Category with this name already exists', 400);
+    }
+    // Previously deleted — reactivate and update description if provided
+    existing.isActive = true;
+    if (data.description !== undefined) existing.description = data.description;
+    await existing.save();
+    return existing.toObject();
   }
+
   const category = new Category({ ...data, restaurantId });
   await category.save();
   return category.toObject();
@@ -34,11 +46,12 @@ export const getCategoryById = async (categoryId: string) => {
  * Update a category by ID, scoped to the restaurant.
  */
 export const updateCategory = async (restaurantId: string, categoryId: string, updates: Partial<ICategory>) => {
-  // If renaming, check uniqueness
+  // If renaming, check uniqueness against active categories only
   if (updates.name) {
     const existing = await Category.findOne({
       restaurantId,
       name: updates.name,
+      isActive: true,
       _id: { $ne: categoryId },
     }).lean();
     if (existing) {

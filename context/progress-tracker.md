@@ -354,6 +354,9 @@ change.
   - **Safe Category Deletion:** Added validation checks to category deletion, preventing users from opening the confirmation dialog for non-empty categories. Shows a warning toast message directly when clicked.
   - **Settings Panel Optimizations:** Removed the redundant "Reset" button and implemented dirty-state tracking (`hasChanges`) on the restaurant settings profile form to disable the "Save Changes" button unless actual edits exist.
   - **Menu Editor Optimizations:** Added tracking for the original fields of menu items during edits to disable the "Update Item" button unless changes are made to the item's name, price, description, category, or a new image is selected.
-
-
+- **Bug Fix — Category Soft-Delete / Re-create Conflict:**
+  - **Root Cause:** `Category` deletion was a soft-delete (`isActive: false`), but the unique MongoDB index on `{ restaurantId, name }` still held the document. `createCategory` queried without filtering by `isActive`, so it found the soft-deleted record and incorrectly threw `'Category with this name already exists'`. Same issue existed in `updateCategory`'s rename uniqueness check.
+  - **Fix — `createCategory`:** Now checks `isActive`. If a same-named record exists but is inactive, it is **reactivated** (and its description updated if provided) instead of throwing an error.
+  - **Fix — `updateCategory`:** Added `isActive: true` to the rename uniqueness query so renaming a category to a previously-deleted name is no longer blocked.
+  - Both backend changes verified with `npx tsc --noEmit` — zero errors.
 
