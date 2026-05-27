@@ -9,6 +9,7 @@ import { OrderHistory } from "../components/restaurant/OrderHistory"
 import { Settings } from "../components/restaurant/Settings"
 import { useAuth } from "@/hooks/useAuth"
 import { cn } from "@/lib/utils"
+import { Toaster } from "@/components/ui/sonner"
 import {
   SearchIcon,
   BellIcon,
@@ -70,6 +71,7 @@ export default function RestaurantDashboard() {
   return (
     <SidebarProvider>
       <div className="flex min-h-screen w-full bg-muted/40">
+        <Toaster position="top-center" />
 
         <RestaurantSidebar
           activeTab={activeTab}

@@ -8,7 +8,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { MapPinIcon, PhoneIcon, MailIcon, StoreIcon, Loader2, LockIcon, EyeIcon, EyeOffIcon } from "lucide-react"
 import { getRestaurantMe, updateRestaurantMe, type Restaurant } from "@/api/restaurant.api"
 import { authApi, type User } from "@/api/auth.api"
-import { getMyProfile, updateMyProfile, updateMyPassword } from "@/api/user.api"
+import { updateMyProfile, updateMyPassword } from "@/api/user.api"
 import { addressApi, type Address } from "@/api/address.api"
 import { toast } from "sonner"
 
@@ -22,7 +22,7 @@ export function Settings() {
   const [showCurrentPwd, setShowCurrentPwd] = useState(false)
   const [showNewPwd, setShowNewPwd] = useState(false)
   const [isChangingPwd, setIsChangingPwd] = useState(false)
-  
+
   const [formData, setFormData] = useState({
     userName: "",
     userEmail: "",
@@ -35,10 +35,12 @@ export function Settings() {
     pincode: "",
   })
 
+  const [initialData, setInitialData] = useState<typeof formData | null>(null)
+
   const fetchData = async () => {
     try {
       setIsLoading(true)
-      
+
       const [currentUser, currentRestaurant, addresses] = await Promise.all([
         authApi.getMe(),
         getRestaurantMe().catch(() => null), // Allow to fail if no restaurant created yet
@@ -52,7 +54,7 @@ export function Settings() {
       setRestaurant(currentRestaurant)
       setAddress(existingAddress)
 
-      setFormData({
+      const dataObj = {
         userName: currentUser.name || "",
         userEmail: currentUser.email || "",
         userPhone: currentUser.phone || "",
@@ -62,7 +64,9 @@ export function Settings() {
         city: existingAddress?.city || currentRestaurant?.city || "",
         state: existingAddress?.state || currentRestaurant?.state || "",
         pincode: existingAddress?.pincode || currentRestaurant?.pincode || "",
-      })
+      }
+      setFormData(dataObj)
+      setInitialData(dataObj)
     } catch (error: any) {
       toast.error(error.response?.data?.error || "Failed to load details")
     } finally {
@@ -82,7 +86,7 @@ export function Settings() {
   const handleSave = async () => {
     try {
       setIsSaving(true)
-      
+
       // 1. Update User Profile (Name, Phone)
       await updateMyProfile({
         name: formData.userName,
@@ -118,9 +122,9 @@ export function Settings() {
       }
 
       await fetchData()
-      toast.success("Settings updated successfully!")
+      toast.success("Profile updated successfully!")
     } catch (error: any) {
-      toast.error(error.message || "Failed to update settings")
+      toast.error(error.message || "Failed to update profile")
     } finally {
       setIsSaving(false)
     }
@@ -150,6 +154,17 @@ export function Settings() {
       setIsChangingPwd(false)
     }
   }
+
+  const hasChanges = initialData ? (
+    formData.userName !== initialData.userName ||
+    formData.userPhone !== initialData.userPhone ||
+    formData.restaurantName !== initialData.restaurantName ||
+    formData.restaurantDescription !== initialData.restaurantDescription ||
+    formData.addressLine !== initialData.addressLine ||
+    formData.city !== initialData.city ||
+    formData.state !== initialData.state ||
+    formData.pincode !== initialData.pincode
+  ) : false
 
   if (isLoading) {
     return (
@@ -187,63 +202,62 @@ export function Settings() {
         <CardContent className="p-6 md:p-8 space-y-8">
           <div className="grid gap-8 md:grid-cols-2">
             <div className="space-y-4">
-               <h3 className="font-bold flex items-center gap-2 text-primary text-lg">
-                  <StoreIcon className="size-5" />
-                  Account & Restaurant Profile
-               </h3>
-               <div className="space-y-2">
-                 <Label htmlFor="userName" className="font-semibold text-muted-foreground">Owner Name</Label>
-                 <Input id="userName" value={formData.userName} onChange={handleInputChange} className="rounded-md border bg-muted/20 h-12 focus-visible:ring-primary/20" />
-               </div>
-               <div className="space-y-2">
-                 <Label htmlFor="userEmail" className="font-semibold text-muted-foreground">Login Email</Label>
-                 <div className="relative">
-                   <MailIcon className="absolute left-4 top-1/2 -translate-y-1/2 size-5 text-muted-foreground" />
-                   <Input id="userEmail" disabled value={formData.userEmail} className="pl-12 rounded-md border bg-muted/20 h-12 text-muted-foreground cursor-not-allowed" />
-                 </div>
-               </div>
-               <div className="space-y-2">
-                 <Label htmlFor="userPhone" className="font-semibold text-muted-foreground">Contact Phone</Label>
-                 <div className="relative">
-                   <PhoneIcon className="absolute left-4 top-1/2 -translate-y-1/2 size-5 text-muted-foreground" />
-                   <Input id="userPhone" value={formData.userPhone} onChange={handleInputChange} className="pl-12 rounded-md border bg-muted/20 h-12 focus-visible:ring-primary/20" />
-                 </div>
-               </div>
-               <div className="space-y-2 pt-4">
-                 <Label htmlFor="restaurantName" className="font-semibold text-muted-foreground">Restaurant Name</Label>
-                 <Input id="restaurantName" value={formData.restaurantName} onChange={handleInputChange} className="rounded-md border bg-muted/20 h-12 focus-visible:ring-primary/20" />
-               </div>
+              <h3 className="font-bold flex items-center gap-2 text-primary text-lg">
+                <StoreIcon className="size-5" />
+                Account & Restaurant Profile
+              </h3>
+              <div className="space-y-2">
+                <Label htmlFor="userName" className="font-semibold text-muted-foreground">Owner Name</Label>
+                <Input id="userName" value={formData.userName} onChange={handleInputChange} className="rounded-md border bg-muted/20 h-12 focus-visible:ring-primary/20" />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="userEmail" className="font-semibold text-muted-foreground">Login Email</Label>
+                <div className="relative">
+                  <MailIcon className="absolute left-4 top-1/2 -translate-y-1/2 size-5 text-muted-foreground" />
+                  <Input id="userEmail" disabled value={formData.userEmail} className="pl-12 rounded-md border bg-muted/20 h-12 text-muted-foreground cursor-not-allowed" />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="userPhone" className="font-semibold text-muted-foreground">Contact Phone</Label>
+                <div className="relative">
+                  <PhoneIcon className="absolute left-4 top-1/2 -translate-y-1/2 size-5 text-muted-foreground" />
+                  <Input id="userPhone" value={formData.userPhone} onChange={handleInputChange} className="pl-12 rounded-md border bg-muted/20 h-12 focus-visible:ring-primary/20" />
+                </div>
+              </div>
+              <div className="space-y-2 pt-4">
+                <Label htmlFor="restaurantName" className="font-semibold text-muted-foreground">Restaurant Name</Label>
+                <Input id="restaurantName" value={formData.restaurantName} onChange={handleInputChange} className="rounded-md border bg-muted/20 h-12 focus-visible:ring-primary/20" />
+              </div>
             </div>
 
             <div className="space-y-4">
-               <h3 className="font-bold flex items-center gap-2 text-primary text-lg">
-                  <MapPinIcon className="size-5" />
-                  Address Details
-               </h3>
-               <div className="space-y-2">
-                 <Label htmlFor="addressLine" className="font-semibold text-muted-foreground">Street Address</Label>
-                 <Input id="addressLine" value={formData.addressLine} onChange={handleInputChange} className="rounded-md border bg-muted/20 h-12 focus-visible:ring-primary/20" />
-               </div>
-               <div className="grid grid-cols-2 gap-4">
-                 <div className="space-y-2">
-                   <Label htmlFor="city" className="font-semibold text-muted-foreground">City</Label>
-                   <Input id="city" value={formData.city} onChange={handleInputChange} className="rounded-md border bg-muted/20 h-12 focus-visible:ring-primary/20" />
-                 </div>
-                 <div className="space-y-2">
-                   <Label htmlFor="state" className="font-semibold text-muted-foreground">State</Label>
-                   <Input id="state" value={formData.state} onChange={handleInputChange} className="rounded-md border bg-muted/20 h-12 focus-visible:ring-primary/20" />
-                 </div>
-               </div>
-               <div className="space-y-2">
-                 <Label htmlFor="pincode" className="font-semibold text-muted-foreground">Zip Code</Label>
-                 <Input id="pincode" value={formData.pincode} onChange={handleInputChange} className="rounded-md border bg-muted/20 h-12 focus-visible:ring-primary/20" />
-               </div>
+              <h3 className="font-bold flex items-center gap-2 text-primary text-lg">
+                <MapPinIcon className="size-5" />
+                Address Details
+              </h3>
+              <div className="space-y-2">
+                <Label htmlFor="addressLine" className="font-semibold text-muted-foreground">Street Address</Label>
+                <Input id="addressLine" value={formData.addressLine} onChange={handleInputChange} className="rounded-md border bg-muted/20 h-12 focus-visible:ring-primary/20" />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="city" className="font-semibold text-muted-foreground">City</Label>
+                  <Input id="city" value={formData.city} onChange={handleInputChange} className="rounded-md border bg-muted/20 h-12 focus-visible:ring-primary/20" />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="state" className="font-semibold text-muted-foreground">State</Label>
+                  <Input id="state" value={formData.state} onChange={handleInputChange} className="rounded-md border bg-muted/20 h-12 focus-visible:ring-primary/20" />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="pincode" className="font-semibold text-muted-foreground">Zip Code</Label>
+                <Input id="pincode" value={formData.pincode} onChange={handleInputChange} className="rounded-md border bg-muted/20 h-12 focus-visible:ring-primary/20" />
+              </div>
             </div>
           </div>
-          
+
           <div className="flex justify-end gap-3 pt-6 border-t">
-            <Button variant="outline" onClick={() => fetchData()} disabled={isSaving} className="rounded-md h-12 px-10 bg-muted/20 font-bold hover:bg-muted/30">Reset</Button>
-            <Button onClick={handleSave} disabled={isSaving} className="rounded-md h-12 px-10 shadow-sm font-bold">
+            <Button onClick={handleSave} disabled={isSaving || !hasChanges} className="rounded-md h-12 px-10 shadow-sm font-bold">
               {isSaving ? <Loader2 className="animate-spin size-5 mr-2" /> : null}
               Save Changes
             </Button>

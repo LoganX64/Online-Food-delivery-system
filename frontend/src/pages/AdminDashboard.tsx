@@ -9,6 +9,7 @@ import { AnalyticsView } from "@/components/admin/AnalyticsView"
 import { SettingsView } from "@/components/admin/SettingsView"
 import { AddRestaurantWizard } from "@/components/admin/AddRestaurantWizard"
 import { LayoutDashboardIcon, ShoppingBagIcon, StoreIcon, Settings2Icon } from "lucide-react"
+import { Toaster } from "@/components/ui/sonner"
 
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState("Dashboard")
@@ -38,6 +39,7 @@ export default function AdminDashboard() {
   return (
     <SidebarProvider>
       <div className="flex min-h-screen w-full bg-muted/40">
+        <Toaster position="top-center" />
         <AdminSidebar
           activeTab={activeTab}
           setActiveTab={(tab) => { setActiveTab(tab); setIsAddingRestaurant(false) }}

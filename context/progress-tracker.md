@@ -347,3 +347,13 @@ change.
   - **Change Password Card:** Integrated inline Change Password functionality within the Settings dashboard tab, complete with visibility toggle controls and clientside validation checks.
   - **Category Endpoint:** Created Category DB model, service methods, controllers, and Express routes scoped to the restaurant owner. Enabled unique categories per restaurant.
   - **Menu Editor Wiring:** Rewired frontend `MenuEditor.tsx` to dynamically query and manage categories. Updated food item creation modal to select from available categories and auto-assign `restaurantId` on the backend, securing the request pipeline.
+
+- Restaurant & Admin Dashboard Toast and Safe Delete Polish:
+  - **Mounted Toaster Component:** Added `<Toaster position="top-center" />` to both `RestaurantDashboard.tsx` and `AdminDashboard.tsx`. This enables all success, error, and status change toast notifications (such as settings updates, category additions, and menu item updates) to display correctly on the UI.
+  - **Confirm Delete Dialogs:** Integrated the reusable `<ConfirmDeleteDialog />` component into the `MenuEditor.tsx` for deleting both categories and menu items, completely replacing browser-native `window.confirm` alerts.
+  - **Safe Category Deletion:** Added validation checks to category deletion, preventing users from opening the confirmation dialog for non-empty categories. Shows a warning toast message directly when clicked.
+  - **Settings Panel Optimizations:** Removed the redundant "Reset" button and implemented dirty-state tracking (`hasChanges`) on the restaurant settings profile form to disable the "Save Changes" button unless actual edits exist.
+  - **Menu Editor Optimizations:** Added tracking for the original fields of menu items during edits to disable the "Update Item" button unless changes are made to the item's name, price, description, category, or a new image is selected.
+
+
+

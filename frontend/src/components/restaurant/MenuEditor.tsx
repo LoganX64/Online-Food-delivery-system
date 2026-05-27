@@ -20,7 +20,6 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-  DialogClose,
 } from "@/components/ui/dialog"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
@@ -36,6 +35,7 @@ import { getRestaurantMenu, createMenuItem, updateMenuItem, deleteMenuItem, type
 import { getMyCategories, createCategory, deleteCategoryApi, type Category } from "@/api/category.api"
 import { getRestaurantMe } from "@/api/restaurant.api"
 import { toast } from "sonner"
+import { ConfirmDeleteDialog } from "@/components/ConfirmDeleteDialog"
 
 interface MenuEditorProps {
   isAddDialogOpen?: boolean;
@@ -55,6 +55,7 @@ export function MenuEditor({ isAddDialogOpen, onAddDialogChange }: MenuEditorPro
   const [formData, setFormData] = useState({ name: "", price: "", description: "", categoryName: "" })
   const [imageFile, setImageFile] = useState<File | null>(null)
   const [editingItemId, setEditingItemId] = useState<string | null>(null)
+  const [editingOriginalData, setEditingOriginalData] = useState<typeof formData | null>(null)
 
   // Category dialog state
   const [newCatName, setNewCatName] = useState("")
@@ -122,6 +123,7 @@ export function MenuEditor({ isAddDialogOpen, onAddDialogChange }: MenuEditorPro
     setFormData({ name: "", price: "", description: "", categoryName: activeCategory?.name || "" })
     setImageFile(null)
     setEditingItemId(null)
+    setEditingOriginalData(null)
   }
 
   const handleSaveItem = async () => {
@@ -167,7 +169,6 @@ export function MenuEditor({ isAddDialogOpen, onAddDialogChange }: MenuEditorPro
   }
 
   const handleDelete = async (id: string) => {
-    if (!window.confirm("Are you sure you want to delete this item?")) return
     try {
       await deleteMenuItem(id)
       setItems(items.filter(i => i._id !== id))
@@ -178,12 +179,14 @@ export function MenuEditor({ isAddDialogOpen, onAddDialogChange }: MenuEditorPro
   }
 
   const openEdit = (item: MenuItem) => {
-    setFormData({
+    const data = {
       name: item.name,
       price: item.price.toString(),
       description: item.description || "",
       categoryName: item.category
-    })
+    }
+    setFormData(data)
+    setEditingOriginalData(data)
     setImageFile(null)
     setEditingItemId(item._id)
     onAddDialogChange?.(true)
@@ -211,13 +214,6 @@ export function MenuEditor({ isAddDialogOpen, onAddDialogChange }: MenuEditorPro
   }
 
   const handleDeleteCategory = async (catId: string) => {
-    const cat = categories.find(c => c._id === catId)
-    const hasItems = items.some(item => cat && item.category === cat.name)
-    if (hasItems) {
-      toast.error("Remove all items from this category first")
-      return
-    }
-    if (!window.confirm(`Delete category "${cat?.name}"?`)) return
     try {
       await deleteCategoryApi(catId)
       const updated = categories.filter(c => c._id !== catId)
@@ -238,6 +234,16 @@ export function MenuEditor({ isAddDialogOpen, onAddDialogChange }: MenuEditorPro
       </div>
     )
   }
+
+  const hasItemChanges = editingItemId && editingOriginalData ? (
+    formData.name !== editingOriginalData.name ||
+    formData.price !== editingOriginalData.price ||
+    formData.description !== editingOriginalData.description ||
+    formData.categoryName !== editingOriginalData.categoryName ||
+    imageFile !== null
+  ) : true
+
+  const isSaveDisabled = isSaving || (editingItemId ? !hasItemChanges : (!formData.name || !formData.price))
 
   return (
     <div className="flex flex-col lg:flex-row gap-8 min-h-[600px] animate-in fade-in duration-700 -ml-2">
@@ -300,13 +306,26 @@ export function MenuEditor({ isAddDialogOpen, onAddDialogChange }: MenuEditorPro
                   <>
                     <div className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-5 bg-[#F97316] rounded-r-full" />
                     <div className="flex items-center gap-1">
-                      <button
-                        onClick={(e) => { e.stopPropagation(); handleDeleteCategory(cat._id); }}
-                        className="opacity-0 group-hover:opacity-100 transition-opacity"
-                        title="Delete category"
+                      <ConfirmDeleteDialog
+                        title="Delete Category?"
+                        description={`Are you sure you want to delete category "${cat.name}"? This action cannot be undone.`}
+                        onConfirm={() => handleDeleteCategory(cat._id)}
                       >
-                        <Trash2Icon className="size-3 text-destructive hover:text-destructive/80" />
-                      </button>
+                        <button
+                          className="opacity-0 group-hover:opacity-100 transition-opacity"
+                          title="Delete category"
+                          onClick={(e) => {
+                            const hasItems = items.some(item => item.category === cat.name)
+                            if (hasItems) {
+                              e.preventDefault()
+                              e.stopPropagation()
+                              toast.error("Remove all items from this category first")
+                            }
+                          }}
+                        >
+                          <Trash2Icon className="size-3 text-destructive hover:text-destructive/80" />
+                        </button>
+                      </ConfirmDeleteDialog>
                       <GripVerticalIcon className="size-3.5 opacity-30" />
                     </div>
                   </>
@@ -393,7 +412,7 @@ export function MenuEditor({ isAddDialogOpen, onAddDialogChange }: MenuEditorPro
               </div>
               <DialogFooter className="gap-2">
                 <Button variant="ghost" onClick={() => onAddDialogChange?.(false)} className="rounded-xl h-10 font-bold flex-1 text-xs">Cancel</Button>
-                <Button onClick={handleSaveItem} disabled={isSaving} className="h-10 rounded-xl font-bold flex-[2] shadow-lg shadow-primary/20 text-xs">
+                <Button onClick={handleSaveItem} disabled={isSaveDisabled} className="h-10 rounded-xl font-bold flex-[2] shadow-lg shadow-primary/20 text-xs">
                   {isSaving ? <Loader2 className="animate-spin size-4 mr-2" /> : null}
                   {editingItemId ? 'Update Item' : 'Save Item'}
                 </Button>
@@ -474,9 +493,15 @@ export function MenuEditor({ isAddDialogOpen, onAddDialogChange }: MenuEditorPro
                     <Button variant="ghost" onClick={() => openEdit(item)} size="icon" className="size-8 rounded-xl bg-white hover:bg-primary hover:text-white shadow-sm border border-slate-50 transition-all duration-300">
                       <PencilIcon className="size-3.5" />
                     </Button>
-                    <Button variant="ghost" onClick={() => handleDelete(item._id)} size="icon" className="size-8 rounded-xl bg-white hover:bg-red-500 hover:text-white shadow-sm border border-slate-50 transition-all duration-300">
-                      <Trash2Icon className="size-3.5" />
-                    </Button>
+                    <ConfirmDeleteDialog
+                      title="Delete Menu Item?"
+                      description={`Are you sure you want to delete "${item.name}"? This action cannot be undone.`}
+                      onConfirm={() => handleDelete(item._id)}
+                    >
+                      <Button variant="ghost" size="icon" className="size-8 rounded-xl bg-white hover:bg-red-500 hover:text-white shadow-sm border border-slate-50 transition-all duration-300">
+                        <Trash2Icon className="size-3.5" />
+                      </Button>
+                    </ConfirmDeleteDialog>
                   </div>
                 </div>
               </div>
