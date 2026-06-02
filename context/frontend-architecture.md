@@ -53,36 +53,37 @@ Each dashboard role owns its components under a dedicated sub-folder. No cross-r
 - `/` → Home (restaurant listing)
 - `/login`
 - `/register`
+- Static/Info Pages: `/about`, `/careers`, `/contact`, `/blog`, `/support`, `/safety`, `/faq`, `/privacy`, `/terms`, `/cookies`, `/accessibility`
+
+---
+
+## Global / Edge
+
+- `/*` → NotFound (catch-all route)
 
 ---
 
 ## Customer
 
 - `/restaurant/:id` → Menu view
+- `/restaurants` → All restaurants directory
+- `/menus` → Global menus catalog
 - `/cart`
 - `/checkout`
 - `/orders`
-- `/orders/:id`
-- `/profile`
-- `/addresses`
+- `/user-dashboard` → Profile, addresses, payment methods, notifications
 
 ---
 
 ## Restaurant Owner
 
-- `/restaurant/dashboard`
-- `/restaurant/orders`
-- `/restaurant/menu`
-- `/restaurant/profile`
+- `/restaurant-dashboard` → Dashboard overview, live orders, menu editor, settings
 
 ---
 
 ## Admin
 
-- `/admin/dashboard`
-- `/admin/restaurants`
-- `/admin/users`
-- `/admin/orders`
+- `/admin-dashboard` → Dashboard overview, user/restaurant/order management
 
 ---
 
@@ -114,7 +115,7 @@ Each dashboard role owns its components under a dedicated sub-folder. No cross-r
 # 🛒 State Management
 
 - Auth → Context
-- Cart → Context
+- Cart → localStorage (no backend state)
 - UI → local state only
 
 ---

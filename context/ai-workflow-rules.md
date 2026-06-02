@@ -71,7 +71,7 @@ These rules define how an AI coding agent must behave while working on this proj
   - system flow
 - If a new rule or constraint is introduced, it must be reflected in:
   - architecture.md (if structural)
-  - code-standard.md (if behavioral)
+  - code-standards.md (if behavioral)
 - Documentation must never lag behind implementation.
 
 ---

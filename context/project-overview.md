@@ -34,8 +34,8 @@ This is a multi-restaurant online food ordering platform where users can browse 
     - Orders are marked as PLACED
     - Restaurant owners are notified (via dashboard)
 11. Restaurant owners accept or reject orders.
-12. Accepted orders move through preparation stages.
-13. Delivery is completed using OTP-based verification.
+12. Accepted orders move through preparation stages (PREPARING -> HANDED_OFF).
+13. Delivery is completed (DELIVERED status).
 14. User can view all orders and their statuses in the order history page.
 
 ---
@@ -91,7 +91,7 @@ This is a multi-restaurant online food ordering platform where users can browse 
 
 - Multi-restaurant cart support
 - Automatic order splitting per restaurant
-- Order lifecycle management (created → placed → accepted → delivered)
+- Order lifecycle management (PENDING → ACCEPTED → PREPARING → HANDED_OFF → DELIVERED, CANCELLED, REJECTED)
 - Mock payment integration
 - Payment success/failure handling
 - Order snapshot storage (price frozen at order time)
@@ -108,7 +108,6 @@ This is a multi-restaurant online food ordering platform where users can browse 
 - JWT authentication with HTTP-only cookies
 - Pincode-based restaurant filtering
 - Order lifecycle management
-- OTP-based delivery verification (simulation)
 
 ---
 

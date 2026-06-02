@@ -82,7 +82,7 @@ Stores all core application data:
   - price, availability
 
 - `carts`
-  - active user cart sessions
+  - active user cart sessions (Note: currently implemented via localStorage on frontend)
 
 - `orders`
   - split per restaurant
@@ -158,9 +158,9 @@ Used for:
 
 ## Ownership Rules
 
-- Each restaurant is linked to a user via `owner_id`
+- Each restaurant is linked to a user via `ownerId`
 - A restaurant owner can ONLY access their own restaurant data
-- Orders are scoped by `restaurant_id`
+- Orders are scoped by `restaurantId`
 
 ---
 
@@ -223,7 +223,7 @@ Once an order is created:
 ## 4. Restaurant ownership must always be enforced
 
 - A restaurant owner can only access their own restaurant
-- All queries must be filtered by `owner_id`
+- All queries must be filtered by `ownerId`
 
 ---
 
@@ -236,14 +236,14 @@ Once an order is created:
 
 ## 6. Price must be frozen at order creation
 
-- All order items must store `price_at_order_time`
+- All order items must store `priceAtOrder`
 - Menu price changes must NOT affect existing orders
 
 ---
 
 ## 7. Orders must always be linked to a payment record
 
-- Every order group must reference a `payment_id`
+- Every order group must reference a `paymentId`
 - No orphan orders allowed
 
 ---

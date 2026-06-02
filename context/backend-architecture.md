@@ -81,6 +81,18 @@ This document defines the backend architecture of the multi-restaurant food orde
 
 ---
 
+## categories
+
+- _id
+- restaurantId
+- name
+- description
+- isActive
+- createdAt
+- updatedAt
+
+---
+
 ## menu_items
 
 - _id
@@ -124,7 +136,7 @@ This document defines the backend architecture of the multi-restaurant food orde
   - quantity
 ]
 - totalAmount
-- status
+- status (PENDING | ACCEPTED | PREPARING | HANDED_OFF | DELIVERED | CANCELLED | REJECTED)
 - addressSnapshot {
   addressLine
   city
@@ -168,6 +180,15 @@ This document defines the backend architecture of the multi-restaurant food orde
 - POST `/auth/login`
 - POST `/auth/logout`
 - GET  `/auth/me`
+- POST `/auth/forgot-password`
+- POST `/auth/reset-password/:token`
+- PUT  `/auth/update-password`
+
+---
+
+## System
+
+- GET `/health`
 
 ---
 
@@ -183,6 +204,7 @@ This document defines the backend architecture of the multi-restaurant food orde
 
 - GET    `/addresses`
 - POST   `/addresses`
+- GET    `/addresses/:id`
 - PUT    `/addresses/:id`
 - DELETE `/addresses/:id`
 
@@ -191,6 +213,7 @@ This document defines the backend architecture of the multi-restaurant food orde
 ## Restaurants (Customer)
 
 - GET `/restaurants?pincode=`
+- GET `/restaurants/search?q=`
 - GET `/restaurants/:id`
 - GET `/restaurants/:id/menu`
 
@@ -201,14 +224,27 @@ This document defines the backend architecture of the multi-restaurant food orde
 - POST `/restaurant`
 - GET  `/restaurant/me`
 - PUT  `/restaurant/me`
+- GET  `/restaurant/earnings`
 
 ---
 
-## Menu
+## Menus
 
-- POST   `/menu`
-- PUT    `/menu/:id`
-- DELETE `/menu/:id`
+- GET    `/menus`
+- GET    `/menus/:id`
+- POST   `/menus`
+- PUT    `/menus/:id`
+- DELETE `/menus/:id`
+
+---
+
+## Categories
+
+- POST   `/categories`
+- GET    `/categories`
+- GET    `/categories/restaurant/:restaurantId`
+- PUT    `/categories/:id`
+- DELETE `/categories/:id`
 
 ---
 
@@ -245,12 +281,45 @@ This document defines the backend architecture of the multi-restaurant food orde
 
 ---
 
-## Admin
+## Admin (Restaurants & Approvals)
 
 - GET  `/admin/restaurants`
 - POST `/admin/restaurants/:id/approve`
 - POST `/admin/restaurants/:id/reject`
 - PUT  `/admin/restaurants/:id/deactivate`
+- GET  `/restaurant` (Admin view all)
+- GET  `/restaurant/:id` (Admin view one)
+- PUT  `/restaurant/:id` (Admin update)
+- DELETE `/restaurant/:id` (Admin delete)
+
+---
+
+## Admin (Users)
+
+- POST `/users`
+- GET  `/users`
+- GET  `/users/:id`
+- PUT  `/users/:id`
+- DELETE `/users/:id`
+
+---
+
+## Payment Methods
+
+- GET    `/payment-methods`
+- POST   `/payment-methods`
+- PUT    `/payment-methods/:id`
+- DELETE `/payment-methods/:id`
+
+---
+
+## Notifications
+
+- GET    `/notifications`
+- POST   `/notifications`
+- PUT    `/notifications/read-all`
+- PUT    `/notifications/:id/read`
+- DELETE `/notifications/:id`
 
 ---
 
