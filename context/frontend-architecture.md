@@ -53,6 +53,13 @@ Each dashboard role owns its components under a dedicated sub-folder. No cross-r
 - `/` → Home (restaurant listing)
 - `/login`
 - `/register`
+- `/forgot-password`
+- `/reset-password/:token`
+- `/restaurant/login`
+- `/restaurant/register`
+- `/restaurant/forgot-password`
+- `/restaurant/reset-password/:token`
+- `/admin/login`
 - Static/Info Pages: `/about`, `/careers`, `/contact`, `/blog`, `/support`, `/safety`, `/faq`, `/privacy`, `/terms`, `/cookies`, `/accessibility`
 
 ---
