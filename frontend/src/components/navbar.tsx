@@ -17,6 +17,7 @@ import {
 import { useEffect, useState } from "react"
 import { getCartItemCount } from "@/utils/cart-storage"
 import { useAuth } from "@/hooks/useAuth"
+import { ModeToggle } from "@/components/mode-toggle"
 
 export function Navbar() {
   const location = useLocation()
@@ -82,6 +83,8 @@ export function Navbar() {
               </Link>
             </Button>
             
+            <ModeToggle />
+            
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="icon" className="rounded-full">
@@ -142,6 +145,8 @@ export function Navbar() {
                 <span className="sr-only">Cart</span>
               </Link>
             </Button>
+
+            <ModeToggle />
 
             <Button variant="ghost" size="icon" asChild>
               <Link to="/profile">
