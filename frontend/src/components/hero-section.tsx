@@ -30,7 +30,7 @@ export const HeroSection = () => {
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
           <Input
             placeholder="Search for restaurants, dishes"
-            className="pl-12 h-12 bg-[#f0f4f8] border-none focus-visible:ring-0 focus-visible:ring-offset-0 text-sm rounded-xl placeholder:text-muted-foreground/60 shadow-none"
+            className="pl-12 h-12 bg-muted border-none focus-visible:ring-0 focus-visible:ring-offset-0 text-sm rounded-xl placeholder:text-muted-foreground/60 shadow-none"
           />
         </div>
       </div>
@@ -48,7 +48,7 @@ export const HeroSection = () => {
 
         {/* Content Card */}
         <div className="relative z-10 w-full px-4">
-          <Card className="max-w-3xl mx-auto border-none shadow-2xl bg-white/95 backdrop-blur-sm">
+          <Card className="max-w-3xl mx-auto border-none shadow-2xl bg-background/95 backdrop-blur-sm">
             <CardContent className="p-6 md:p-10 flex-col gap-6">
               <div className="flex-col gap-2 text-center md:text-left">
                 <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-foreground capitalize leading-tight">

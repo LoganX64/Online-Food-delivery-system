@@ -119,13 +119,13 @@ export function CartPage() {
           {/* Left Side: Restaurant Cards */}
           <div className="lg:col-span-7 xl:col-span-8 order-1 flex flex-col gap-4">
             {Object.entries(groupedItems).map(([restaurantName, items]) => (
-              <div key={restaurantName} className="bg-white rounded-3xl p-5 sm:p-7 shadow-sm border border-gray-100">
+              <div key={restaurantName} className="bg-card rounded-3xl p-5 sm:p-7 shadow-sm border border-border">
                 <h2 className="text-xl font-bold flex items-center gap-2 pb-2 text-foreground">
                   <span role="img" aria-label="fork and knife">🍴</span> {restaurantName}
                 </h2>
                 <div className="flex flex-col">
                   {items.map((item, index) => (
-                    <div key={item.id} className="flex items-center gap-4 py-5 border-b border-dotted border-gray-300 last:border-0 last:pb-0">
+                    <div key={item.id} className="flex items-center gap-4 py-5 border-b border-dotted border-border last:border-0 last:pb-0">
                       <div className="relative shrink-0">
                         <img
                           src={item.image}
@@ -167,8 +167,8 @@ export function CartPage() {
 
           {/* Right Side: Order Summary */}
           <div className="lg:col-span-5 xl:col-span-4 order-3 lg:order-2">
-            <Card className="shadow-lg border-0 bg-white rounded-3xl lg:sticky lg:top-24 overflow-hidden">
-              <CardHeader className="pb-5 bg-gray-50/50 border-b border-gray-100">
+            <Card className="shadow-lg border-0 bg-card rounded-3xl lg:sticky lg:top-24 overflow-hidden">
+              <CardHeader className="pb-5 bg-muted/50 border-b border-border">
                 <CardTitle className="text-xl font-bold text-foreground">Order Summary</CardTitle>
               </CardHeader>
               <CardContent className="flex flex-col gap-6 pt-6 px-6">
@@ -177,7 +177,7 @@ export function CartPage() {
                     <Ticket className="absolute left-3 top-3.5 size-5 text-gray-400" />
                     <Input
                       placeholder="Promo Code"
-                      className="pl-10 rounded-2xl bg-gray-50 border-gray-200 h-12 text-base"
+                      className="pl-10 rounded-2xl bg-muted border-border h-12 text-base"
                       value={coupon}
                       onChange={(e) => setCoupon(e.target.value)}
                     />
@@ -189,22 +189,22 @@ export function CartPage() {
                   </Button>
                 </div>
 
-                <div className="flex flex-col gap-4 text-sm font-mono text-gray-500">
+                <div className="flex flex-col gap-4 text-sm font-mono text-muted-foreground">
                   <div className="flex justify-between items-center">
                     <span>Subtotal</span>
-                    <span className="font-medium text-gray-900">${subtotal.toFixed(2)}</span>
+                    <span className="font-medium text-foreground">${subtotal.toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between items-center">
                     <span>Delivery Fee</span>
-                    <span className="font-medium text-gray-900">${deliveryFee.toFixed(2)}</span>
+                    <span className="font-medium text-foreground">${deliveryFee.toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between items-center">
                     <span>Taxes & Fees</span>
-                    <span className="font-medium text-gray-900">${tax.toFixed(2)}</span>
+                    <span className="font-medium text-foreground">${tax.toFixed(2)}</span>
                   </div>
                 </div>
-                <div className="pt-5 border-t border-dotted border-gray-300 flex justify-between items-end">
-                  <span className="font-bold text-lg text-gray-800">Total</span>
+                <div className="pt-5 border-t border-dotted border-border flex justify-between items-end">
+                  <span className="font-bold text-lg text-foreground">Total</span>
                   <span className="font-black text-3xl text-primary tracking-tight">${total.toFixed(2)}</span>
                 </div>
               </CardContent>
@@ -217,7 +217,7 @@ export function CartPage() {
                   <span>Proceed to Checkout</span>
                   <ArrowRight className="size-5" />
                 </Button>
-                <p className="text-center text-xs text-gray-400 mt-2">By proceeding, you agree to our Terms of Service.</p>
+                <p className="text-center text-xs text-muted-foreground mt-2">By proceeding, you agree to our Terms of Service.</p>
               </CardFooter>
             </Card>
           </div>

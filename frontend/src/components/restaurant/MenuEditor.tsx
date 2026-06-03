@@ -250,7 +250,7 @@ export function MenuEditor({ isAddDialogOpen, onAddDialogChange }: MenuEditorPro
       {/* Sidebar - Categories */}
       <div className="w-full lg:w-48 shrink-0 flex flex-col gap-6">
         <div className="flex items-center justify-between px-1">
-          <h2 className="text-lg font-bold text-slate-800 tracking-tight">Categories</h2>
+          <h2 className="text-lg font-bold text-foreground tracking-tight">Categories</h2>
           <Dialog open={isCatDialogOpen} onOpenChange={setIsCatDialogOpen}>
             <DialogTrigger asChild>
               <Button variant="ghost" size="icon" className="size-8 rounded-full text-[#F97316] hover:bg-[#F97316]/10 transition-colors">
@@ -298,7 +298,7 @@ export function MenuEditor({ isAddDialogOpen, onAddDialogChange }: MenuEditorPro
                   "flex items-center justify-between px-3 py-2.5 rounded-xl transition-all duration-300 text-left group relative",
                   activeCategoryId === cat._id
                     ? "bg-[#F97316]/5 text-[#F97316] font-bold"
-                    : "text-slate-400 hover:text-slate-900 font-medium hover:bg-slate-50"
+                    : "text-muted-foreground hover:text-foreground font-medium hover:bg-muted"
                 )}
               >
                 <span className="relative z-10 text-sm">{cat.name}</span>
@@ -340,8 +340,8 @@ export function MenuEditor({ isAddDialogOpen, onAddDialogChange }: MenuEditorPro
       <div className="flex-1 flex flex-col gap-6">
         <div className="flex flex-col md:flex-row gap-4 items-start md:items-center justify-between">
           <div>
-            <h2 className="text-2xl font-black tracking-tight text-slate-900">{activeCategory?.name || "All Items"}</h2>
-            <p className="text-slate-400 text-[13px] font-medium">{activeCategory?.description || "Manage your menu items."}</p>
+            <h2 className="text-2xl font-black tracking-tight text-foreground">{activeCategory?.name || "All Items"}</h2>
+            <p className="text-muted-foreground text-[13px] font-medium">{activeCategory?.description || "Manage your menu items."}</p>
           </div>
 
           <Dialog open={isAddDialogOpen} onOpenChange={(open) => {
@@ -349,7 +349,7 @@ export function MenuEditor({ isAddDialogOpen, onAddDialogChange }: MenuEditorPro
             onAddDialogChange?.(open)
           }}>
             <DialogTrigger asChild>
-              <Button className="gap-2 rounded-xl h-10 px-5 bg-white text-[#F97316] border-2 border-[#F97316]/20 hover:bg-[#F97316] hover:text-white hover:border-[#F97316] transition-all duration-300 text-xs font-bold shadow-sm active:scale-95 group">
+              <Button className="gap-2 rounded-xl h-10 px-5 bg-background text-primary border-2 border-primary/20 hover:bg-primary hover:text-white hover:border-primary transition-all duration-300 text-xs font-bold shadow-sm active:scale-95 group">
                 <PlusIcon className="size-4 transition-transform group-hover:rotate-90" />
                 Add New Item
               </Button>
@@ -357,7 +357,7 @@ export function MenuEditor({ isAddDialogOpen, onAddDialogChange }: MenuEditorPro
             <DialogContent className="sm:max-w-[500px] rounded-3xl border-none shadow-2xl p-6">
               <DialogHeader>
                 <DialogTitle className="text-2xl font-black">{editingItemId ? "Edit Item" : "Add New Item"}</DialogTitle>
-                <DialogDescription className="font-medium text-slate-400">
+                <DialogDescription className="font-medium text-muted-foreground">
                   {editingItemId ? "Update the details of this dish." : `Add a delicious new dish to your menu.`}
                 </DialogDescription>
               </DialogHeader>
@@ -365,14 +365,14 @@ export function MenuEditor({ isAddDialogOpen, onAddDialogChange }: MenuEditorPro
                 <div className="flex justify-center">
                   <div
                     onClick={() => fileInputRef.current?.click()}
-                    className="size-24 rounded-2xl border-2 border-dashed border-slate-100 flex flex-col items-center justify-center gap-1 cursor-pointer hover:bg-slate-50 hover:border-primary/30 transition-all group overflow-hidden"
+                    className="size-24 rounded-2xl border-2 border-dashed border-border flex flex-col items-center justify-center gap-1 cursor-pointer hover:bg-muted hover:border-primary/30 transition-all group overflow-hidden"
                   >
                     {imageFile ? (
                       <img src={URL.createObjectURL(imageFile)} alt="Preview" className="w-full h-full object-cover" />
                     ) : (
                       <>
-                        <ImagePlusIcon className="size-6 text-slate-300 group-hover:text-primary transition-colors" />
-                        <span className="text-[9px] font-black text-slate-300 uppercase tracking-widest">Photo</span>
+                        <ImagePlusIcon className="size-6 text-muted-foreground/50 group-hover:text-primary transition-colors" />
+                        <span className="text-[9px] font-black text-muted-foreground/50 uppercase tracking-widest">Photo</span>
                       </>
                     )}
                   </div>
@@ -380,19 +380,19 @@ export function MenuEditor({ isAddDialogOpen, onAddDialogChange }: MenuEditorPro
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="grid gap-1.5">
-                    <Label htmlFor="item-name" className="font-bold text-[10px] uppercase tracking-widest text-slate-400 ml-1">Item Name</Label>
-                    <Input id="item-name" value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} placeholder="e.g. Crispy Wings" className="h-10 rounded-xl bg-slate-50 border-none" />
+                    <Label htmlFor="item-name" className="font-bold text-[10px] uppercase tracking-widest text-muted-foreground ml-1">Item Name</Label>
+                    <Input id="item-name" value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} placeholder="e.g. Crispy Wings" className="h-10 rounded-xl bg-muted/50 border-none" />
                   </div>
                   <div className="grid gap-1.5">
-                    <Label htmlFor="item-price" className="font-bold text-[10px] uppercase tracking-widest text-slate-400 ml-1">Price ($)</Label>
-                    <Input id="item-price" type="number" step="0.01" value={formData.price} onChange={(e) => setFormData({...formData, price: e.target.value})} placeholder="10.00" className="h-10 rounded-xl bg-slate-50 border-none font-mono font-bold" />
+                    <Label htmlFor="item-price" className="font-bold text-[10px] uppercase tracking-widest text-muted-foreground ml-1">Price ($)</Label>
+                    <Input id="item-price" type="number" step="0.01" value={formData.price} onChange={(e) => setFormData({...formData, price: e.target.value})} placeholder="10.00" className="h-10 rounded-xl bg-muted/50 border-none font-mono font-bold" />
                   </div>
                 </div>
                 <div className="grid gap-1.5">
-                  <Label className="font-bold text-[10px] uppercase tracking-widest text-slate-400 ml-1">Category</Label>
+                  <Label className="font-bold text-[10px] uppercase tracking-widest text-muted-foreground ml-1">Category</Label>
                   {categories.length > 0 ? (
                     <Select value={formData.categoryName} onValueChange={(val) => setFormData({...formData, categoryName: val})}>
-                      <SelectTrigger className="h-10 rounded-xl bg-slate-50 border-none">
+                      <SelectTrigger className="h-10 rounded-xl bg-muted/50 border-none">
                         <SelectValue placeholder="Select a category" />
                       </SelectTrigger>
                       <SelectContent>
@@ -406,8 +406,8 @@ export function MenuEditor({ isAddDialogOpen, onAddDialogChange }: MenuEditorPro
                   )}
                 </div>
                 <div className="grid gap-1.5">
-                  <Label htmlFor="item-desc" className="font-bold text-[10px] uppercase tracking-widest text-slate-400 ml-1">Description</Label>
-                  <Textarea id="item-desc" value={formData.description} onChange={(e) => setFormData({...formData, description: e.target.value})} placeholder="What makes this dish special?" className="min-h-[100px] rounded-xl bg-slate-50 border-none resize-none" />
+                  <Label htmlFor="item-desc" className="font-bold text-[10px] uppercase tracking-widest text-muted-foreground ml-1">Description</Label>
+                  <Textarea id="item-desc" value={formData.description} onChange={(e) => setFormData({...formData, description: e.target.value})} placeholder="What makes this dish special?" className="min-h-[100px] rounded-xl bg-muted/50 border-none resize-none" />
                 </div>
               </div>
               <DialogFooter className="gap-2">
@@ -422,10 +422,10 @@ export function MenuEditor({ isAddDialogOpen, onAddDialogChange }: MenuEditorPro
         </div>
 
         <div className="relative group max-w-2xl">
-          <SearchIcon className="absolute left-3.5 top-1/2 -translate-y-1/2 size-4 text-slate-300 transition-colors group-focus-within:text-primary" />
+          <SearchIcon className="absolute left-3.5 top-1/2 -translate-y-1/2 size-4 text-muted-foreground/50 transition-colors group-focus-within:text-primary" />
           <Input
             placeholder={`Search in ${activeCategory?.name || "menu"}...`}
-            className="pl-10 h-11 bg-white border-slate-100 rounded-xl shadow-sm focus-visible:ring-primary/10 focus-visible:border-primary/20 transition-all text-sm font-medium"
+            className="pl-10 h-11 bg-muted/30 border-border rounded-xl shadow-sm focus-visible:ring-primary/10 focus-visible:border-primary/20 transition-all text-sm font-medium"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -436,14 +436,14 @@ export function MenuEditor({ isAddDialogOpen, onAddDialogChange }: MenuEditorPro
             displayItems.map((item) => (
               <div
                 key={item._id}
-                className="overflow-hidden border border-slate-100 shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] transition-all duration-500 group rounded-[1.5rem] bg-white flex flex-col sm:flex-row"
+                className="overflow-hidden border border-border shadow-sm hover:shadow-md transition-all duration-500 group rounded-[1.5rem] bg-card flex flex-col sm:flex-row"
               >
                 {/* Item Image Container */}
-                <div className="w-full sm:w-32 md:w-36 aspect-video sm:aspect-square bg-slate-50/50 flex items-center justify-center shrink-0 border-r border-slate-100/50 relative overflow-hidden">
+                <div className="w-full sm:w-32 md:w-36 aspect-video sm:aspect-square bg-muted/50 flex items-center justify-center shrink-0 border-r border-border/50 relative overflow-hidden">
                   {item.image ? (
                      <img src={item.image} alt={item.name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
                   ) : (
-                    <div className="size-16 md:size-20 bg-white rounded-2xl shadow-[0_4px_12px_rgba(0,0,0,0.03)] flex items-center justify-center text-4xl transition-transform duration-500 group-hover:scale-110 relative z-10">
+                    <div className="size-16 md:size-20 bg-card rounded-2xl shadow-sm flex items-center justify-center text-4xl transition-transform duration-500 group-hover:scale-110 relative z-10">
                       🍽️
                     </div>
                   )}
@@ -455,30 +455,30 @@ export function MenuEditor({ isAddDialogOpen, onAddDialogChange }: MenuEditorPro
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex flex-col gap-1">
                       <div className="flex items-baseline gap-2.5">
-                        <h3 className="text-[17px] font-bold text-slate-900 group-hover:text-primary transition-colors tracking-tight">
+                        <h3 className="text-[17px] font-bold text-foreground group-hover:text-primary transition-colors tracking-tight">
                           {item.name}
                         </h3>
-                        <span className="text-[17px] font-bold text-slate-800">${item.price.toFixed(2)}</span>
+                        <span className="text-[17px] font-bold text-foreground/80">${item.price.toFixed(2)}</span>
                       </div>
-                      <p className="text-slate-400 text-[13px] font-medium leading-relaxed max-w-lg line-clamp-2">
+                      <p className="text-muted-foreground text-[13px] font-medium leading-relaxed max-w-lg line-clamp-2">
                         {item.description}
                       </p>
                     </div>
                   </div>
 
                   <div className="flex flex-wrap gap-2 mt-1">
-                    <Badge variant="secondary" className="text-[10px] font-bold uppercase tracking-wider bg-slate-100 text-slate-500 border-none">
+                    <Badge variant="secondary" className="text-[10px] font-bold uppercase tracking-wider">
                       {item.category}
                     </Badge>
                   </div>
                 </div>
 
                 {/* Actions Area */}
-                <div className="w-full sm:w-auto p-5 sm:border-l border-slate-50 flex sm:flex-col items-center justify-between sm:justify-center gap-4 bg-slate-50/20 sm:min-w-[120px]">
+                <div className="w-full sm:w-auto p-5 sm:border-l border-border flex sm:flex-col items-center justify-between sm:justify-center gap-4 bg-muted/20 sm:min-w-[120px]">
                   <div className="flex flex-col items-center gap-1.5">
                     <span className={cn(
                       "text-[9px] font-black uppercase tracking-widest",
-                      item.isAvailable ? "text-primary" : "text-slate-300"
+                      item.isAvailable ? "text-primary" : "text-muted-foreground/40"
                     )}>
                       {item.isAvailable ? "Available" : "Sold Out"}
                     </span>
@@ -490,7 +490,7 @@ export function MenuEditor({ isAddDialogOpen, onAddDialogChange }: MenuEditorPro
                   </div>
 
                   <div className="flex items-center gap-1.5">
-                    <Button variant="ghost" onClick={() => openEdit(item)} size="icon" className="size-8 rounded-xl bg-white hover:bg-primary hover:text-white shadow-sm border border-slate-50 transition-all duration-300">
+                    <Button variant="ghost" onClick={() => openEdit(item)} size="icon" className="size-8 rounded-xl bg-muted hover:bg-primary hover:text-white shadow-sm border border-border transition-all duration-300">
                       <PencilIcon className="size-3.5" />
                     </Button>
                     <ConfirmDeleteDialog
@@ -498,7 +498,7 @@ export function MenuEditor({ isAddDialogOpen, onAddDialogChange }: MenuEditorPro
                       description={`Are you sure you want to delete "${item.name}"? This action cannot be undone.`}
                       onConfirm={() => handleDelete(item._id)}
                     >
-                      <Button variant="ghost" size="icon" className="size-8 rounded-xl bg-white hover:bg-red-500 hover:text-white shadow-sm border border-slate-50 transition-all duration-300">
+                      <Button variant="ghost" size="icon" className="size-8 rounded-xl bg-muted hover:bg-red-500 hover:text-white shadow-sm border border-border transition-all duration-300">
                         <Trash2Icon className="size-3.5" />
                       </Button>
                     </ConfirmDeleteDialog>
@@ -507,12 +507,12 @@ export function MenuEditor({ isAddDialogOpen, onAddDialogChange }: MenuEditorPro
               </div>
             ))
           ) : (
-            <div className="py-16 text-center border-2 border-dashed border-slate-100 rounded-[2rem] bg-slate-50/30">
-              <div className="bg-white size-14 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-sm">
-                <SearchIcon className="size-6 text-slate-200" />
+            <div className="py-16 text-center border-2 border-dashed border-border rounded-[2rem] bg-muted/20">
+              <div className="bg-muted size-14 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-sm">
+                <SearchIcon className="size-6 text-muted-foreground/40" />
               </div>
-              <h3 className="text-xl font-black text-slate-800">No items found</h3>
-              <p className="text-slate-400 text-sm font-medium mt-1">
+              <h3 className="text-xl font-black text-foreground">No items found</h3>
+              <p className="text-muted-foreground text-sm font-medium mt-1">
                 {categories.length === 0 ? "Create a category first, then add items." : "Try another search term or add a new item."}
               </p>
             </div>

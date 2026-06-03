@@ -144,7 +144,7 @@ export function PaymentMethods() {
                   <CreditCardIcon className="size-5 text-primary" />
                   <span className="font-bold">{method.provider}</span>
                 </div>
-                {method.isDefault && <Badge className="bg-green-100 text-green-700 border-green-200">Default</Badge>}
+                {method.isDefault && <Badge variant="secondary" className="bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border-emerald-500/20">Default</Badge>}
               </div>
               <CardContent className="p-6 flex flex-col gap-3">
                 {method.last4 && (
@@ -177,7 +177,7 @@ export function PaymentMethods() {
 
       <Card className="bg-primary/5 border-dashed border-primary/20">
         <CardContent className="flex items-center gap-4 py-6">
-          <div className="bg-white p-3 rounded-full shadow-sm">
+          <div className="bg-background p-3 rounded-full shadow-sm border border-border">
             <ShieldCheckIcon className="size-6 text-primary" />
           </div>
           <div>

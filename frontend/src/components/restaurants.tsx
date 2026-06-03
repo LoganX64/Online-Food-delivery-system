@@ -124,7 +124,7 @@ export const Restaurants = () => {
             variant="outline"
             size="icon"
             onClick={() => scroll("left")}
-            className="rounded-full size-10 shadow-xl bg-white border-muted hover:bg-primary hover:text-white transition-all flex items-center justify-center"
+            className="rounded-full size-10 shadow-xl bg-background border border-border hover:bg-primary hover:text-white transition-all flex items-center justify-center"
           >
             <ChevronLeft className="size-6" />
           </Button>
@@ -134,7 +134,7 @@ export const Restaurants = () => {
             variant="outline"
             size="icon"
             onClick={() => scroll("right")}
-            className="rounded-full size-10 shadow-xl bg-white border-muted hover:bg-primary hover:text-white transition-all flex items-center justify-center"
+            className="rounded-full size-10 shadow-xl bg-background border border-border hover:bg-primary hover:text-white transition-all flex items-center justify-center"
           >
             <ChevronRight className="size-6" />
           </Button>
@@ -177,7 +177,7 @@ const RestaurantCard = ({ restaurant }: { restaurant: any }) => {
         </div>
       }
       topRightBadge={
-        <button className="size-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-md hover:bg-primary hover:text-white transition-all duration-300">
+        <button className="size-8 rounded-full bg-background/90 backdrop-blur-sm flex items-center justify-center shadow-md hover:bg-primary hover:text-white transition-all duration-300">
           <Heart className="size-4" />
         </button>
       }

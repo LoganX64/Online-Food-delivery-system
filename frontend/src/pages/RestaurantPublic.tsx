@@ -298,7 +298,7 @@ export default function RestaurantPublic() {
             onClick={() => navigate(-1)} 
             variant="secondary" 
             size="icon" 
-            className="rounded-full shadow-lg bg-white/95 backdrop-blur-sm text-foreground hover:bg-primary hover:text-white border-none transition-all size-8"
+            className="rounded-full shadow-lg bg-background/95 backdrop-blur-sm text-foreground hover:bg-primary hover:text-white border-none transition-all size-8"
           >
             <ChevronLeft className="size-4.5" />
           </Button>
@@ -309,7 +309,7 @@ export default function RestaurantPublic() {
             onClick={handleFavoriteClick}
             variant="secondary" 
             size="icon" 
-            className="rounded-full shadow-lg bg-white/95 backdrop-blur-sm text-foreground hover:text-red-500 border-none transition-all size-8"
+            className="rounded-full shadow-lg bg-background/95 backdrop-blur-sm text-foreground hover:text-red-500 border-none transition-all size-8"
           >
             <Heart className={`size-4 ${isLiked ? "fill-red-500 text-red-500" : ""}`} />
           </Button>
@@ -326,7 +326,7 @@ export default function RestaurantPublic() {
             <div className="flex flex-col md:flex-row items-center md:items-start justify-between gap-4">
               <div className="flex flex-col md:flex-row items-center md:items-start gap-4 text-center md:text-left w-full md:w-auto">
                 {/* Profile Avatar Emblem */}
-                <div className="flex size-14 md:size-16 items-center justify-center rounded-xl bg-primary/10 text-2xl shadow-inner border border-primary/20 bg-white shrink-0">
+                <div className="flex size-14 md:size-16 items-center justify-center rounded-xl bg-primary/10 text-2xl shadow-inner border border-primary/20 shrink-0">
                   {profile.logo}
                 </div>
                 
@@ -364,7 +364,7 @@ export default function RestaurantPublic() {
                     {profile.rating}
                     <Star className="size-3.5 fill-green-700 text-green-700 dark:fill-emerald-400 dark:text-emerald-400" />
                   </div>
-                  <span className="text-[8px] uppercase font-black text-slate-400 tracking-wider mt-0.5">Rating</span>
+                  <span className="text-[8px] uppercase font-black text-muted-foreground tracking-wider mt-0.5">Rating</span>
                 </div>
                 
                 <div className="flex flex-col items-center bg-muted/40 p-1.5 md:p-2 rounded-xl shadow-inner border border-muted/20 w-[80px] md:w-[85px]">
@@ -372,7 +372,7 @@ export default function RestaurantPublic() {
                     <Clock className="size-3.5 text-primary" />
                     <span>{profile.deliveryTime.split(' ')[0]}</span>
                   </div>
-                  <span className="text-[8px] uppercase font-black text-slate-400 tracking-wider mt-0.5">Minutes</span>
+                  <span className="text-[8px] uppercase font-black text-muted-foreground tracking-wider mt-0.5">Minutes</span>
                 </div>
 
                 <div className="flex flex-col items-center bg-muted/40 p-1.5 md:p-2 rounded-xl shadow-inner border border-muted/20 w-[80px] md:w-[85px]">
@@ -380,7 +380,7 @@ export default function RestaurantPublic() {
                     <Truck className="size-3.5 text-primary shrink-0" />
                     <span>Free</span>
                   </div>
-                  <span className="text-[8px] uppercase font-black text-slate-400 tracking-wider mt-0.5">Delivery</span>
+                  <span className="text-[8px] uppercase font-black text-muted-foreground tracking-wider mt-0.5">Delivery</span>
                 </div>
               </div>
             </div>
@@ -479,11 +479,11 @@ export default function RestaurantPublic() {
                   </div>
                 ) : (
                   <div className="py-16 text-center border-2 border-dashed border-muted rounded-[2rem] bg-card/50">
-                    <div className="bg-background size-14 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-sm border">
-                      <Search className="size-6 text-slate-300" />
-                    </div>
-                    <h3 className="text-lg font-black text-foreground">No dishes match search</h3>
-                    <p className="text-slate-400 text-xs font-semibold mt-1">Try another search keyword.</p>
+                    <div className="bg-background size-14 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-sm border border-border">
+                       <Search className="size-6 text-muted-foreground/40" />
+                     </div>
+                     <h3 className="text-lg font-black text-foreground">No dishes match search</h3>
+                     <p className="text-muted-foreground text-xs font-semibold mt-1">Try another search keyword.</p>
                   </div>
                 )}
               </TabsContent>
@@ -509,7 +509,7 @@ export default function RestaurantPublic() {
                             {Array.from({ length: 5 }).map((_, i) => (
                               <Star 
                                 key={i} 
-                                className={`size-3.5 ${i < review.rating ? "fill-primary text-primary" : "text-slate-200"}`} 
+                                className={`size-3.5 ${i < review.rating ? "fill-primary text-primary" : "text-muted-foreground/20"}`} 
                               />
                             ))}
                           </div>

@@ -188,7 +188,7 @@ export function SecurityTab() {
 
       <Card className="bg-primary/5 border-dashed border-primary/20">
         <CardContent className="flex items-center gap-4 py-5">
-          <div className="bg-white p-2.5 rounded-full shadow-sm shrink-0">
+          <div className="bg-background p-2.5 rounded-full shadow-sm shrink-0 border border-border">
             <ShieldIcon className="size-5 text-primary" />
           </div>
           <div>

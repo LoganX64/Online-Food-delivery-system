@@ -183,7 +183,7 @@ export function SavedAddresses() {
                   type="checkbox"
                   checked={form.isDefault}
                   onChange={(e) => setForm({ ...form, isDefault: e.target.checked })}
-                  className="accent-primary size-4 rounded border-gray-300 text-primary focus:ring-primary"
+                  className="accent-primary size-4 rounded border-border text-primary focus:ring-primary"
                 />
                 Set as default delivery address
               </label>

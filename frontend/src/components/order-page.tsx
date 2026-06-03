@@ -165,8 +165,8 @@ export function OrderPage() {
               </div>
             ) : (
               filteredOrders.map(order => (
-                <div key={order.id} className="bg-white rounded-3xl p-5 sm:p-7 shadow-sm border border-gray-100 transition-all hover:shadow-md">
-                  <div className="flex items-start sm:items-center justify-between mb-4 pb-4 border-b border-dotted border-gray-200">
+                <div key={order.id} className="bg-card rounded-3xl p-5 sm:p-7 shadow-sm border border-border transition-all hover:shadow-md">
+                  <div className="flex items-start sm:items-center justify-between mb-4 pb-4 border-b border-dotted border-border/50">
                     <div>
                       <h2 className="text-lg sm:text-xl font-bold flex items-center gap-2 text-foreground">
                         <span role="img" aria-label="package">📦</span> {order.restaurant}
@@ -194,7 +194,7 @@ export function OrderPage() {
                       </div>
                     </div>
 
-                    <div className="flex items-center justify-end gap-2 sm:gap-3 shrink-0 pt-3 sm:pt-0 border-t border-dotted border-gray-200 sm:border-0">
+                    <div className="flex items-center justify-end gap-2 sm:gap-3 shrink-0 pt-3 sm:pt-0 border-t border-dotted border-border/50 sm:border-0">
                       {order.status === "in_progress" && (
                         <Button className="w-full sm:w-auto rounded-full px-6 h-10 font-bold shadow-sm">
                           Track Order

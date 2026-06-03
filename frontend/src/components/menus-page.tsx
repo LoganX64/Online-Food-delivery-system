@@ -336,14 +336,14 @@ export function MenusPage() {
   return (
     <div className="min-h-screen bg-muted/10 pb-20">
       {/* High-Fidelity Upper Banner Card */}
-      <div className="relative bg-[#fff1eb] border-b border-[#ffe2d5] py-8 md:py-10 mb-8">
+      <div className="relative bg-[#fff1eb] dark:bg-card border-b border-[#ffe2d5] dark:border-border py-8 md:py-10 mb-8">
         {/* Floating actions */}
         <div className="absolute top-3 left-3 z-10 md:hidden">
           <Button 
             onClick={() => navigate(-1)} 
             variant="secondary" 
             size="icon" 
-            className="rounded-full shadow-lg bg-white/95 backdrop-blur-sm text-foreground hover:bg-primary hover:text-white border-none transition-all size-8"
+            className="rounded-full shadow-lg bg-background/95 backdrop-blur-sm text-foreground hover:bg-primary hover:text-white border-none transition-all size-8"
           >
             <ChevronLeft className="size-4.5" />
           </Button>
