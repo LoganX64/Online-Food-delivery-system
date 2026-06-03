@@ -1,92 +1,111 @@
-import { useState, useEffect } from "react"
-import { Link, useNavigate } from "react-router-dom"
-import { Minus, Plus, Trash2, ShoppingCart, ArrowRight, Ticket } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { FoodCard } from "@/components/ui/food-card"
-import { Input } from "@/components/ui/input"
-import { Separator } from "@/components/ui/separator"
-import { toast } from "sonner"
-import { getCartFromStorage, saveCartToStorage } from "@/utils/cart-storage"
-import type { CartItems } from "@/utils/cart-storage"
-import { DISHES } from "@/utils/dishes"
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import {
+  Minus,
+  Plus,
+  Trash2,
+  ShoppingCart,
+  ArrowRight,
+  Ticket,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { FoodCard } from "@/components/ui/food-card";
+import { Input } from "@/components/ui/input";
+import { Separator } from "@/components/ui/separator";
+import { toast } from "sonner";
+import { getCartFromStorage, saveCartToStorage } from "@/utils/cart-storage";
+import type { CartItems } from "@/utils/cart-storage";
+import { DISHES } from "@/utils/dishes";
 
 export function CartPage() {
-  const navigate = useNavigate()
-  const [cartCounts, setCartCounts] = useState<CartItems>(getCartFromStorage)
-  const [coupon, setCoupon] = useState("")
+  const navigate = useNavigate();
+  const [cartCounts, setCartCounts] = useState<CartItems>(getCartFromStorage);
+  const [coupon, setCoupon] = useState("");
 
   const updateCount = (id: number, delta: number) => {
-    const dishName = DISHES.find(d => d.id === id)?.name ?? "Item"
-    const current = cartCounts[id] || 0
-    const next = current + delta
-    let updated: CartItems
+    const dishName = DISHES.find((d) => d.id === id)?.name ?? "Item";
+    const current = cartCounts[id] || 0;
+    const next = current + delta;
+    let updated: CartItems;
 
     if (next <= 0) {
-      const { [id]: _, ...rest } = cartCounts
-      updated = rest
+      const { [id]: _, ...rest } = cartCounts;
+      updated = rest;
     } else {
-      updated = { ...cartCounts, [id]: next }
+      updated = { ...cartCounts, [id]: next };
     }
 
-    setCartCounts(updated)
-    saveCartToStorage(updated)
+    setCartCounts(updated);
+    saveCartToStorage(updated);
 
     if (next <= 0) {
       toast(`${dishName} removed from cart`, {
         icon: <Trash2 className="size-4 text-destructive" />,
-      })
+      });
       if (Object.keys(updated).length === 0) {
         toast("Your cart is now empty", {
           icon: <ShoppingCart className="size-4" />,
-        })
+        });
       }
     } else if (delta > 0) {
       toast(`${dishName} quantity increased`, {
         icon: <Plus className="size-4 text-primary" />,
-      })
+      });
     } else {
       toast(`${dishName} quantity decreased`, {
         icon: <Minus className="size-4 text-primary" />,
-      })
+      });
     }
-  }
+  };
 
   const removeItem = (id: number) => {
-    const currentCount = cartCounts[id] || 0
+    const currentCount = cartCounts[id] || 0;
     if (currentCount > 0) {
-      updateCount(id, -currentCount)
+      updateCount(id, -currentCount);
     }
-  }
+  };
 
   const addToCart = (id: number) => {
-    const dishName = DISHES.find(d => d.id === id)?.name ?? "Item"
-    const updated = { ...cartCounts, [id]: (cartCounts[id] || 0) + 1 }
+    const dishName = DISHES.find((d) => d.id === id)?.name ?? "Item";
+    const updated = { ...cartCounts, [id]: (cartCounts[id] || 0) + 1 };
 
-    setCartCounts(updated)
-    saveCartToStorage(updated)
+    setCartCounts(updated);
+    saveCartToStorage(updated);
     toast(`${dishName} added to cart`, {
       icon: <ShoppingCart className="size-4 text-primary" />,
-    })
-  }
+    });
+  };
 
-  const cartItemsList = DISHES.filter(d => cartCounts[d.id] > 0).map(d => ({
+  const cartItemsList = DISHES.filter((d) => cartCounts[d.id] > 0).map((d) => ({
     ...d,
-    quantity: cartCounts[d.id]
-  }))
+    quantity: cartCounts[d.id],
+  }));
 
-  const groupedItems = cartItemsList.reduce((acc, item) => {
-    if (!acc[item.restaurant]) acc[item.restaurant] = []
-    acc[item.restaurant].push(item)
-    return acc
-  }, {} as Record<string, typeof cartItemsList>)
+  const groupedItems = cartItemsList.reduce(
+    (acc, item) => {
+      if (!acc[item.restaurant]) acc[item.restaurant] = [];
+      acc[item.restaurant].push(item);
+      return acc;
+    },
+    {} as Record<string, typeof cartItemsList>,
+  );
 
-  const recommendations = DISHES.filter(d => !cartCounts[d.id]).slice(0, 4)
+  const recommendations = DISHES.filter((d) => !cartCounts[d.id]).slice(0, 4);
 
-  const subtotal = cartItemsList.reduce((sum, item) => sum + (item.price * item.quantity), 0)
-  const deliveryFee = subtotal > 0 ? 2.99 : 0
-  const tax = subtotal * 0.05
-  const total = subtotal + deliveryFee + tax
+  const subtotal = cartItemsList.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0,
+  );
+  const deliveryFee = subtotal > 0 ? 2.99 : 0;
+  const tax = subtotal * 0.05;
+  const total = subtotal + deliveryFee + tax;
 
   if (Object.keys(cartCounts).length === 0) {
     return (
@@ -96,7 +115,8 @@ export function CartPage() {
         </div>
         <h2 className="text-3xl font-bold mb-3">Your Cart is Empty</h2>
         <p className="text-muted-foreground mb-8 max-w-md">
-          Looks like you haven't added any items to your cart yet. Explore our menus to find your next favorite meal!
+          Looks like you haven't added any items to your cart yet. Explore our
+          menus to find your next favorite meal!
         </p>
         <Link to="/menus">
           <Button size="lg" className="rounded-full px-8">
@@ -104,28 +124,41 @@ export function CartPage() {
           </Button>
         </Link>
       </div>
-    )
+    );
   }
 
   return (
     <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 md:px-8 py-8 md:py-12 max-w-6xl pb-32 lg:pb-12">
         <div className="mb-10 text-center md:text-left">
-          <h1 className="text-4xl md:text-5xl font-black tracking-tight mb-3 text-foreground">Your Cart</h1>
-          <p className="text-muted-foreground text-sm md:text-base font-mono tracking-wider">Review your items before proceeding to checkout.</p>
+          <h1 className="text-4xl md:text-5xl font-black tracking-tight mb-3 text-foreground">
+            Your Cart
+          </h1>
+          <p className="text-muted-foreground text-sm md:text-base font-mono tracking-wider">
+            Review your items before proceeding to checkout.
+          </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10">
           {/* Left Side: Restaurant Cards */}
           <div className="lg:col-span-7 xl:col-span-8 order-1 flex flex-col gap-4">
             {Object.entries(groupedItems).map(([restaurantName, items]) => (
-              <div key={restaurantName} className="bg-card rounded-3xl p-5 sm:p-7 shadow-sm border border-border">
+              <div
+                key={restaurantName}
+                className="bg-card rounded-3xl p-5 sm:p-7 shadow-sm border border-border"
+              >
                 <h2 className="text-xl font-bold flex items-center gap-2 pb-2 text-foreground">
-                  <span role="img" aria-label="fork and knife">🍴</span> {restaurantName}
+                  <span role="img" aria-label="fork and knife">
+                    🍴
+                  </span>{" "}
+                  {restaurantName}
                 </h2>
                 <div className="flex flex-col">
                   {items.map((item, index) => (
-                    <div key={item.id} className="flex items-center gap-4 py-5 border-b border-dotted border-border last:border-0 last:pb-0">
+                    <div
+                      key={item.id}
+                      className="flex items-center gap-4 py-5 border-b border-dotted border-border last:border-0 last:pb-0"
+                    >
                       <div className="relative shrink-0">
                         <img
                           src={item.image}
@@ -134,9 +167,15 @@ export function CartPage() {
                         />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <h3 className="font-bold text-base sm:text-lg text-foreground line-clamp-1">{item.name}</h3>
-                        <p className="text-muted-foreground text-xs sm:text-sm line-clamp-1 mt-0.5">Classic preparation</p>
-                        <p className="text-primary font-black mt-1 text-sm sm:text-base">${item.price.toFixed(2)}</p>
+                        <h3 className="font-bold text-base sm:text-lg text-foreground line-clamp-1">
+                          {item.name}
+                        </h3>
+                        <p className="text-muted-foreground text-xs sm:text-sm line-clamp-1 mt-0.5">
+                          Classic preparation
+                        </p>
+                        <p className="text-primary font-black mt-1 text-sm sm:text-base">
+                          ${item.price.toFixed(2)}
+                        </p>
                       </div>
 
                       <div className="flex items-center gap-3 bg-primary/10 rounded-full px-1.5 py-1.5 shrink-0">
@@ -148,7 +187,9 @@ export function CartPage() {
                         >
                           <Minus className="size-3 sm:size-4" />
                         </Button>
-                        <span className="w-5 sm:w-6 text-center font-bold text-sm sm:text-base text-primary">{item.quantity}</span>
+                        <span className="w-5 sm:w-6 text-center font-bold text-sm sm:text-base text-primary">
+                          {item.quantity}
+                        </span>
                         <Button
                           variant="ghost"
                           size="icon"
@@ -168,8 +209,10 @@ export function CartPage() {
           {/* Right Side: Order Summary */}
           <div className="lg:col-span-5 xl:col-span-4 order-3 lg:order-2">
             <Card className="shadow-lg border-0 bg-card rounded-3xl lg:sticky lg:top-24 overflow-hidden">
-              <CardHeader className="pb-5 bg-muted/50 border-b border-border">
-                <CardTitle className="text-xl font-bold text-foreground">Order Summary</CardTitle>
+              <CardHeader className="pb-5 border-b border-border">
+                <CardTitle className="text-xl font-bold text-foreground">
+                  Order Summary
+                </CardTitle>
               </CardHeader>
               <CardContent className="flex flex-col gap-6 pt-6 px-6">
                 <div className="flex gap-2">
@@ -182,9 +225,16 @@ export function CartPage() {
                       onChange={(e) => setCoupon(e.target.value)}
                     />
                   </div>
-                  <Button variant="outline" className="rounded-2xl h-12 bg-primary/10 text-primary border-0 hover:bg-primary/20 font-bold px-6" onClick={() => {
-                    if (coupon) toast("Coupon applied successfully!", { icon: <Ticket className="size-4 text-primary" /> })
-                  }}>
+                  <Button
+                    variant="outline"
+                    className="rounded-2xl h-12 bg-primary/10 text-primary border-0 hover:bg-primary/20 font-bold px-6"
+                    onClick={() => {
+                      if (coupon)
+                        toast("Coupon applied successfully!", {
+                          icon: <Ticket className="size-4 text-primary" />,
+                        });
+                    }}
+                  >
                     Apply
                   </Button>
                 </div>
@@ -192,32 +242,47 @@ export function CartPage() {
                 <div className="flex flex-col gap-4 text-sm font-mono text-muted-foreground">
                   <div className="flex justify-between items-center">
                     <span>Subtotal</span>
-                    <span className="font-medium text-foreground">${subtotal.toFixed(2)}</span>
+                    <span className="font-medium text-foreground">
+                      ${subtotal.toFixed(2)}
+                    </span>
                   </div>
                   <div className="flex justify-between items-center">
                     <span>Delivery Fee</span>
-                    <span className="font-medium text-foreground">${deliveryFee.toFixed(2)}</span>
+                    <span className="font-medium text-foreground">
+                      ${deliveryFee.toFixed(2)}
+                    </span>
                   </div>
                   <div className="flex justify-between items-center">
                     <span>Taxes & Fees</span>
-                    <span className="font-medium text-foreground">${tax.toFixed(2)}</span>
+                    <span className="font-medium text-foreground">
+                      ${tax.toFixed(2)}
+                    </span>
                   </div>
                 </div>
                 <div className="pt-5 border-t border-dotted border-border flex justify-between items-end">
-                  <span className="font-bold text-lg text-foreground">Total</span>
-                  <span className="font-black text-3xl text-primary tracking-tight">${total.toFixed(2)}</span>
+                  <span className="font-bold text-lg text-foreground">
+                    Total
+                  </span>
+                  <span className="font-black text-3xl text-primary tracking-tight">
+                    ${total.toFixed(2)}
+                  </span>
                 </div>
               </CardContent>
 
               {/* Desktop Checkout Button */}
               <CardFooter className="pb-6 px-6 hidden lg:flex flex-col gap-3">
-                <Button className="w-full text-lg h-14 rounded-2xl shadow-md font-bold flex justify-between items-center px-6" onClick={() => {
-                  navigate("/checkout")
-                }}>
+                <Button
+                  className="w-full text-lg h-14 rounded-2xl shadow-md font-bold flex justify-between items-center px-6"
+                  onClick={() => {
+                    navigate("/checkout");
+                  }}
+                >
                   <span>Proceed to Checkout</span>
                   <ArrowRight className="size-5" />
                 </Button>
-                <p className="text-center text-xs text-muted-foreground mt-2">By proceeding, you agree to our Terms of Service.</p>
+                <p className="text-center text-xs text-muted-foreground mt-2">
+                  By proceeding, you agree to our Terms of Service.
+                </p>
               </CardFooter>
             </Card>
           </div>
@@ -226,16 +291,20 @@ export function CartPage() {
           {recommendations.length > 0 && (
             <div className="lg:col-span-12 order-2 lg:order-3 mt-0">
               <div className="flex items-center justify-between mb-3">
-                <h2 className="text-2xl font-bold tracking-tight text-foreground hidden sm:block">Recommended Add-ons</h2>
-                <h2 className="text-2xl font-bold tracking-tight text-foreground sm:hidden">Complete Your Meal</h2>
+                <h2 className="text-2xl font-bold tracking-tight text-foreground hidden sm:block">
+                  Recommended Add-ons
+                </h2>
+                <h2 className="text-2xl font-bold tracking-tight text-foreground sm:hidden">
+                  Complete Your Meal
+                </h2>
               </div>
 
               {/* Horizontal scroll for mobile, grid for desktop */}
-              <div 
+              <div
                 className="flex overflow-x-auto pb-4 sm:grid sm:grid-cols-3 xl:grid-cols-4 gap-5 -mx-4 px-4 sm:mx-0 sm:px-0"
-                style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+                style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
               >
-                {recommendations.map(dish => (
+                {recommendations.map((dish) => (
                   <FoodCard
                     key={dish.id}
                     image={dish.image}
@@ -264,15 +333,22 @@ export function CartPage() {
       {/* Mobile Fixed Footer */}
       <div className="lg:hidden fixed bottom-[60px] md:bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 flex items-center justify-between shadow-[0_-10px_20px_rgba(0,0,0,0.05)] z-40">
         <div className="flex flex-col">
-          <span className="text-xs text-muted-foreground font-mono font-medium tracking-wide">TOTAL</span>
-          <span className="font-black text-2xl text-primary leading-none mt-1">${total.toFixed(2)}</span>
+          <span className="text-xs text-muted-foreground font-mono font-medium tracking-wide">
+            TOTAL
+          </span>
+          <span className="font-black text-2xl text-primary leading-none mt-1">
+            ${total.toFixed(2)}
+          </span>
         </div>
-        <Button className="h-14 rounded-2xl shadow-md font-bold px-8 flex items-center gap-2" onClick={() => {
-          navigate("/checkout")
-        }}>
+        <Button
+          className="h-14 rounded-2xl shadow-md font-bold px-8 flex items-center gap-2"
+          onClick={() => {
+            navigate("/checkout");
+          }}
+        >
           Checkout <ArrowRight className="size-5" />
         </Button>
       </div>
     </div>
-  )
+  );
 }
