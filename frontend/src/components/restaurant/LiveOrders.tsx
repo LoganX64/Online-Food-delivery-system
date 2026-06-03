@@ -114,14 +114,14 @@ export function LiveOrders() {
           <div className="text-sm font-bold text-primary">${order.totalAmount.toFixed(2)}</div>
         </div>
       </CardHeader>
-      <CardContent className="pt-4 space-y-4">
+      <CardContent className="pt-4 flex flex-col gap-4">
         <div>
           <div className="text-[10px] font-bold text-muted-foreground mb-1 tracking-tight uppercase">Customer</div>
           <div className="text-sm font-bold">{order.userId?.name || 'Guest'}</div>
         </div>
         <div>
           <div className="text-[10px] font-bold text-muted-foreground mb-1 tracking-tight uppercase">Items</div>
-          <ul className="text-xs space-y-1.5">
+          <ul className="text-xs flex flex-col gap-1.5">
             {order.items.map((item: any, i: number) => (
               <li key={i} className="flex items-center gap-2 text-foreground/80">
                 <div className="size-1 bg-primary/40 rounded-full" />
@@ -150,7 +150,7 @@ export function LiveOrders() {
   return (
     <div className="grid gap-6 md:grid-cols-1 lg:grid-cols-3">
       {/* Live Section */}
-      <div className="space-y-4">
+      <div className="flex flex-col gap-4">
         <div className="flex items-center gap-2 px-1">
           <div className="size-2 bg-orange-500 rounded-full animate-pulse" />
           <h2 className="font-bold text-sm uppercase tracking-wider text-muted-foreground">Live Orders</h2>
@@ -187,7 +187,7 @@ export function LiveOrders() {
       </div>
 
       {/* Preparing Section */}
-      <div className="space-y-4">
+      <div className="flex flex-col gap-4">
         <div className="flex items-center gap-2 px-1">
           <div className="size-2 bg-blue-500 rounded-full" />
           <h2 className="font-bold text-sm uppercase tracking-wider text-muted-foreground">Preparing</h2>
@@ -218,7 +218,7 @@ export function LiveOrders() {
       </div>
 
       {/* Ready Section */}
-      <div className="space-y-4">
+      <div className="flex flex-col gap-4">
         <div className="flex items-center gap-2 px-1">
           <div className="size-2 bg-green-500 rounded-full" />
           <h2 className="font-bold text-sm uppercase tracking-wider text-muted-foreground">Ready for Pickup</h2>

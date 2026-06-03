@@ -8,7 +8,7 @@ export function DashboardOverview() {
     <div className="flex flex-col gap-6 p-6">
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardHeader className="flex flex-row items-center justify-between flex flex-col gap-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Orders</CardTitle>
           </CardHeader>
           <CardContent>
@@ -17,7 +17,7 @@ export function DashboardOverview() {
           </CardContent>
         </Card>
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardHeader className="flex flex-row items-center justify-between flex flex-col gap-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
           </CardHeader>
           <CardContent>
@@ -26,7 +26,7 @@ export function DashboardOverview() {
           </CardContent>
         </Card>
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardHeader className="flex flex-row items-center justify-between flex flex-col gap-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Users</CardTitle>
           </CardHeader>
           <CardContent>
@@ -35,7 +35,7 @@ export function DashboardOverview() {
           </CardContent>
         </Card>
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardHeader className="flex flex-row items-center justify-between flex flex-col gap-0 pb-2">
             <CardTitle className="text-sm font-medium">Active Restaurants</CardTitle>
           </CardHeader>
           <CardContent>
@@ -88,26 +88,26 @@ export function DashboardOverview() {
             <CardDescription>Latest actions in the system.</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="space-y-4">
+            <div className="flex flex-col gap-4">
               <div className="flex items-center gap-4">
-                <div className="w-2 h-2 rounded-full bg-blue-500" />
-                <div className="flex-1 space-y-1">
+                <div className="size-2 rounded-full bg-blue-500" />
+                <div className="flex-1 flex flex-col gap-1">
                   <p className="text-sm font-medium leading-none">New Order #1024</p>
                   <p className="text-sm text-muted-foreground">Placed at Sushi Express</p>
                 </div>
                 <div className="text-sm text-muted-foreground">2m ago</div>
               </div>
               <div className="flex items-center gap-4">
-                <div className="w-2 h-2 rounded-full bg-green-500" />
-                <div className="flex-1 space-y-1">
+                <div className="size-2 rounded-full bg-green-500" />
+                <div className="flex-1 flex flex-col gap-1">
                   <p className="text-sm font-medium leading-none">Restaurant Approved</p>
                   <p className="text-sm text-muted-foreground">Taco Fiesta is now active</p>
                 </div>
                 <div className="text-sm text-muted-foreground">1h ago</div>
               </div>
               <div className="flex items-center gap-4">
-                <div className="w-2 h-2 rounded-full bg-orange-500" />
-                <div className="flex-1 space-y-1">
+                <div className="size-2 rounded-full bg-orange-500" />
+                <div className="flex-1 flex flex-col gap-1">
                   <p className="text-sm font-medium leading-none">New User</p>
                   <p className="text-sm text-muted-foreground">Alice Johnson registered</p>
                 </div>

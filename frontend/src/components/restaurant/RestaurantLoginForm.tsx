@@ -28,7 +28,7 @@ export function RestaurantLoginForm({ className, ...props }: RestaurantLoginForm
       await login({ email, password }, "restaurantOwner")
       toast.success("Welcome back, Restaurant Partner!", {
         description: "Redirecting to your dashboard...",
-        icon: <Store className="h-5 w-5 text-primary" />,
+        icon: <Store className="size-5 text-primary" />,
       })
 
       navigate("/restaurant-dashboard", { replace: true })
@@ -48,8 +48,8 @@ export function RestaurantLoginForm({ className, ...props }: RestaurantLoginForm
           {/* Left panel: Modern Form */}
           <form onSubmit={handleSubmit} className="p-6 sm:p-8 md:p-12 flex flex-col justify-center">
             <div className="flex flex-col items-center gap-2 text-center mb-8">
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary mb-2 animate-bounce">
-                <ChefHat className="h-6 w-6" />
+              <div className="flex size-12 items-center justify-center rounded-full bg-primary/10 text-primary mb-2 animate-bounce">
+                <ChefHat className="size-6" />
               </div>
               <h1 className="text-2xl font-bold tracking-tight text-foreground font-heading">Partner Portal</h1>
               <p className="text-sm text-muted-foreground">
@@ -63,7 +63,7 @@ export function RestaurantLoginForm({ className, ...props }: RestaurantLoginForm
                   Email Address
                 </Label>
                 <div className="relative">
-                  <Mail className="absolute left-3 top-3 h-4.5 w-4.5 text-muted-foreground/70" />
+                  <Mail className="absolute left-3 top-3 size-4.5 text-muted-foreground/70" />
                   <Input
                     id="email"
                     type="email"
@@ -89,7 +89,7 @@ export function RestaurantLoginForm({ className, ...props }: RestaurantLoginForm
                   </Link>
                 </div>
                 <div className="relative">
-                  <Lock className="absolute left-3 top-3 h-4.5 w-4.5 text-muted-foreground/70" />
+                  <Lock className="absolute left-3 top-3 size-4.5 text-muted-foreground/70" />
                   <Input
                     id="password"
                     type={showPassword ? "text" : "password"}
@@ -106,15 +106,15 @@ export function RestaurantLoginForm({ className, ...props }: RestaurantLoginForm
                     aria-label={showPassword ? "Hide password" : "Show password"}
                   >
                     {showPassword ? (
-                      <EyeOff className="h-4.5 w-4.5" />
+                      <EyeOff className="size-4.5" />
                     ) : (
-                      <Eye className="h-4.5 w-4.5" />
+                      <Eye className="size-4.5" />
                     )}
                   </button>
                 </div>
               </div>
 
-              <div className="flex items-center space-x-2 mt-1">
+              <div className="flex items-center flex gap-2 mt-1">
                 <Checkbox id="remember" className="border-muted-foreground/30 data-[state=checked]:bg-primary data-[state=checked]:border-primary" />
                 <label
                   htmlFor="remember"
@@ -127,13 +127,13 @@ export function RestaurantLoginForm({ className, ...props }: RestaurantLoginForm
               <Button type="submit" disabled={isLoading} className="w-full h-11 text-sm font-semibold mt-3 rounded-[0.45rem]">
                 {isLoading ? (
                   <span className="flex items-center gap-2">
-                    <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                    <span className="size-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
                     Signing in...
                   </span>
                 ) : (
                   <span className="flex items-center justify-center gap-1.5">
                     Partner Sign In
-                    <ArrowRight className="h-4 w-4" />
+                    <ArrowRight className="size-4" />
                   </span>
                 )}
               </Button>
@@ -149,12 +149,12 @@ export function RestaurantLoginForm({ className, ...props }: RestaurantLoginForm
             {/* Portal Switcher Footer */}
             <div className="mt-8 pt-6 border-t border-muted/50 flex justify-between text-xs font-semibold text-muted-foreground">
               <Link to="/login" className="flex items-center gap-1 hover:text-primary transition-colors">
-                <ArrowLeft className="h-3.5 w-3.5" />
+                <ArrowLeft className="size-3.5" />
                 Customer Login
               </Link>
               <Link to="/admin/login" className="flex items-center gap-1 hover:text-primary transition-colors">
                 Admin Console
-                <ArrowRight className="h-3.5 w-3.5" />
+                <ArrowRight className="size-3.5" />
               </Link>
             </div>
           </form>
@@ -168,7 +168,7 @@ export function RestaurantLoginForm({ className, ...props }: RestaurantLoginForm
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent flex flex-col justify-end p-12 text-white">
               <div className="flex items-center gap-2 bg-primary/20 backdrop-blur-md border border-white/10 px-3 py-1.5 rounded-full w-fit mb-4">
-                <Store className="h-4 w-4 text-primary" />
+                <Store className="size-4 text-primary" />
                 <span className="text-xs font-bold uppercase tracking-wider text-primary">Merchant Portal</span>
               </div>
               <h2 className="text-3xl font-bold font-heading leading-tight mb-2">

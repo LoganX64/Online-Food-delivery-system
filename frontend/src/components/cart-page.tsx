@@ -34,20 +34,20 @@ export function CartPage() {
 
     if (next <= 0) {
       toast(`${dishName} removed from cart`, {
-        icon: <Trash2 className="h-4 w-4 text-destructive" />,
+        icon: <Trash2 className="size-4 text-destructive" />,
       })
       if (Object.keys(updated).length === 0) {
         toast("Your cart is now empty", {
-          icon: <ShoppingCart className="h-4 w-4" />,
+          icon: <ShoppingCart className="size-4" />,
         })
       }
     } else if (delta > 0) {
       toast(`${dishName} quantity increased`, {
-        icon: <Plus className="h-4 w-4 text-primary" />,
+        icon: <Plus className="size-4 text-primary" />,
       })
     } else {
       toast(`${dishName} quantity decreased`, {
-        icon: <Minus className="h-4 w-4 text-primary" />,
+        icon: <Minus className="size-4 text-primary" />,
       })
     }
   }
@@ -66,7 +66,7 @@ export function CartPage() {
     setCartCounts(updated)
     saveCartToStorage(updated)
     toast(`${dishName} added to cart`, {
-      icon: <ShoppingCart className="h-4 w-4 text-primary" />,
+      icon: <ShoppingCart className="size-4 text-primary" />,
     })
   }
 
@@ -92,7 +92,7 @@ export function CartPage() {
     return (
       <div className="container mx-auto px-4 py-16 flex flex-col items-center text-center">
         <div className="bg-muted p-6 rounded-full mb-6">
-          <ShoppingCart className="h-16 w-16 text-muted-foreground" />
+          <ShoppingCart className="size-16 text-muted-foreground" />
         </div>
         <h2 className="text-3xl font-bold mb-3">Your Cart is Empty</h2>
         <p className="text-muted-foreground mb-8 max-w-md">
@@ -100,7 +100,7 @@ export function CartPage() {
         </p>
         <Link to="/menus">
           <Button size="lg" className="rounded-full px-8">
-            Browse Menus <ArrowRight className="ml-2 h-5 w-5" />
+            Browse Menus <ArrowRight className="ml-2 size-5" />
           </Button>
         </Link>
       </div>
@@ -117,20 +117,20 @@ export function CartPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10">
           {/* Left Side: Restaurant Cards */}
-          <div className="lg:col-span-7 xl:col-span-8 order-1 space-y-4">
+          <div className="lg:col-span-7 xl:col-span-8 order-1 flex flex-col gap-4">
             {Object.entries(groupedItems).map(([restaurantName, items]) => (
               <div key={restaurantName} className="bg-white rounded-3xl p-5 sm:p-7 shadow-sm border border-gray-100">
                 <h2 className="text-xl font-bold flex items-center gap-2 pb-2 text-foreground">
                   <span role="img" aria-label="fork and knife">🍴</span> {restaurantName}
                 </h2>
-                <div className="space-y-0">
+                <div className="flex flex-col">
                   {items.map((item, index) => (
                     <div key={item.id} className="flex items-center gap-4 py-5 border-b border-dotted border-gray-300 last:border-0 last:pb-0">
                       <div className="relative shrink-0">
                         <img
                           src={item.image}
                           alt={item.name}
-                          className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl object-cover shadow-sm"
+                          className="size-16 sm:size-20 rounded-2xl object-cover shadow-sm"
                         />
                       </div>
                       <div className="flex-1 min-w-0">
@@ -143,19 +143,19 @@ export function CartPage() {
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="h-7 w-7 sm:h-8 sm:w-8 rounded-full text-primary hover:bg-primary/20 hover:text-primary transition-colors"
+                          className="size-7 sm:size-8 rounded-full text-primary hover:bg-primary/20 hover:text-primary transition-colors"
                           onClick={() => updateCount(item.id, -1)}
                         >
-                          <Minus className="h-3 w-3 sm:h-4 sm:w-4" />
+                          <Minus className="size-3 sm:size-4" />
                         </Button>
                         <span className="w-5 sm:w-6 text-center font-bold text-sm sm:text-base text-primary">{item.quantity}</span>
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="h-7 w-7 sm:h-8 sm:w-8 rounded-full text-primary hover:bg-primary/20 hover:text-primary transition-colors"
+                          className="size-7 sm:size-8 rounded-full text-primary hover:bg-primary/20 hover:text-primary transition-colors"
                           onClick={() => updateCount(item.id, 1)}
                         >
-                          <Plus className="h-3 w-3 sm:h-4 sm:w-4" />
+                          <Plus className="size-3 sm:size-4" />
                         </Button>
                       </div>
                     </div>
@@ -171,10 +171,10 @@ export function CartPage() {
               <CardHeader className="pb-5 bg-gray-50/50 border-b border-gray-100">
                 <CardTitle className="text-xl font-bold text-foreground">Order Summary</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-6 pt-6 px-6">
+              <CardContent className="flex flex-col gap-6 pt-6 px-6">
                 <div className="flex gap-2">
                   <div className="relative flex-1">
-                    <Ticket className="absolute left-3 top-3.5 h-5 w-5 text-gray-400" />
+                    <Ticket className="absolute left-3 top-3.5 size-5 text-gray-400" />
                     <Input
                       placeholder="Promo Code"
                       className="pl-10 rounded-2xl bg-gray-50 border-gray-200 h-12 text-base"
@@ -183,13 +183,13 @@ export function CartPage() {
                     />
                   </div>
                   <Button variant="outline" className="rounded-2xl h-12 bg-primary/10 text-primary border-0 hover:bg-primary/20 font-bold px-6" onClick={() => {
-                    if (coupon) toast("Coupon applied successfully!", { icon: <Ticket className="h-4 w-4 text-primary" /> })
+                    if (coupon) toast("Coupon applied successfully!", { icon: <Ticket className="size-4 text-primary" /> })
                   }}>
                     Apply
                   </Button>
                 </div>
 
-                <div className="space-y-4 text-sm font-mono text-gray-500">
+                <div className="flex flex-col gap-4 text-sm font-mono text-gray-500">
                   <div className="flex justify-between items-center">
                     <span>Subtotal</span>
                     <span className="font-medium text-gray-900">${subtotal.toFixed(2)}</span>
@@ -215,7 +215,7 @@ export function CartPage() {
                   navigate("/checkout")
                 }}>
                   <span>Proceed to Checkout</span>
-                  <ArrowRight className="h-5 w-5" />
+                  <ArrowRight className="size-5" />
                 </Button>
                 <p className="text-center text-xs text-gray-400 mt-2">By proceeding, you agree to our Terms of Service.</p>
               </CardFooter>
@@ -270,7 +270,7 @@ export function CartPage() {
         <Button className="h-14 rounded-2xl shadow-md font-bold px-8 flex items-center gap-2" onClick={() => {
           navigate("/checkout")
         }}>
-          Checkout <ArrowRight className="h-5 w-5" />
+          Checkout <ArrowRight className="size-5" />
         </Button>
       </div>
     </div>

@@ -249,7 +249,7 @@ export default function RestaurantPublic() {
     
     if (delta > 0) {
       toast.success(`${dishName} added to cart!`, {
-        icon: <ShoppingCart className="h-4 w-4 text-primary" />,
+        icon: <ShoppingCart className="size-4 text-primary" />,
         duration: 1500
       })
     }
@@ -277,7 +277,7 @@ export default function RestaurantPublic() {
     saveCartToStorage(updated)
 
     toast.success("Previous order items added to your cart!", {
-      icon: <ShoppingCart className="h-4 w-4 text-primary" />,
+      icon: <ShoppingCart className="size-4 text-primary" />,
       description: `Successfully added ${items.length} item(s) to checkout.`
     })
   }
@@ -298,9 +298,9 @@ export default function RestaurantPublic() {
             onClick={() => navigate(-1)} 
             variant="secondary" 
             size="icon" 
-            className="rounded-full shadow-lg bg-white/95 backdrop-blur-sm text-foreground hover:bg-primary hover:text-white border-none transition-all h-8 w-8"
+            className="rounded-full shadow-lg bg-white/95 backdrop-blur-sm text-foreground hover:bg-primary hover:text-white border-none transition-all size-8"
           >
-            <ChevronLeft className="h-4.5 w-4.5" />
+            <ChevronLeft className="size-4.5" />
           </Button>
         </div>
 
@@ -309,9 +309,9 @@ export default function RestaurantPublic() {
             onClick={handleFavoriteClick}
             variant="secondary" 
             size="icon" 
-            className="rounded-full shadow-lg bg-white/95 backdrop-blur-sm text-foreground hover:text-red-500 border-none transition-all h-8 w-8"
+            className="rounded-full shadow-lg bg-white/95 backdrop-blur-sm text-foreground hover:text-red-500 border-none transition-all size-8"
           >
-            <Heart className={`h-4 w-4 ${isLiked ? "fill-red-500 text-red-500" : ""}`} />
+            <Heart className={`size-4 ${isLiked ? "fill-red-500 text-red-500" : ""}`} />
           </Button>
         </div>
 
@@ -330,7 +330,7 @@ export default function RestaurantPublic() {
                   {profile.logo}
                 </div>
                 
-                <div className="space-y-1.5 w-full">
+                <div className="flex flex-col gap-1.5 w-full">
                   <div className="flex flex-wrap items-center justify-center md:justify-start gap-2">
                     <h1 className="text-xl md:text-2xl font-extrabold tracking-tight text-foreground font-heading">
                       {profile.name}
@@ -346,11 +346,11 @@ export default function RestaurantPublic() {
 
                   <div className="flex flex-wrap items-center justify-center md:justify-start gap-3.5 text-[11px] font-bold text-muted-foreground/80 pt-0.5">
                     <div className="flex items-center gap-1">
-                      <MapPin className="h-3.5 w-3.5 text-primary" />
+                      <MapPin className="size-3.5 text-primary" />
                       <span>{profile.address}</span>
                     </div>
                     <div className="flex items-center gap-1">
-                      <Phone className="h-3.5 w-3.5 text-primary" />
+                      <Phone className="size-3.5 text-primary" />
                       <span>{profile.phone}</span>
                     </div>
                   </div>
@@ -362,14 +362,14 @@ export default function RestaurantPublic() {
                 <div className="flex flex-col items-center bg-muted/40 p-1.5 md:p-2 rounded-xl shadow-inner border border-muted/20 w-[80px] md:w-[85px]">
                   <div className="flex items-center gap-0.5 text-green-700 dark:text-emerald-400 font-extrabold text-xs md:text-sm">
                     {profile.rating}
-                    <Star className="h-3.5 w-3.5 fill-green-700 text-green-700 dark:fill-emerald-400 dark:text-emerald-400" />
+                    <Star className="size-3.5 fill-green-700 text-green-700 dark:fill-emerald-400 dark:text-emerald-400" />
                   </div>
                   <span className="text-[8px] uppercase font-black text-slate-400 tracking-wider mt-0.5">Rating</span>
                 </div>
                 
                 <div className="flex flex-col items-center bg-muted/40 p-1.5 md:p-2 rounded-xl shadow-inner border border-muted/20 w-[80px] md:w-[85px]">
                   <div className="flex items-center gap-0.5 text-foreground font-extrabold text-xs md:text-sm">
-                    <Clock className="h-3.5 w-3.5 text-primary" />
+                    <Clock className="size-3.5 text-primary" />
                     <span>{profile.deliveryTime.split(' ')[0]}</span>
                   </div>
                   <span className="text-[8px] uppercase font-black text-slate-400 tracking-wider mt-0.5">Minutes</span>
@@ -377,7 +377,7 @@ export default function RestaurantPublic() {
 
                 <div className="flex flex-col items-center bg-muted/40 p-1.5 md:p-2 rounded-xl shadow-inner border border-muted/20 w-[80px] md:w-[85px]">
                   <div className="flex items-center gap-0.5 text-foreground font-extrabold text-xs md:text-sm truncate justify-center">
-                    <Truck className="h-3.5 w-3.5 text-primary shrink-0" />
+                    <Truck className="size-3.5 text-primary shrink-0" />
                     <span>Free</span>
                   </div>
                   <span className="text-[8px] uppercase font-black text-slate-400 tracking-wider mt-0.5">Delivery</span>
@@ -397,7 +397,7 @@ export default function RestaurantPublic() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
           
           {/* Left Column: Menu Items list (takes 2 spans on desktop) */}
-          <div className="lg:col-span-2 space-y-4">
+          <div className="lg:col-span-2 flex flex-col gap-4">
             <Tabs defaultValue="menu" className="w-full" onValueChange={setActiveTab}>
               <div className="flex items-center justify-between border-b pb-3 mb-6 flex-wrap gap-4">
                 <TabsList className="bg-muted/50 p-1 rounded-xl h-11 border w-full max-w-full flex overflow-x-auto justify-start md:justify-center flex-nowrap [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
@@ -414,7 +414,7 @@ export default function RestaurantPublic() {
 
                 {activeTab === "menu" && (
                   <div className="relative w-full sm:w-[220px]">
-                    <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+                    <Search className="absolute left-3 top-2.5 size-4 text-muted-foreground" />
                     <Input 
                       placeholder="Search dishes..." 
                       className="pl-9 h-9 text-xs bg-card rounded-lg border-muted-foreground/20 focus-visible:ring-primary"
@@ -426,7 +426,7 @@ export default function RestaurantPublic() {
               </div>
 
               {/* TABS CONTENT: Menu Items */}
-              <TabsContent value="menu" className="space-y-4 outline-none">
+              <TabsContent value="menu" className="flex flex-col gap-4 outline-none">
                 {filteredMenu.length > 0 ? (
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     {filteredMenu.map((dish: any) => (
@@ -437,7 +437,7 @@ export default function RestaurantPublic() {
                         subtitle={dish.description}
                         topRightBadge={
                           <div className="bg-background/95 backdrop-blur-sm px-2 py-0.5 rounded-lg text-[9px] font-bold flex items-center gap-1 shadow-sm border border-muted/40">
-                            <div className={`w-1.5 h-1.5 rounded-full ${dish.type === 'veg' ? 'bg-green-500' : 'bg-red-500'}`} />
+                            <div className={`size-1.5 rounded-full ${dish.type === 'veg' ? 'bg-green-500' : 'bg-red-500'}`} />
                             {dish.type === 'veg' ? 'Veg' : 'Non-Veg'}
                           </div>
                         }
@@ -448,19 +448,19 @@ export default function RestaurantPublic() {
                               <Button
                                 variant="ghost"
                                 size="icon"
-                                className="h-6 w-6 rounded-full text-primary hover:bg-primary/20 hover:text-primary"
+                                className="size-6 rounded-full text-primary hover:bg-primary/20 hover:text-primary"
                                 onClick={() => updateCount(dish.id, -1, dish.name)}
                               >
-                                <Minus className="h-2.5 w-2.5" />
+                                <Minus className="size-2.5" />
                               </Button>
                               <span className="w-3.5 text-center font-bold text-[11px] text-primary">{cartCounts[dish.id]}</span>
                               <Button
                                 variant="ghost"
                                 size="icon"
-                                className="h-6 w-6 rounded-full text-primary hover:bg-primary/20 hover:text-primary"
+                                className="size-6 rounded-full text-primary hover:bg-primary/20 hover:text-primary"
                                 onClick={() => updateCount(dish.id, 1, dish.name)}
                               >
-                                <Plus className="h-2.5 w-2.5" />
+                                <Plus className="size-2.5" />
                               </Button>
                             </div>
                           ) : (
@@ -470,7 +470,7 @@ export default function RestaurantPublic() {
                               className="rounded-full text-primary border-primary/30 hover:bg-primary hover:text-white transition-all duration-300 px-3 h-7 text-[11px] font-bold gap-1"
                               onClick={() => updateCount(dish.id, 1, dish.name)}
                             >
-                              <Plus className="h-2.5 w-2.5" /> Add
+                              <Plus className="size-2.5" /> Add
                             </Button>
                           )
                         }
@@ -489,17 +489,17 @@ export default function RestaurantPublic() {
               </TabsContent>
 
               {/* TABS CONTENT: Reviews */}
-              <TabsContent value="reviews" className="space-y-4 outline-none">
-                <div className="space-y-4">
+              <TabsContent value="reviews" className="flex flex-col gap-4 outline-none">
+                <div className="flex flex-col gap-4">
                   {profile.reviews.map((review: any) => (
                     <Card key={review.id} className="py-0 border border-muted/50 rounded-2xl shadow-sm bg-card">
                       <CardContent className="p-5 flex gap-4">
                         {/* Avatar initial emblem */}
-                        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary text-sm font-bold shadow-inner">
+                        <div className="flex size-11 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary text-sm font-bold shadow-inner">
                           {review.author.split(' ').map((n: string) => n[0]).join('')}
                         </div>
 
-                        <div className="space-y-1.5 flex-1">
+                        <div className="flex flex-col gap-1.5 flex-1">
                           <div className="flex items-center justify-between flex-wrap gap-2">
                             <h4 className="text-sm font-bold text-foreground">{review.author}</h4>
                             <span className="text-[10px] font-semibold text-muted-foreground">{review.date}</span>
@@ -509,7 +509,7 @@ export default function RestaurantPublic() {
                             {Array.from({ length: 5 }).map((_, i) => (
                               <Star 
                                 key={i} 
-                                className={`h-3.5 w-3.5 ${i < review.rating ? "fill-primary text-primary" : "text-slate-200"}`} 
+                                className={`size-3.5 ${i < review.rating ? "fill-primary text-primary" : "text-slate-200"}`} 
                               />
                             ))}
                           </div>
@@ -525,18 +525,18 @@ export default function RestaurantPublic() {
               </TabsContent>
 
               {/* TABS CONTENT: Info & Map Location */}
-              <TabsContent value="info" className="space-y-4 outline-none">
+              <TabsContent value="info" className="flex flex-col gap-4 outline-none">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {/* Location card */}
                   <Card className="py-0 border border-muted/50 rounded-xl bg-card">
-                    <CardContent className="p-4 space-y-3 flex flex-col justify-between h-full">
-                      <div className="space-y-2.5">
+                    <CardContent className="p-4 flex flex-col gap-3 flex flex-col justify-between h-full">
+                      <div className="flex flex-col gap-2.5">
                         <div className="flex items-center gap-2 text-primary font-bold text-sm">
-                          <Compass className="h-4.5 w-4.5 animate-pulse" />
+                          <Compass className="size-4.5 animate-pulse" />
                           <span>Interactive Coordinate Locator</span>
                         </div>
                         
-                        <div className="space-y-1.5 text-xs font-semibold text-muted-foreground">
+                        <div className="flex flex-col gap-1.5 text-xs font-semibold text-muted-foreground">
                           <p className="flex justify-between border-b pb-1.5">
                             <span>Latitude:</span>
                             <span className="text-foreground font-mono">{profile.mapCoords.lat}</span>
@@ -560,13 +560,13 @@ export default function RestaurantPublic() {
 
                   {/* Hours card */}
                   <Card className="py-0 border border-muted/50 rounded-xl bg-card">
-                    <CardContent className="p-4 space-y-3">
+                    <CardContent className="p-4 flex flex-col gap-3">
                       <div className="flex items-center gap-2 text-primary font-bold text-sm">
-                        <Calendar className="h-4.5 w-4.5" />
+                        <Calendar className="size-4.5" />
                         <span>Operational Working Hours</span>
                       </div>
 
-                      <div className="space-y-2 text-xs font-semibold text-muted-foreground">
+                      <div className="flex flex-col gap-2 text-xs font-semibold text-muted-foreground">
                         <div className="flex justify-between border-b pb-1.5 text-foreground font-bold">
                           <span>Monday - Sunday:</span>
                           <span>{profile.hours}</span>
@@ -588,7 +588,7 @@ export default function RestaurantPublic() {
                 <Card className="py-0 overflow-hidden border border-muted/50 rounded-xl shadow-md bg-card">
                   <div className="p-3 bg-muted/40 border-b flex justify-between items-center flex-wrap gap-2.5">
                     <div className="flex items-center gap-2 text-xs font-extrabold text-foreground">
-                      <Map className="h-4 w-4 text-primary" />
+                      <Map className="size-4 text-primary" />
                       <span>Live Coordinate Satellite Grid</span>
                     </div>
                     <div className="flex gap-1.5">
@@ -598,7 +598,7 @@ export default function RestaurantPublic() {
                         size="icon" 
                         className="size-7 rounded-lg bg-background"
                       >
-                        <ZoomIn className="h-3.5 w-3.5" />
+                        <ZoomIn className="size-3.5" />
                       </Button>
                       <Button 
                         onClick={() => setZoomLevel(prev => Math.max(prev - 1, 10))} 
@@ -606,7 +606,7 @@ export default function RestaurantPublic() {
                         size="icon" 
                         className="size-7 rounded-lg bg-background"
                       >
-                        <ZoomOut className="h-3.5 w-3.5" />
+                        <ZoomOut className="size-3.5" />
                       </Button>
                       <Button 
                         onClick={() => setZoomLevel(14)} 
@@ -632,7 +632,7 @@ export default function RestaurantPublic() {
                     <div className="absolute rounded-full border border-primary/5 size-80" style={{ transform: `scale(${zoomLevel / 14})` }} />
 
                     {/* Tech stats coordinates HUD */}
-                    <div className="absolute bottom-4 left-4 z-10 bg-black/60 backdrop-blur-md border border-white/10 p-2.5 rounded-lg text-white font-mono text-[9px] space-y-1">
+                    <div className="absolute bottom-4 left-4 z-10 bg-black/60 backdrop-blur-md border border-white/10 p-2.5 rounded-lg text-white font-mono text-[9px] flex flex-col gap-1">
                       <p className="text-primary font-bold">GRID TRACKING HUD</p>
                       <p>LAT: {profile.mapCoords.lat}</p>
                       <p>LNG: {profile.mapCoords.lng}</p>
@@ -644,10 +644,10 @@ export default function RestaurantPublic() {
                       <div className="absolute -top-12 bg-primary text-white font-bold text-[10px] px-2.5 py-1 rounded-md shadow-lg border border-primary/20 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
                         {profile.name} (Here)
                       </div>
-                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-white shadow-xl border-2 border-white animate-bounce">
+                      <div className="flex size-10 items-center justify-center rounded-full bg-primary text-white shadow-xl border-2 border-white animate-bounce">
                         {profile.logo}
                       </div>
-                      <div className="h-2 w-2 rounded-full bg-primary animate-ping" />
+                      <div className="size-2 rounded-full bg-primary animate-ping" />
                     </div>
                   </div>
                 </Card>
@@ -656,24 +656,24 @@ export default function RestaurantPublic() {
           </div>
 
           {/* Right Column: Checkout info / Cart sidebar (takes 1 span) */}
-          <div className="space-y-6">
+          <div className="flex flex-col gap-6">
             <Card className="py-0 border border-muted/50 shadow-lg bg-card rounded-2xl">
-              <CardContent className="p-5 space-y-4">
+              <CardContent className="p-5 flex flex-col gap-4">
                 <h3 className="font-extrabold text-lg text-foreground border-b pb-3 flex items-center gap-2">
-                  <History className="h-5 w-5 text-primary" />
+                  <History className="size-5 text-primary" />
                   <span>Previous Orders</span>
                 </h3>
 
                 {profile.previousOrders && profile.previousOrders.length > 0 ? (
-                  <div className="space-y-4 max-h-[350px] overflow-y-auto pr-1">
+                  <div className="flex flex-col gap-4 max-h-[350px] overflow-y-auto pr-1">
                     {profile.previousOrders.map((order: any) => (
-                      <div key={order.id} className="p-3.5 bg-muted/40 hover:bg-muted/65 border border-muted/30 rounded-xl space-y-2.5 transition-colors">
+                      <div key={order.id} className="p-3.5 bg-muted/40 hover:bg-muted/65 border border-muted/30 rounded-xl flex flex-col gap-2.5 transition-colors">
                         <div className="flex justify-between items-center text-[10px] font-extrabold uppercase tracking-wider text-muted-foreground/90">
                           <span>#{order.id}</span>
                           <span>{order.date}</span>
                         </div>
                         
-                        <div className="space-y-1">
+                        <div className="flex flex-col gap-1">
                           {order.items.map((item: any, idx: number) => (
                             <p key={idx} className="text-xs font-bold text-foreground flex justify-between">
                               <span className="truncate max-w-[140px] md:max-w-[170px]">{item.name}</span>
@@ -702,7 +702,7 @@ export default function RestaurantPublic() {
                   </div>
                 ) : (
                   <div className="text-center py-6 text-muted-foreground text-xs font-semibold">
-                    <History className="h-8 w-8 mx-auto text-muted-foreground/30 mb-2.5" />
+                    <History className="size-8 mx-auto text-muted-foreground/30 mb-2.5" />
                     No previous orders found for this merchant.
                   </div>
                 )}
@@ -711,13 +711,13 @@ export default function RestaurantPublic() {
 
             {/* Quick trust badges */}
             <Card className="py-0 border border-muted/50 shadow-sm bg-card rounded-2xl">
-              <CardContent className="p-5 space-y-4">
+              <CardContent className="p-5 flex flex-col gap-4">
                 <h4 className="font-extrabold text-sm text-foreground uppercase tracking-widest text-[10px] text-muted-foreground">Why order from us?</h4>
                 
-                <div className="space-y-3 text-xs font-semibold text-muted-foreground">
+                <div className="flex flex-col gap-3 text-xs font-semibold text-muted-foreground">
                   <div className="flex gap-3 items-start">
                     <div className="bg-emerald-500/10 text-emerald-500 rounded-lg p-1.5 shrink-0 mt-0.5">
-                      <Star className="h-4 w-4 fill-emerald-500 text-emerald-500" />
+                      <Star className="size-4 fill-emerald-500 text-emerald-500" />
                     </div>
                     <div>
                       <p className="text-foreground font-extrabold">Superb Hygiene Standards</p>
@@ -727,7 +727,7 @@ export default function RestaurantPublic() {
 
                   <div className="flex gap-3 items-start">
                     <div className="bg-primary/10 text-primary rounded-lg p-1.5 shrink-0 mt-0.5">
-                      <Clock className="h-4 w-4" />
+                      <Clock className="size-4" />
                     </div>
                     <div>
                       <p className="text-foreground font-extrabold">Instant Fresh Guarantee</p>

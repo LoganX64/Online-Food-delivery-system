@@ -104,7 +104,7 @@ export function MenusPage() {
 
     if (delta > 0) {
       toast(dishName + " added to cart", {
-        icon: <ShoppingCart className="h-4 w-4 text-primary" />,
+        icon: <ShoppingCart className="size-4 text-primary" />,
         duration: 2000,
       });
     }
@@ -121,13 +121,13 @@ export function MenusPage() {
         (d) =>
           d.name.toLowerCase().includes(query) ||
           d.restaurant.toLowerCase().includes(query) ||
-          d.description.toLowerCase().includes(query)
+          (d.description || "").toLowerCase().includes(query)
       );
     }
 
     // 2. Categories
     if (selectedCategories.length > 0) {
-      result = result.filter((d) => selectedCategories.includes(d.category));
+      result = result.filter((d) => d.category && selectedCategories.includes(d.category));
     }
 
     // 3. Dietary Choices (Veg / Non-Veg)
@@ -137,7 +137,7 @@ export function MenusPage() {
 
     // 4. Star Ratings
     if (minRating !== null) {
-      result = result.filter((d) => d.rating >= minRating);
+      result = result.filter((d) => (d.rating || 0) >= minRating);
     }
 
     // 5. Price Ranges
@@ -151,7 +151,7 @@ export function MenusPage() {
 
     // 6. Sorting Logic
     if (sortBy === "rating") {
-      result.sort((a, b) => b.rating - a.rating);
+      result.sort((a, b) => (b.rating || 0) - (a.rating || 0));
     } else if (sortBy === "price-low") {
       result.sort((a, b) => a.price - b.price);
     } else if (sortBy === "price-high") {
@@ -178,12 +178,12 @@ export function MenusPage() {
 
   // Reusable Filter Content (Sidebar / Mobile Sheet Drawer)
   const FilterContent = () => (
-    <div className="space-y-6">
+    <div className="flex flex-col gap-6">
       {/* Search Bar */}
       <div>
         <h3 className="font-bold text-sm text-foreground uppercase tracking-wider mb-3">Search</h3>
         <div className="relative">
-          <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+          <Search className="absolute left-3 top-2.5 size-4 text-muted-foreground" />
           <Input
             placeholder="Search food items..."
             value={searchQuery}
@@ -199,8 +199,8 @@ export function MenusPage() {
       {/* Dietary Checkboxes */}
       <div className="border-t pt-4">
         <h3 className="font-bold text-sm text-foreground uppercase tracking-wider mb-3">Dietary</h3>
-        <div className="space-y-2.5">
-          <div className="flex items-center space-x-2.5">
+        <div className="flex flex-col gap-2.5">
+          <div className="flex items-center gap-2.5">
             <Checkbox
               id="dietary-veg"
               checked={selectedDietary.includes("veg")}
@@ -214,7 +214,7 @@ export function MenusPage() {
             </label>
           </div>
 
-          <div className="flex items-center space-x-2.5">
+          <div className="flex items-center flex gap-2.5">
             <Checkbox
               id="dietary-nonveg"
               checked={selectedDietary.includes("non-veg")}
@@ -247,9 +247,9 @@ export function MenusPage() {
             </Button>
           )}
         </div>
-        <div className="space-y-2 max-h-[160px] overflow-y-auto pr-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className="flex flex-col gap-2 max-h-[160px] overflow-y-auto pr-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {CATEGORIES.map((cat) => (
-            <div key={cat} className="flex items-center space-x-2.5">
+            <div key={cat} className="flex items-center flex gap-2.5">
               <Checkbox
                 id={`cat-${cat}`}
                 checked={selectedCategories.includes(cat)}
@@ -282,7 +282,7 @@ export function MenusPage() {
                 minRating === rating ? "bg-primary text-white" : "bg-background border-muted-foreground/20"
               }`}
             >
-              <Star className={`h-3 w-3 ${minRating === rating ? "fill-current" : "text-amber-500 fill-amber-500"}`} />
+              <Star className={`size-3 ${minRating === rating ? "fill-current" : "text-amber-500 fill-amber-500"}`} />
               {rating}+ Stars
             </Button>
           ))}
@@ -299,7 +299,7 @@ export function MenusPage() {
             { label: "Under $18", value: "under-18" },
             { label: "$18 & Above", value: "over-18" }
           ].map((item) => (
-            <div key={item.value} className="flex items-center space-x-2.5">
+            <div key={item.value} className="flex items-center flex gap-2.5">
               <Checkbox
                 id={`price-${item.value}`}
                 checked={priceFilter === item.value}
@@ -326,7 +326,7 @@ export function MenusPage() {
           variant="outline"
           className="w-full text-xs font-bold h-9 border-red-500/20 text-red-500 hover:bg-red-500/10 gap-1.5"
         >
-          <RotateCcw className="h-3.5 w-3.5" />
+          <RotateCcw className="size-3.5" />
           Reset Filters
         </Button>
       </div>
@@ -343,13 +343,13 @@ export function MenusPage() {
             onClick={() => navigate(-1)} 
             variant="secondary" 
             size="icon" 
-            className="rounded-full shadow-lg bg-white/95 backdrop-blur-sm text-foreground hover:bg-primary hover:text-white border-none transition-all h-8 w-8"
+            className="rounded-full shadow-lg bg-white/95 backdrop-blur-sm text-foreground hover:bg-primary hover:text-white border-none transition-all size-8"
           >
-            <ChevronLeft className="h-4.5 w-4.5" />
+            <ChevronLeft className="size-4.5" />
           </Button>
         </div>
         <div className="container mx-auto px-4 text-center md:text-left flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="space-y-2">
+          <div className="flex flex-col gap-2">
             <Badge className="bg-primary/10 text-primary hover:bg-primary/20 border-none font-bold uppercase tracking-wider text-[10px] px-2.5 py-1">
               Food Catalog
             </Badge>
@@ -361,7 +361,7 @@ export function MenusPage() {
             </p>
           </div>
           <div className="flex items-center gap-1.5 bg-background border border-primary/20 p-2 rounded-xl shadow-sm text-xs font-bold text-muted-foreground shrink-0">
-            <MapPin className="h-4 w-4 text-primary" />
+            <MapPin className="size-4 text-primary" />
             <span>Delivering to Sector 15, Pincode 110001</span>
           </div>
         </div>
@@ -374,14 +374,14 @@ export function MenusPage() {
           {/* Left Column: Desktop Sidebar Filter Panel */}
           <aside className="hidden lg:block lg:col-span-1 bg-card rounded-2xl border border-muted/50 p-5 shadow-sm sticky top-24">
             <div className="flex items-center gap-2 mb-5 pb-3 border-b border-muted">
-              <Utensils className="h-4.5 w-4.5 text-primary" />
+              <Utensils className="size-4.5 text-primary" />
               <h2 className="font-extrabold text-base text-foreground font-heading">Refine Dishes</h2>
             </div>
             <FilterContent />
           </aside>
 
           {/* Right Column: Active Results Catalog Grid */}
-          <div className="lg:col-span-3 space-y-6">
+          <div className="lg:col-span-3 flex flex-col gap-6">
             
             {/* Top Toolbar: Mobile Filter Drawer Trigger & Grid Sort Selector */}
             <div className="flex flex-col sm:flex-row justify-between items-center bg-card p-3 rounded-xl border border-muted/50 shadow-sm gap-4">
@@ -392,14 +392,14 @@ export function MenusPage() {
                   <Sheet>
                     <SheetTrigger asChild>
                       <Button variant="outline" className="w-full h-9 bg-background border-muted-foreground/20 text-xs font-bold gap-2">
-                        <SlidersHorizontal className="h-4 w-4 text-primary" />
+                        <SlidersHorizontal className="size-4 text-primary" />
                         Filters
                       </Button>
                     </SheetTrigger>
                     <SheetContent side="left" className="w-[280px]">
                       <SheetHeader className="pb-3 border-b mb-4">
                         <SheetTitle className="font-extrabold text-base flex items-center gap-2 text-foreground">
-                          <SlidersHorizontal className="h-4.5 w-4.5 text-primary" />
+                          <SlidersHorizontal className="size-4.5 text-primary" />
                           Filter Dishes
                         </SheetTitle>
                       </SheetHeader>
@@ -445,7 +445,7 @@ export function MenusPage() {
                     className="border border-muted/50 hover:shadow-xl transition-all duration-300 rounded-2xl bg-card"
                     topRightBadge={
                       <div className="bg-background/95 backdrop-blur-sm px-2.5 py-1 rounded-lg text-[9px] font-bold flex items-center gap-1.5 shadow-sm border border-muted/40">
-                        <div className={`w-1.5 h-1.5 rounded-full ${dish.type === 'veg' ? 'bg-green-500' : 'bg-red-500'}`} />
+                        <div className={`size-1.5 rounded-full ${dish.type === 'veg' ? 'bg-green-500' : 'bg-red-500'}`} />
                         {dish.type === 'veg' ? 'Veg' : 'Non-Veg'}
                       </div>
                     }
@@ -456,19 +456,19 @@ export function MenusPage() {
                           <Button
                             variant="ghost"
                             size="icon"
-                            className="h-6 w-6 rounded-full text-primary hover:bg-primary/20 hover:text-primary"
+                            className="size-6 rounded-full text-primary hover:bg-primary/20 hover:text-primary"
                             onClick={() => updateCount(dish.id, -1)}
                           >
-                            <Minus className="h-2.5 w-2.5" />
+                            <Minus className="size-2.5" />
                           </Button>
                           <span className="w-3.5 text-center font-bold text-[11px] text-primary">{cartCounts[dish.id]}</span>
                           <Button
                             variant="ghost"
                             size="icon"
-                            className="h-6 w-6 rounded-full text-primary hover:bg-primary/20 hover:text-primary"
+                            className="size-6 rounded-full text-primary hover:bg-primary/20 hover:text-primary"
                             onClick={() => updateCount(dish.id, 1)}
                           >
-                            <Plus className="h-2.5 w-2.5" />
+                            <Plus className="size-2.5" />
                           </Button>
                         </div>
                       ) : (
@@ -478,7 +478,7 @@ export function MenusPage() {
                           className="rounded-full text-primary border-primary/30 hover:bg-primary hover:text-white transition-all duration-300 px-3.5 h-8 text-xs font-bold gap-1"
                           onClick={() => updateCount(dish.id, 1)}
                         >
-                          <Plus className="h-2.5 w-2.5" /> Add
+                          <Plus className="size-2.5" /> Add
                         </Button>
                       )
                     }
@@ -499,7 +499,7 @@ export function MenusPage() {
                   onClick={handleResetFilters}
                   className="mt-6 bg-primary hover:bg-primary-hover text-white text-xs font-bold px-5 h-9 rounded-xl shadow-md transition-all gap-1.5"
                 >
-                  <RotateCcw className="h-4 w-4" /> Reset Filters
+                  <RotateCcw className="size-4" /> Reset Filters
                 </Button>
               </div>
             )}
@@ -517,9 +517,9 @@ export function MenusPage() {
                     size="icon"
                     onClick={() => handlePageChange(currentPage - 1)}
                     disabled={currentPage === 1}
-                    className="h-8 w-8 rounded-lg bg-background border-muted-foreground/20 disabled:opacity-40"
+                    className="size-8 rounded-lg bg-background border-muted-foreground/20 disabled:opacity-40"
                   >
-                    <ChevronLeft className="h-4.5 w-4.5" />
+                    <ChevronLeft className="size-4.5" />
                   </Button>
                   
                   {Array.from({ length: totalPages }).map((_, i) => {
@@ -529,7 +529,7 @@ export function MenusPage() {
                         key={pageNum}
                         onClick={() => handlePageChange(pageNum)}
                         variant={currentPage === pageNum ? "default" : "outline"}
-                        className={`h-8 w-8 rounded-lg text-xs font-bold p-0 ${
+                        className={`size-8 rounded-lg text-xs font-bold p-0 ${
                           currentPage === pageNum ? "bg-primary text-white" : "bg-background border-muted-foreground/20 text-muted-foreground hover:text-foreground"
                         }`}
                       >
@@ -543,9 +543,9 @@ export function MenusPage() {
                     size="icon"
                     onClick={() => handlePageChange(currentPage + 1)}
                     disabled={currentPage === totalPages}
-                    className="h-8 w-8 rounded-lg bg-background border-muted-foreground/20 disabled:opacity-40"
+                    className="size-8 rounded-lg bg-background border-muted-foreground/20 disabled:opacity-40"
                   >
-                    <ChevronRight className="h-4.5 w-4.5" />
+                    <ChevronRight className="size-4.5" />
                   </Button>
                 </div>
               </div>

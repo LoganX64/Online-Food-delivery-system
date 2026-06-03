@@ -42,14 +42,14 @@ export function CheckoutPage() {
       >
         <div className="shrink-0 mt-0.5">
           {isSelected ? (
-            <CheckCircle2 className="h-5 w-5 text-primary" />
+            <CheckCircle2 className="size-5 text-primary" />
           ) : (
-            <Circle className="h-5 w-5 text-muted-foreground" />
+            <Circle className="size-5 text-muted-foreground" />
           )}
         </div>
         <div className="flex-1">
           <div className="flex items-center gap-2 mb-1">
-            <Icon className={`h-5 w-5 ${isSelected ? "text-primary" : "text-muted-foreground"}`} />
+            <Icon className={`size-5 ${isSelected ? "text-primary" : "text-muted-foreground"}`} />
             <h4 className={`font-semibold ${isSelected ? "text-primary" : "text-foreground"}`}>{title}</h4>
           </div>
           <p className="text-sm text-muted-foreground">{description}</p>
@@ -69,7 +69,7 @@ export function CheckoutPage() {
               className="rounded-full hover:bg-muted shrink-0 -ml-2"
               onClick={() => navigate(-1)}
             >
-              <ArrowLeft className="h-6 w-6" />
+              <ArrowLeft className="size-6" />
             </Button>
             <div>
               <h1 className="text-4xl md:text-5xl font-black tracking-tight mb-2 text-foreground">Checkout</h1>
@@ -80,21 +80,21 @@ export function CheckoutPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10">
           {/* Left Column: Delivery & Payment */}
-          <div className="lg:col-span-7 xl:col-span-8 space-y-6">
+          <div className="lg:col-span-7 xl:col-span-8 flex flex-col gap-6">
 
             {/* Delivery Details Card */}
             <Card className="rounded-3xl border border-gray-100 shadow-sm overflow-hidden">
               <CardHeader className="pb-4 border-b border-gray-50 bg-gray-50/30">
                 <div className="flex items-center justify-between">
                   <CardTitle className="text-xl font-bold flex items-center gap-2">
-                    <MapPin className="h-5 w-5 text-primary" /> Delivery Details
+                    <MapPin className="size-5 text-primary" /> Delivery Details
                   </CardTitle>
                   <Button variant="ghost" size="sm" className="text-primary hover:bg-primary/10 rounded-full h-8 px-3">
-                    <Edit2 className="h-4 w-4 mr-2" /> Edit
+                    <Edit2 className="size-4 mr-2" /> Edit
                   </Button>
                 </div>
               </CardHeader>
-              <CardContent className="pt-6 space-y-6">
+              <CardContent className="pt-6 flex flex-col gap-6">
                 <div>
                   <h4 className="font-bold text-foreground mb-1">Home Address</h4>
                   <p className="text-muted-foreground text-sm leading-relaxed">
@@ -104,7 +104,7 @@ export function CheckoutPage() {
                   </p>
                 </div>
 
-                <div className="space-y-2 pt-2">
+                <div className="flex flex-col gap-2 pt-2">
                   <label htmlFor="instructions" className="text-sm font-semibold text-foreground block">
                     Delivery Instructions (Optional)
                   </label>
@@ -123,10 +123,10 @@ export function CheckoutPage() {
             <Card className="rounded-3xl border border-gray-100 shadow-sm overflow-hidden">
               <CardHeader className="pb-4 border-b border-gray-50 bg-gray-50/30">
                 <CardTitle className="text-xl font-bold flex items-center gap-2">
-                  <Wallet className="h-5 w-5 text-primary" /> Payment Method
+                  <Wallet className="size-5 text-primary" /> Payment Method
                 </CardTitle>
               </CardHeader>
-              <CardContent className="pt-6 space-y-4">
+              <CardContent className="pt-6 flex flex-col gap-4">
                 <PaymentOption
                   id="card"
                   icon={CreditCard}
@@ -151,12 +151,12 @@ export function CheckoutPage() {
                 <CardTitle className="text-xl font-bold text-foreground">Order Summary</CardTitle>
               </CardHeader>
 
-              <CardContent className="pt-6 space-y-6 px-6">
+              <CardContent className="pt-6 flex flex-col gap-6 px-6">
                 {/* Items List (Simplified) */}
-                <div className="space-y-4 max-h-[300px] overflow-y-auto pr-2 no-scrollbar" style={{ scrollbarWidth: 'none' }}>
+                <div className="flex flex-col gap-4 max-h-[300px] overflow-y-auto pr-2 no-scrollbar" style={{ scrollbarWidth: 'none' }}>
                   {cartItemsList.map(item => (
                     <div key={item.id} className="flex items-center gap-3">
-                      <div className="w-12 h-12 rounded-xl overflow-hidden shrink-0 bg-muted">
+                      <div className="size-12 rounded-xl overflow-hidden shrink-0 bg-muted">
                         <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
                       </div>
                       <div className="flex-1 min-w-0">
@@ -177,7 +177,7 @@ export function CheckoutPage() {
                 <div className="border-t border-dotted border-gray-300" />
 
                 {/* Price Breakdown */}
-                <div className="space-y-3 text-sm font-mono text-gray-500">
+                <div className="flex flex-col gap-3 text-sm font-mono text-gray-500">
                   <div className="flex justify-between items-center">
                     <span>Subtotal</span>
                     <span className="font-medium text-gray-900">${subtotal.toFixed(2)}</span>

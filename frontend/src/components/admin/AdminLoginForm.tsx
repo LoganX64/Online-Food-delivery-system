@@ -28,7 +28,7 @@ export function AdminLoginForm({ className, ...props }: AdminLoginFormProps) {
       await login({ email, password }, "admin")
       toast.success("Administrator Authenticated!", {
         description: "Welcome to FoodieFlow HQ. Launching console...",
-        icon: <ShieldCheck className="h-5 w-5 text-primary" />,
+        icon: <ShieldCheck className="size-5 text-primary" />,
       })
       
       navigate("/admin-dashboard", { replace: true })
@@ -48,8 +48,8 @@ export function AdminLoginForm({ className, ...props }: AdminLoginFormProps) {
           {/* Left panel: Modern Form */}
           <form onSubmit={handleSubmit} className="p-6 sm:p-8 md:p-12 flex flex-col justify-center bg-card">
             <div className="flex flex-col items-center gap-2 text-center mb-8">
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/15 text-primary mb-2 shadow-inner border border-primary/10">
-                <ShieldCheck className="h-6 w-6" />
+              <div className="flex size-12 items-center justify-center rounded-full bg-primary/15 text-primary mb-2 shadow-inner border border-primary/10">
+                <ShieldCheck className="size-6" />
               </div>
               <h1 className="text-2xl font-bold tracking-tight text-foreground font-heading">Admin Console</h1>
               <p className="text-sm text-muted-foreground">
@@ -63,7 +63,7 @@ export function AdminLoginForm({ className, ...props }: AdminLoginFormProps) {
                   Admin Email
                 </Label>
                 <div className="relative">
-                  <Mail className="absolute left-3 top-3 h-4.5 w-4.5 text-muted-foreground/70" />
+                  <Mail className="absolute left-3 top-3 size-4.5 text-muted-foreground/70" />
                   <Input
                     id="email"
                     type="email"
@@ -81,7 +81,7 @@ export function AdminLoginForm({ className, ...props }: AdminLoginFormProps) {
                   Access Key
                 </Label>
                 <div className="relative">
-                  <Lock className="absolute left-3 top-3 h-4.5 w-4.5 text-muted-foreground/70" />
+                  <Lock className="absolute left-3 top-3 size-4.5 text-muted-foreground/70" />
                   <Input
                     id="password"
                     type={showPassword ? "text" : "password"}
@@ -98,9 +98,9 @@ export function AdminLoginForm({ className, ...props }: AdminLoginFormProps) {
                     aria-label={showPassword ? "Hide password" : "Show password"}
                   >
                     {showPassword ? (
-                      <EyeOff className="h-4.5 w-4.5" />
+                      <EyeOff className="size-4.5" />
                     ) : (
-                      <Eye className="h-4.5 w-4.5" />
+                      <Eye className="size-4.5" />
                     )}
                   </button>
                 </div>
@@ -111,7 +111,7 @@ export function AdminLoginForm({ className, ...props }: AdminLoginFormProps) {
                   Security Token <span className="text-[10px] text-muted-foreground/60">(Optional)</span>
                 </Label>
                 <div className="relative">
-                  <Key className="absolute left-3 top-3 h-4.5 w-4.5 text-muted-foreground/70" />
+                  <Key className="absolute left-3 top-3 size-4.5 text-muted-foreground/70" />
                   <Input
                     id="securityKey"
                     type="text"
@@ -126,13 +126,13 @@ export function AdminLoginForm({ className, ...props }: AdminLoginFormProps) {
               <Button type="submit" disabled={isLoading} className="w-full h-11 text-sm font-semibold mt-3 rounded-[0.45rem] bg-zinc-900 hover:bg-zinc-800 text-white dark:bg-zinc-100 dark:hover:bg-zinc-200 dark:text-zinc-900">
                 {isLoading ? (
                   <span className="flex items-center gap-2">
-                    <span className="h-4 w-4 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+                    <span className="size-4 animate-spin rounded-full border-2 border-primary border-t-transparent" />
                     Authenticating Privileges...
                   </span>
                 ) : (
                   <span className="flex items-center justify-center gap-1.5">
                     Launch Admin Terminal
-                    <ArrowRight className="h-4 w-4 text-primary" />
+                    <ArrowRight className="size-4 text-primary" />
                   </span>
                 )}
               </Button>
@@ -141,12 +141,12 @@ export function AdminLoginForm({ className, ...props }: AdminLoginFormProps) {
             {/* Portal Switcher Footer */}
             <div className="mt-10 pt-6 border-t border-muted/50 flex justify-between text-xs font-semibold text-muted-foreground">
               <Link to="/login" className="flex items-center gap-1 hover:text-primary transition-colors">
-                <ArrowLeft className="h-3.5 w-3.5" />
+                <ArrowLeft className="size-3.5" />
                 Customer Portal
               </Link>
               <Link to="/restaurant/login" className="flex items-center gap-1 hover:text-primary transition-colors">
                 Partner Portal
-                <ArrowRight className="h-3.5 w-3.5" />
+                <ArrowRight className="size-3.5" />
               </Link>
             </div>
           </form>
@@ -160,7 +160,7 @@ export function AdminLoginForm({ className, ...props }: AdminLoginFormProps) {
             />
             <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-900/60 to-transparent flex flex-col justify-end p-12 text-white">
               <div className="flex items-center gap-2 bg-primary/20 backdrop-blur-md border border-white/10 px-3 py-1.5 rounded-full w-fit mb-4">
-                <Terminal className="h-4 w-4 text-primary animate-pulse" />
+                <Terminal className="size-4 text-primary animate-pulse" />
                 <span className="text-xs font-bold uppercase tracking-wider text-primary">System Operations</span>
               </div>
               <h2 className="text-3xl font-bold font-heading leading-tight mb-2">

@@ -60,28 +60,28 @@ export default function AdminDashboard() {
         <div className="md:hidden fixed bottom-0 left-0 right-0 border-t bg-background flex items-center justify-around h-16 z-50">
           <button 
             onClick={() => { setActiveTab("Dashboard"); setIsAddingRestaurant(false); }}
-            className={`flex flex-col items-center justify-center w-full h-full space-y-1 ${activeTab === "Dashboard" && !isAddingRestaurant ? "text-primary" : "text-muted-foreground"}`}
+            className={`flex flex-col items-center justify-center w-full h-full gap-1 ${activeTab === "Dashboard" && !isAddingRestaurant ? "text-primary" : "text-muted-foreground"}`}
           >
             <LayoutDashboardIcon className="size-5" />
             <span className="text-[10px] font-medium">Dashboard</span>
           </button>
           <button 
             onClick={() => { setActiveTab("Orders"); setIsAddingRestaurant(false); }}
-            className={`flex flex-col items-center justify-center w-full h-full space-y-1 ${activeTab === "Orders" && !isAddingRestaurant ? "text-primary" : "text-muted-foreground"}`}
+            className={`flex flex-col items-center justify-center w-full h-full gap-1 ${activeTab === "Orders" && !isAddingRestaurant ? "text-primary" : "text-muted-foreground"}`}
           >
             <ShoppingBagIcon className="size-5" />
             <span className="text-[10px] font-medium">Orders</span>
           </button>
           <button 
             onClick={() => { setActiveTab("Restaurants"); setIsAddingRestaurant(false); }}
-            className={`flex flex-col items-center justify-center w-full h-full space-y-1 ${activeTab === "Restaurants" && !isAddingRestaurant ? "text-primary" : "text-muted-foreground"}`}
+            className={`flex flex-col items-center justify-center w-full h-full gap-1 ${activeTab === "Restaurants" && !isAddingRestaurant ? "text-primary" : "text-muted-foreground"}`}
           >
             <StoreIcon className="size-5" />
             <span className="text-[10px] font-medium">Restaurants</span>
           </button>
           <button 
             onClick={() => { setActiveTab("Settings"); setIsAddingRestaurant(false); }}
-            className={`flex flex-col items-center justify-center w-full h-full space-y-1 ${activeTab === "Settings" && !isAddingRestaurant ? "text-primary" : "text-muted-foreground"}`}
+            className={`flex flex-col items-center justify-center w-full h-full gap-1 ${activeTab === "Settings" && !isAddingRestaurant ? "text-primary" : "text-muted-foreground"}`}
           >
             <Settings2Icon className="size-5" />
             <span className="text-[10px] font-medium">Settings</span>

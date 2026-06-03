@@ -83,7 +83,7 @@ export function OrderHistory() {
           </div>
           <div className="flex items-center gap-2">
             <div className="relative">
-              <SearchIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+              <SearchIcon className="absolute left-2.5 top-2.5 size-4 text-muted-foreground" />
               <Input
                 type="search"
                 placeholder="Search orders…"
@@ -93,7 +93,7 @@ export function OrderHistory() {
               />
             </div>
             <Button variant="outline" size="icon">
-              <FilterIcon className="h-4 w-4" />
+              <FilterIcon className="size-4" />
             </Button>
           </div>
         </div>
@@ -111,15 +111,15 @@ export function OrderHistory() {
 
       <CardContent>
         {loading ? (
-          <div className="space-y-3">
+          <div className="flex flex-col gap-3">
             {[1, 2, 3].map((i) => (
               <Skeleton key={i} className="h-14 w-full rounded-lg" />
             ))}
           </div>
         ) : filtered.length === 0 ? (
           <div className="py-20 flex flex-col items-center gap-4 text-muted-foreground">
-            <div className="bg-muted w-16 h-16 rounded-full flex items-center justify-center">
-              <ShoppingBagIcon className="h-8 w-8" />
+            <div className="bg-muted size-16 rounded-full flex items-center justify-center">
+              <ShoppingBagIcon className="size-8" />
             </div>
             <p className="font-medium">No orders yet</p>
             <p className="text-sm">Your order history will appear here.</p>
@@ -158,8 +158,8 @@ export function OrderHistory() {
                         <StatusBadge status={order.status} />
                       </TableCell>
                       <TableCell className="text-right">
-                        <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                          <EyeIcon className="h-4 w-4 text-primary" />
+                        <Button variant="ghost" size="sm" className="size-8 p-0">
+                          <EyeIcon className="size-4 text-primary" />
                         </Button>
                       </TableCell>
                     </TableRow>
@@ -169,9 +169,9 @@ export function OrderHistory() {
             </div>
 
             {/* Mobile */}
-            <div className="md:hidden space-y-4">
+            <div className="md:hidden flex flex-col gap-4">
               {filtered.map((order) => (
-                <div key={order._id} className="p-4 rounded-xl border bg-card shadow-sm space-y-3">
+                <div key={order._id} className="p-4 rounded-xl border bg-card shadow-sm flex flex-col gap-3">
                   <div className="flex items-center justify-between">
                     <span className="font-bold text-primary font-mono text-sm">
                       #{order._id.slice(-6).toUpperCase()}
@@ -189,7 +189,7 @@ export function OrderHistory() {
                     <span className="font-bold text-lg">₹{order.totalAmount.toFixed(2)}</span>
                   </div>
                   <Button variant="outline" className="w-full text-xs" size="sm">
-                    <EyeIcon className="h-3 w-3 mr-2" /> View Details
+                    <EyeIcon className="size-3 mr-2" /> View Details
                   </Button>
                 </div>
               ))}

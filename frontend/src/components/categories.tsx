@@ -74,7 +74,7 @@ export const Categories = () => {
           variant="ghost"
           className="text-primary hover:text-primary-hover font-bold flex items-center gap-1 p-0 h-auto hover:bg-transparent underline underline-offset-4 decoration-2"
         >
-          See All <ArrowRight className="h-4 w-4" />
+          See All <ArrowRight className="size-4" />
         </Button>
       </div>
 
@@ -88,7 +88,7 @@ export const Categories = () => {
               onClick={() => scroll("left")}
               className="rounded-full shadow-lg bg-background hover:bg-primary hover:text-white border-muted"
             >
-              <ChevronLeft className="h-6 w-6" />
+              <ChevronLeft className="size-6" />
             </Button>
           </div>
           <div className="absolute right-[-20px] top-1/2 -translate-y-1/2 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -98,7 +98,7 @@ export const Categories = () => {
               onClick={() => scroll("right")}
               className="rounded-full shadow-lg bg-background hover:bg-primary hover:text-white border-muted"
             >
-              <ChevronRight className="h-6 w-6" />
+              <ChevronRight className="size-6" />
             </Button>
           </div>
         </div>
@@ -133,7 +133,7 @@ export const Categories = () => {
 
               {/* Mobile View: Circular Image with Text Below */}
               <div className="md:hidden flex flex-col items-center gap-2">
-                <div className="w-20 h-20 rounded-full overflow-hidden shadow-sm border border-muted-soft bg-muted-soft">
+                <div className="size-20 rounded-full overflow-hidden shadow-sm border border-muted-soft bg-muted-soft">
                   <img
                     src={category.image}
                     alt={category.name}

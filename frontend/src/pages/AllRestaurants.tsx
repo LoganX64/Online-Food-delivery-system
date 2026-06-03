@@ -300,11 +300,11 @@ export default function AllRestaurants() {
 
   // Render Filter Form Component (Reusable)
   const FilterPanelContent = () => (
-    <div className="space-y-6">
+    <div className="flex flex-col gap-6">
       <div>
         <h3 className="font-bold text-sm text-foreground uppercase tracking-wider mb-3">Search</h3>
         <div className="relative">
-          <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+          <Search className="absolute left-3 top-2.5 size-4 text-muted-foreground" />
           <Input
             placeholder="Search restaurants..."
             value={searchQuery}
@@ -319,9 +319,9 @@ export default function AllRestaurants() {
 
       <div className="border-t pt-4">
         <h3 className="font-bold text-sm text-foreground uppercase tracking-wider mb-3">Cuisines</h3>
-        <div className="space-y-2 max-h-[180px] overflow-y-auto pr-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className="flex flex-col gap-2 max-h-[180px] overflow-y-auto pr-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {CUISINES.map((cuisine) => (
-            <div key={cuisine} className="flex items-center space-x-2.5">
+            <div key={cuisine} className="flex items-center gap-2.5">
               <Checkbox
                 id={`cuisine-${cuisine}`}
                 checked={selectedCuisines.includes(cuisine)}
@@ -353,7 +353,7 @@ export default function AllRestaurants() {
                 minRating === rating ? "bg-primary text-white" : "bg-background border-muted-foreground/20"
               }`}
             >
-              <Star className={`h-3 w-3 ${minRating === rating ? "fill-current" : "text-amber-500 fill-amber-500"}`} />
+              <Star className={`size-3 ${minRating === rating ? "fill-current" : "text-amber-500 fill-amber-500"}`} />
               {rating}+ Stars
             </Button>
           ))}
@@ -362,8 +362,8 @@ export default function AllRestaurants() {
 
       <div className="border-t pt-4">
         <h3 className="font-bold text-sm text-foreground uppercase tracking-wider mb-3">Delivery Options</h3>
-        <div className="space-y-2.5">
-          <div className="flex items-center space-x-2.5">
+        <div className="flex flex-col gap-2.5">
+          <div className="flex items-center gap-2.5">
             <Checkbox
               id="free-delivery"
               checked={onlyFreeDelivery}
@@ -380,7 +380,7 @@ export default function AllRestaurants() {
             </label>
           </div>
 
-          <div className="flex items-center space-x-2.5">
+          <div className="flex items-center gap-2.5">
             <Checkbox
               id="fast-delivery"
               checked={fastDeliveryOnly}
@@ -405,7 +405,7 @@ export default function AllRestaurants() {
           variant="outline"
           className="w-full text-xs font-bold h-9 border-red-500/20 text-red-500 hover:bg-red-500/10 gap-1.5"
         >
-          <RotateCcw className="h-3.5 w-3.5" />
+          <RotateCcw className="size-3.5" />
           Reset Filters
         </Button>
       </div>
@@ -422,13 +422,13 @@ export default function AllRestaurants() {
             onClick={() => navigate(-1)} 
             variant="secondary" 
             size="icon" 
-            className="rounded-full shadow-lg bg-white/95 backdrop-blur-sm text-foreground hover:bg-primary hover:text-white border-none transition-all h-8 w-8"
+            className="rounded-full shadow-lg bg-white/95 backdrop-blur-sm text-foreground hover:bg-primary hover:text-white border-none transition-all size-8"
           >
-            <ChevronLeft className="h-4.5 w-4.5" />
+            <ChevronLeft className="size-4.5" />
           </Button>
         </div>
         <div className="container mx-auto px-4 text-center md:text-left flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="space-y-2">
+          <div className="flex flex-col gap-2">
             <Badge className="bg-primary/10 text-primary hover:bg-primary/20 border-none font-bold uppercase tracking-wider text-[10px] px-2.5 py-1">
               Gourmet Directory
             </Badge>
@@ -440,7 +440,7 @@ export default function AllRestaurants() {
             </p>
           </div>
           <div className="flex items-center gap-1.5 bg-background border border-primary/20 p-2 rounded-xl shadow-sm text-xs font-bold text-muted-foreground shrink-0">
-            <MapPin className="h-4 w-4 text-primary" />
+            <MapPin className="size-4 text-primary" />
             <span>Delivering to Sector 15, Pincode 110001</span>
           </div>
         </div>
@@ -453,14 +453,14 @@ export default function AllRestaurants() {
           {/* Left Column: Desktop Sidebar Filter Panel */}
           <aside className="hidden lg:block lg:col-span-1 bg-card rounded-2xl border border-muted/50 p-5 shadow-sm sticky top-24">
             <div className="flex items-center gap-2 mb-5 pb-3 border-b border-muted">
-              <SlidersHorizontal className="h-4.5 w-4.5 text-primary" />
+              <SlidersHorizontal className="size-4.5 text-primary" />
               <h2 className="font-extrabold text-base text-foreground font-heading">Refine Results</h2>
             </div>
             <FilterPanelContent />
           </aside>
 
           {/* Right Column: Active Results Catalog Grid */}
-          <div className="lg:col-span-3 space-y-6">
+          <div className="lg:col-span-3 flex flex-col gap-6">
             
             {/* Top Toolbar: Mobile Filter Drawer Trigger & Grid Sort Selector */}
             <div className="flex flex-col sm:flex-row justify-between items-center bg-card p-3 rounded-xl border border-muted/50 shadow-sm gap-4">
@@ -470,14 +470,14 @@ export default function AllRestaurants() {
                   <Sheet>
                     <SheetTrigger asChild>
                       <Button variant="outline" className="w-full h-9 bg-background border-muted-foreground/20 text-xs font-bold gap-2">
-                        <SlidersHorizontal className="h-4 w-4 text-primary" />
+                        <SlidersHorizontal className="size-4 text-primary" />
                         Filters
                       </Button>
                     </SheetTrigger>
                     <SheetContent side="left" className="w-[280px]">
                       <SheetHeader className="pb-3 border-b mb-4">
                         <SheetTitle className="font-extrabold text-base flex items-center gap-2 text-foreground">
-                          <SlidersHorizontal className="h-4.5 w-4.5 text-primary" />
+                          <SlidersHorizontal className="size-4.5 text-primary" />
                           Filter Directory
                         </SheetTitle>
                       </SheetHeader>
@@ -498,7 +498,7 @@ export default function AllRestaurants() {
               {/* Sort selector dropdown */}
               <div className="flex items-center gap-2.5 w-full sm:w-auto shrink-0 justify-end">
                 <span className="text-[11px] font-bold text-muted-foreground/80 flex items-center gap-1">
-                  <ArrowUpDown className="h-3.5 w-3.5 text-primary" /> Sort:
+                  <ArrowUpDown className="size-3.5 text-primary" /> Sort:
                 </span>
                 <Select value={sortBy} onValueChange={setSortBy}>
                   <SelectTrigger className="w-full sm:w-[170px] h-9 text-xs bg-background border-muted-foreground/20 focus:ring-primary rounded-lg font-bold">
@@ -534,25 +534,25 @@ export default function AllRestaurants() {
                           e.stopPropagation();
                           // Favoriting simulation
                         }} 
-                        className="w-7 h-7 rounded-full bg-white/95 backdrop-blur-sm flex items-center justify-center shadow-md hover:bg-primary hover:text-white transition-all"
+                        className="size-7 rounded-full bg-white/95 backdrop-blur-sm flex items-center justify-center shadow-md hover:bg-primary hover:text-white transition-all"
                       >
-                        <Heart className="h-3.5 w-3.5" />
+                        <Heart className="size-3.5" />
                       </button>
                     }
                     contentRight={
                       <div className="flex items-center gap-0.5 bg-green-700 text-white px-1.5 py-0.5 rounded text-[10px] font-extrabold shadow-sm shrink-0">
                         {restaurant.rating}
-                        <Star className="h-2.5 w-2.5 fill-current" />
+                        <Star className="size-2.5 fill-current" />
                       </div>
                     }
                     footerFull={
                       <div className="flex items-center gap-3.5 text-[10px] font-bold text-muted-foreground/90">
                         <div className="flex items-center gap-1">
-                          <Clock className="h-3.5 w-3.5 text-primary" />
+                          <Clock className="size-3.5 text-primary" />
                           <span>{restaurant.deliveryTimeStr}</span>
                         </div>
                         <div className="flex items-center gap-1">
-                          <Truck className="h-3.5 w-3.5 text-primary" />
+                          <Truck className="size-3.5 text-primary" />
                           <span>{restaurant.deliveryFeeStr}</span>
                         </div>
                       </div>
@@ -574,7 +574,7 @@ export default function AllRestaurants() {
                   onClick={handleResetFilters}
                   className="mt-6 bg-primary hover:bg-primary-hover text-white text-xs font-bold px-5 h-9 rounded-xl shadow-md transition-all gap-1.5"
                 >
-                  <RotateCcw className="h-4 w-4" /> Reset Filters
+                  <RotateCcw className="size-4" /> Reset Filters
                 </Button>
               </div>
             )}
@@ -592,9 +592,9 @@ export default function AllRestaurants() {
                     size="icon"
                     onClick={() => handlePageChange(currentPage - 1)}
                     disabled={currentPage === 1}
-                    className="h-8 w-8 rounded-lg bg-background border-muted-foreground/20 disabled:opacity-40"
+                    className="size-8 rounded-lg bg-background border-muted-foreground/20 disabled:opacity-40"
                   >
-                    <ChevronLeft className="h-4.5 w-4.5" />
+                    <ChevronLeft className="size-4.5" />
                   </Button>
                   
                   {Array.from({ length: totalPages }).map((_, i) => {
@@ -604,7 +604,7 @@ export default function AllRestaurants() {
                         key={pageNum}
                         onClick={() => handlePageChange(pageNum)}
                         variant={currentPage === pageNum ? "default" : "outline"}
-                        className={`h-8 w-8 rounded-lg text-xs font-bold p-0 ${
+                        className={`size-8 rounded-lg text-xs font-bold p-0 ${
                           currentPage === pageNum ? "bg-primary text-white" : "bg-background border-muted-foreground/20 text-muted-foreground hover:text-foreground"
                         }`}
                       >
@@ -618,9 +618,9 @@ export default function AllRestaurants() {
                     size="icon"
                     onClick={() => handlePageChange(currentPage + 1)}
                     disabled={currentPage === totalPages}
-                    className="h-8 w-8 rounded-lg bg-background border-muted-foreground/20 disabled:opacity-40"
+                    className="size-8 rounded-lg bg-background border-muted-foreground/20 disabled:opacity-40"
                   >
-                    <ChevronRight className="h-4.5 w-4.5" />
+                    <ChevronRight className="size-4.5" />
                   </Button>
                 </div>
               </div>

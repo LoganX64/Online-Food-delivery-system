@@ -51,11 +51,11 @@ export const Footer = () => {
             <DropdownMenuTrigger asChild>
               <Button variant="outline" className="w-full sm:w-auto flex items-center justify-between gap-2 border-muted-foreground/20 hover:bg-muted/50">
                 <div className="flex items-center gap-2">
-                  <MapPin className="h-4 w-4 text-muted-foreground" />
+                  <MapPin className="size-4 text-muted-foreground" />
                   <span className="font-normal text-muted-foreground">Deliver to:</span>
                   <span className="font-medium">New York, NY 10001</span>
                 </div>
-                <ChevronDown className="h-4 w-4 opacity-50" />
+                <ChevronDown className="size-4 opacity-50" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="start" className="w-[300px]">
@@ -69,10 +69,10 @@ export const Footer = () => {
             <DropdownMenuTrigger asChild>
               <Button variant="outline" className="w-full sm:w-auto flex items-center justify-between gap-2 border-muted-foreground/20 hover:bg-muted/50">
                 <div className="flex items-center gap-2">
-                  <Globe className="h-4 w-4 text-muted-foreground" />
+                  <Globe className="size-4 text-muted-foreground" />
                   <span className="font-medium">$ USD (United States)</span>
                 </div>
-                <ChevronDown className="h-4 w-4 opacity-50" />
+                <ChevronDown className="size-4 opacity-50" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-[200px]">
@@ -89,10 +89,10 @@ export const Footer = () => {
         <div className="container mx-auto px-4 py-12">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 lg:gap-12">
             {/* Column 1: Brand & Social */}
-            <div className="space-y-6">
+            <div className="flex flex-col gap-6">
               <Link to="/" className="flex items-center gap-2">
                 <div className="bg-primary p-1.5 rounded-md">
-                  <UtensilsCrossed className="h-6 w-6 text-primary-foreground" />
+                  <UtensilsCrossed className="size-6 text-primary-foreground" />
                 </div>
                 <span className="text-xl font-bold font-heading text-foreground">FlavorSwift</span>
               </Link>
@@ -101,16 +101,16 @@ export const Footer = () => {
               </p>
               <div className="flex gap-4">
                 <a href="#" className="bg-foreground/5 hover:bg-primary hover:text-primary-foreground transition-colors p-2 rounded-full text-foreground">
-                  <FacebookIcon className="h-4 w-4" />
+                  <FacebookIcon className="size-4" />
                 </a>
                 <a href="#" className="bg-foreground/5 hover:bg-primary hover:text-primary-foreground transition-colors p-2 rounded-full text-foreground">
-                  <TwitterIcon className="h-4 w-4" />
+                  <TwitterIcon className="size-4" />
                 </a>
                 <a href="#" className="bg-foreground/5 hover:bg-primary hover:text-primary-foreground transition-colors p-2 rounded-full text-foreground">
-                  <InstagramIcon className="h-4 w-4" />
+                  <InstagramIcon className="size-4" />
                 </a>
                 <a href="#" className="bg-foreground/5 hover:bg-primary hover:text-primary-foreground transition-colors p-2 rounded-full text-foreground">
-                  <YoutubeIcon className="h-4 w-4" />
+                  <YoutubeIcon className="size-4" />
                 </a>
               </div>
             </div>
@@ -118,7 +118,7 @@ export const Footer = () => {
             {/* Column 2: Company */}
             <div>
               <h4 className="font-bold mb-4 font-heading text-lg text-foreground">Company</h4>
-              <ul className="space-y-3 text-sm text-muted-foreground">
+              <ul className="flex flex-col gap-3 text-sm text-muted-foreground">
                 <li><Link to="/about" className="hover:text-primary transition-colors">About Us</Link></li>
                 <li><Link to="/careers" className="hover:text-primary transition-colors">Careers</Link></li>
                 <li><Link to="/contact" className="hover:text-primary transition-colors">Contact</Link></li>
@@ -129,7 +129,7 @@ export const Footer = () => {
             {/* Column 3: For Customers */}
             <div>
               <h4 className="font-bold mb-4 font-heading text-lg text-foreground">For Customers</h4>
-              <ul className="space-y-3 text-sm text-muted-foreground">
+              <ul className="flex flex-col gap-3 text-sm text-muted-foreground">
                 <li><Link to="/support" className="hover:text-primary transition-colors">Support</Link></li>
                 <li><Link to="/safety" className="hover:text-primary transition-colors">Safety Concerns</Link></li>
                 <li><Link to="/faq" className="hover:text-primary transition-colors">FAQs</Link></li>
@@ -139,7 +139,7 @@ export const Footer = () => {
             {/* Column 4: Legal */}
             <div>
               <h4 className="font-bold mb-4 font-heading text-lg text-foreground">Legal</h4>
-              <ul className="space-y-3 text-sm text-muted-foreground">
+              <ul className="flex flex-col gap-3 text-sm text-muted-foreground">
                 <li><Link to="/privacy" className="hover:text-primary transition-colors">Privacy Policy</Link></li>
                 <li><Link to="/terms" className="hover:text-primary transition-colors">Terms of Service</Link></li>
                 <li><Link to="/cookies" className="hover:text-primary transition-colors">Cookie Policy</Link></li>

@@ -92,7 +92,7 @@ export function RestaurantRegisterForm({ className, ...props }: RestaurantRegist
 
       toast.success("Application Submitted Successfully!", {
         description: "Your restaurant application is under review. Please log in.",
-        icon: <Sparkles className="h-5 w-5 text-primary" />,
+        icon: <Sparkles className="size-5 text-primary" />,
       })
       
       navigate("/restaurant/login", { replace: true })
@@ -112,8 +112,8 @@ export function RestaurantRegisterForm({ className, ...props }: RestaurantRegist
           {/* Left panel: Registration Flow */}
           <div className="p-6 sm:p-8 md:p-12 flex flex-col justify-center">
             <div className="flex flex-col items-center gap-2 text-center mb-8">
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary mb-2">
-                <ChefHat className="h-6 w-6 animate-pulse" />
+              <div className="flex size-12 items-center justify-center rounded-full bg-primary/10 text-primary mb-2">
+                <ChefHat className="size-6 animate-pulse" />
               </div>
               <h1 className="text-2xl font-bold tracking-tight text-foreground font-heading">Partner Registration</h1>
               <p className="text-sm text-muted-foreground">
@@ -137,7 +137,7 @@ export function RestaurantRegisterForm({ className, ...props }: RestaurantRegist
                     Full Name
                   </Label>
                   <div className="relative">
-                    <User className="absolute left-3 top-3 h-4.5 w-4.5 text-muted-foreground/70" />
+                    <User className="absolute left-3 top-3 size-4.5 text-muted-foreground/70" />
                     <Input
                       id="ownerName"
                       type="text"
@@ -155,7 +155,7 @@ export function RestaurantRegisterForm({ className, ...props }: RestaurantRegist
                     Email Address
                   </Label>
                   <div className="relative">
-                    <Mail className="absolute left-3 top-3 h-4.5 w-4.5 text-muted-foreground/70" />
+                    <Mail className="absolute left-3 top-3 size-4.5 text-muted-foreground/70" />
                     <Input
                       id="email"
                       type="email"
@@ -173,7 +173,7 @@ export function RestaurantRegisterForm({ className, ...props }: RestaurantRegist
                     Create Password
                   </Label>
                   <div className="relative">
-                    <Lock className="absolute left-3 top-3 h-4.5 w-4.5 text-muted-foreground/70" />
+                    <Lock className="absolute left-3 top-3 size-4.5 text-muted-foreground/70" />
                     <Input
                       id="password"
                       type={showPassword ? "text" : "password"}
@@ -188,7 +188,7 @@ export function RestaurantRegisterForm({ className, ...props }: RestaurantRegist
                       onClick={() => setShowPassword(!showPassword)}
                       className="absolute right-3 top-3 text-muted-foreground hover:text-foreground"
                     >
-                      {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                      {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
                     </button>
                   </div>
                   <p className="text-[10px] text-muted-foreground mt-1 leading-tight">Must be at least 8 chars, 1 uppercase, 1 lowercase, 1 number, 1 special char.</p>
@@ -199,7 +199,7 @@ export function RestaurantRegisterForm({ className, ...props }: RestaurantRegist
                     Confirm Password
                   </Label>
                   <div className="relative">
-                    <Lock className="absolute left-3 top-3 h-4.5 w-4.5 text-muted-foreground/70" />
+                    <Lock className="absolute left-3 top-3 size-4.5 text-muted-foreground/70" />
                     <Input
                       id="confirmPassword"
                       type={showConfirmPassword ? "text" : "password"}
@@ -214,7 +214,7 @@ export function RestaurantRegisterForm({ className, ...props }: RestaurantRegist
                       onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                       className="absolute right-3 top-3 text-muted-foreground hover:text-foreground"
                     >
-                      {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                      {showConfirmPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
                     </button>
                   </div>
                 </div>
@@ -222,7 +222,7 @@ export function RestaurantRegisterForm({ className, ...props }: RestaurantRegist
                 <Button type="submit" className="w-full h-11 text-sm font-semibold mt-3 rounded-[0.45rem]">
                   <span className="flex items-center justify-center gap-1.5">
                     Continue to Details
-                    <ArrowRight className="h-4 w-4" />
+                    <ArrowRight className="size-4" />
                   </span>
                 </Button>
               </form>
@@ -233,7 +233,7 @@ export function RestaurantRegisterForm({ className, ...props }: RestaurantRegist
                     Restaurant Name
                   </Label>
                   <div className="relative">
-                    <Store className="absolute left-3 top-3 h-4.5 w-4.5 text-muted-foreground/70" />
+                    <Store className="absolute left-3 top-3 size-4.5 text-muted-foreground/70" />
                     <Input
                       id="restaurantName"
                       type="text"
@@ -251,7 +251,7 @@ export function RestaurantRegisterForm({ className, ...props }: RestaurantRegist
                     Contact Number
                   </Label>
                   <div className="relative">
-                    <Phone className="absolute left-3 top-3 h-4.5 w-4.5 text-muted-foreground/70" />
+                    <Phone className="absolute left-3 top-3 size-4.5 text-muted-foreground/70" />
                     <Input
                       id="phone"
                       type="tel"
@@ -270,7 +270,7 @@ export function RestaurantRegisterForm({ className, ...props }: RestaurantRegist
                       City
                     </Label>
                     <div className="relative">
-                      <MapPin className="absolute left-3 top-3 h-4.5 w-4.5 text-muted-foreground/70" />
+                      <MapPin className="absolute left-3 top-3 size-4.5 text-muted-foreground/70" />
                       <Input
                         id="city"
                         type="text"
@@ -305,7 +305,7 @@ export function RestaurantRegisterForm({ className, ...props }: RestaurantRegist
                       Pincode
                     </Label>
                     <div className="relative">
-                      <MapPin className="absolute left-3 top-3 h-4.5 w-4.5 text-muted-foreground/70" />
+                      <MapPin className="absolute left-3 top-3 size-4.5 text-muted-foreground/70" />
                       <Input
                         id="pincode"
                         type="text"
@@ -342,7 +342,7 @@ export function RestaurantRegisterForm({ className, ...props }: RestaurantRegist
                     className="flex-1 h-11 text-sm font-semibold rounded-[0.45rem]"
                   >
                     <span className="flex items-center justify-center gap-1">
-                      <ArrowLeft className="h-4 w-4" />
+                      <ArrowLeft className="size-4" />
                       Back
                     </span>
                   </Button>
@@ -353,13 +353,13 @@ export function RestaurantRegisterForm({ className, ...props }: RestaurantRegist
                   >
                     {isLoading ? (
                       <span className="flex items-center gap-2 justify-center">
-                        <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                        <span className="size-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
                         Submitting...
                       </span>
                     ) : (
                       <span className="flex items-center justify-center gap-1.5">
                         Submit Application
-                        <ArrowRight className="h-4 w-4" />
+                        <ArrowRight className="size-4" />
                       </span>
                     )}
                   </Button>
@@ -384,7 +384,7 @@ export function RestaurantRegisterForm({ className, ...props }: RestaurantRegist
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent flex flex-col justify-end p-12 text-white">
               <div className="flex items-center gap-2 bg-primary/20 backdrop-blur-md border border-white/10 px-3 py-1.5 rounded-full w-fit mb-4">
-                <Sparkles className="h-4 w-4 text-primary animate-spin" />
+                <Sparkles className="size-4 text-primary animate-spin" />
                 <span className="text-xs font-bold uppercase tracking-wider text-primary">Join FoodieFlow</span>
               </div>
               <h2 className="text-3xl font-bold font-heading leading-tight mb-2">

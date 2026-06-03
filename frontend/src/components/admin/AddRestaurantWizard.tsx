@@ -63,7 +63,7 @@ export function AddRestaurantWizard({ onComplete, onCancel }: AddRestaurantWizar
         </CardHeader>
         <CardContent>
           {step === 1 && (
-            <div className="space-y-4">
+            <div className="flex flex-col gap-4">
               <div className="grid gap-2">
                 <Label htmlFor="name">Restaurant Name</Label>
                 <Input id="name" placeholder="Enter restaurant name" />
@@ -94,7 +94,7 @@ export function AddRestaurantWizard({ onComplete, onCancel }: AddRestaurantWizar
           )}
 
           {step === 2 && (
-            <div className="space-y-4">
+            <div className="flex flex-col gap-4">
               <div className="grid gap-2">
                 <Label htmlFor="addressLine">Address Line</Label>
                 <Input id="addressLine" placeholder="Street address" />
@@ -127,14 +127,14 @@ export function AddRestaurantWizard({ onComplete, onCancel }: AddRestaurantWizar
           )}
 
           {step === 3 && (
-            <div className="space-y-4">
+            <div className="flex flex-col gap-4">
               <div className="p-4 bg-muted rounded-md text-sm text-muted-foreground border">
                 <h4 className="font-medium text-foreground mb-2">Terms and Conditions</h4>
                 <p>
                   By registering this restaurant on the platform, you agree to comply with our operating standards, ensure food quality, and abide by our commission and payment terms. You acknowledge that providing false information may lead to immediate suspension.
                 </p>
               </div>
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center flex gap-2">
                 <Checkbox id="terms" />
                 <label
                   htmlFor="terms"

@@ -107,7 +107,7 @@ export default function RestaurantDashboard() {
               {/* Search — desktop only (hide if on Menu editor as it has its own search) */}
               {activeTab !== "Menu editor" && (
                 <div className="relative hidden lg:block w-72">
-                  <SearchIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+                  <SearchIcon className="absolute left-2.5 top-2.5 size-4 text-muted-foreground" />
                   <Input
                     type="search"
                     placeholder="Search..."

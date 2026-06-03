@@ -59,9 +59,9 @@ export function Navbar() {
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-8">
         {/* Logo - Left */}
-        <div className="flex items-center space-x-2">
-          <Link to="/" className="flex items-center space-x-2">
-            <UtensilsCrossed className="h-6 w-6 text-primary" />
+        <div className="flex items-center gap-2">
+          <Link to="/" className="flex items-center gap-2">
+            <UtensilsCrossed className="size-6 text-primary" />
             <span className="text-2xl font-bold font-heading tracking-tight text-[#F97316]">FoodieFlow</span>
           </Link>
         </div>
@@ -72,9 +72,9 @@ export function Navbar() {
           <div className="hidden md:flex items-center gap-4">
             <Button variant="ghost" size="icon" asChild className="relative">
               <Link to="/cart">
-                <ShoppingCart className="h-5 w-5" />
+                <ShoppingCart className="size-5" />
                 {cartCount > 0 && (
-                  <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-white">
+                  <span className="absolute -top-1 -right-1 flex size-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-white">
                     {cartCount}
                   </span>
                 )}
@@ -85,7 +85,7 @@ export function Navbar() {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="icon" className="rounded-full">
-                  <UserCircle className="h-6 w-6" />
+                  <UserCircle className="size-6" />
                   <span className="sr-only">Profile Menu</span>
                 </Button>
               </DropdownMenuTrigger>
@@ -94,12 +94,12 @@ export function Navbar() {
                   <>
                     <DropdownMenuItem asChild>
                       <Link to={role === 'customer' ? '/profile' : role === 'admin' ? '/admin-dashboard' : '/restaurant-dashboard'} className="flex items-center cursor-pointer w-full">
-                        <LayoutDashboard className="mr-2 h-4 w-4" />
+                        <LayoutDashboard className="mr-2 size-4" />
                         <span>Dashboard</span>
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem onSelect={(e) => { e.preventDefault(); handleLogout(); }} className="flex items-center cursor-pointer w-full text-destructive focus:text-destructive">
-                      <LogOut className="mr-2 h-4 w-4" />
+                      <LogOut className="mr-2 size-4" />
                       <span>Log Out</span>
                     </DropdownMenuItem>
                   </>
@@ -107,19 +107,19 @@ export function Navbar() {
                   <>
                     <DropdownMenuItem asChild>
                       <Link to="/login" className="flex items-center cursor-pointer w-full">
-                        <LogIn className="mr-2 h-4 w-4" />
+                        <LogIn className="mr-2 size-4" />
                         <span>Login</span>
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
                       <Link to="/register" className="flex items-center cursor-pointer w-full">
-                        <UserPlus className="mr-2 h-4 w-4" />
+                        <UserPlus className="mr-2 size-4" />
                         <span>Register</span>
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
                       <Link to="/restaurant/register" className="flex items-center cursor-pointer w-full">
-                        <UtensilsCrossed className="mr-2 h-4 w-4" />
+                        <UtensilsCrossed className="mr-2 size-4" />
                         <span>Become a Partner</span>
                       </Link>
                     </DropdownMenuItem>
@@ -133,9 +133,9 @@ export function Navbar() {
           <div className="md:hidden flex items-center gap-1">
             <Button variant="ghost" size="icon" asChild className="relative">
               <Link to="/cart">
-                <ShoppingCart className="h-5 w-5" />
+                <ShoppingCart className="size-5" />
                 {cartCount > 0 && (
-                  <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-white">
+                  <span className="absolute -top-1 -right-1 flex size-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-white">
                     {cartCount}
                   </span>
                 )}
@@ -145,7 +145,7 @@ export function Navbar() {
 
             <Button variant="ghost" size="icon" asChild>
               <Link to="/profile">
-                <UserCircle className="h-6 w-6" />
+                <UserCircle className="size-6" />
                 <span className="sr-only">Profile</span>
               </Link>
             </Button>
@@ -153,14 +153,14 @@ export function Navbar() {
             <Sheet>
               <SheetTrigger asChild>
                 <Button variant="ghost" size="icon">
-                  <Menu className="h-6 w-6" />
+                  <Menu className="size-6" />
                   <span className="sr-only">Toggle menu</span>
                 </Button>
               </SheetTrigger>
               <SheetContent side="right" className="w-[300px] sm:w-[400px]">
                 <SheetHeader className="border-b pb-6">
                   <SheetTitle className="text-left flex items-center gap-2 text-2xl">
-                    <UtensilsCrossed className="h-6 w-6 text-primary" />
+                    <UtensilsCrossed className="size-6 text-primary" />
                     FoodieFlow
                   </SheetTitle>
                 </SheetHeader>
@@ -168,14 +168,14 @@ export function Navbar() {
                   {isAuthenticated ? (
                     <>
                       <Link to={role === 'customer' ? '/profile' : role === 'admin' ? '/admin-dashboard' : '/restaurant-dashboard'} className="flex items-center gap-4 px-4 py-3 rounded-lg hover:bg-muted transition-colors text-lg font-medium group">
-                        <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
-                          <LayoutDashboard className="h-5 w-5" />
+                        <div className="size-10 rounded-full bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+                          <LayoutDashboard className="size-5" />
                         </div>
                         Dashboard
                       </Link>
                       <button onClick={handleLogout} className="flex items-center gap-4 px-4 py-3 rounded-lg hover:bg-destructive/10 text-destructive transition-colors text-lg font-medium group text-left">
-                        <div className="w-10 h-10 rounded-full bg-destructive/10 flex items-center justify-center group-hover:bg-destructive group-hover:text-white transition-colors">
-                          <LogOut className="h-5 w-5" />
+                        <div className="size-10 rounded-full bg-destructive/10 flex items-center justify-center group-hover:bg-destructive group-hover:text-white transition-colors">
+                          <LogOut className="size-5" />
                         </div>
                         Log Out
                       </button>
@@ -183,20 +183,20 @@ export function Navbar() {
                   ) : (
                     <>
                       <Link to="/login" className="flex items-center gap-4 px-4 py-3 rounded-lg hover:bg-muted transition-colors text-lg font-medium group">
-                        <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-colors">
-                          <LogIn className="h-5 w-5" />
+                        <div className="size-10 rounded-full bg-muted flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-colors">
+                          <LogIn className="size-5" />
                         </div>
                         Login
                       </Link>
                       <Link to="/register" className="flex items-center gap-4 px-4 py-3 rounded-lg hover:bg-muted transition-colors text-lg font-medium group">
-                        <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
-                          <UserPlus className="h-5 w-5" />
+                        <div className="size-10 rounded-full bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+                          <UserPlus className="size-5" />
                         </div>
                         Sign Up
                       </Link>
                       <Link to="/restaurant/register" className="flex items-center gap-4 px-4 py-3 rounded-lg hover:bg-muted transition-colors text-lg font-medium group">
-                        <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-colors">
-                          <UtensilsCrossed className="h-5 w-5" />
+                        <div className="size-10 rounded-full bg-muted flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-colors">
+                          <UtensilsCrossed className="size-5" />
                         </div>
                         Become a Partner
                       </Link>

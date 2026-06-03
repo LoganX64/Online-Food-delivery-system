@@ -112,7 +112,7 @@ export const Restaurants = () => {
           variant="ghost"
           className="text-primary hover:text-primary-hover font-bold flex items-center gap-1 p-0 h-auto hover:bg-transparent underline underline-offset-4 decoration-2"
         >
-          See All <ArrowRight className="h-4 w-4" />
+          See All <ArrowRight className="size-4" />
         </Button>
       </div>
 
@@ -124,9 +124,9 @@ export const Restaurants = () => {
             variant="outline"
             size="icon"
             onClick={() => scroll("left")}
-            className="rounded-full w-10 h-10 shadow-xl bg-white border-muted hover:bg-primary hover:text-white transition-all flex items-center justify-center"
+            className="rounded-full size-10 shadow-xl bg-white border-muted hover:bg-primary hover:text-white transition-all flex items-center justify-center"
           >
-            <ChevronLeft className="h-6 w-6" />
+            <ChevronLeft className="size-6" />
           </Button>
         </div>
         <div className="absolute top-1/2 -right-5 z-30 -translate-y-1/2 opacity-0 group-hover/scroller:opacity-100 transition-opacity">
@@ -134,9 +134,9 @@ export const Restaurants = () => {
             variant="outline"
             size="icon"
             onClick={() => scroll("right")}
-            className="rounded-full w-10 h-10 shadow-xl bg-white border-muted hover:bg-primary hover:text-white transition-all flex items-center justify-center"
+            className="rounded-full size-10 shadow-xl bg-white border-muted hover:bg-primary hover:text-white transition-all flex items-center justify-center"
           >
-            <ChevronRight className="h-6 w-6" />
+            <ChevronRight className="size-6" />
           </Button>
         </div>
 
@@ -177,23 +177,23 @@ const RestaurantCard = ({ restaurant }: { restaurant: any }) => {
         </div>
       }
       topRightBadge={
-        <button className="w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-md hover:bg-primary hover:text-white transition-all duration-300">
-          <Heart className="h-4 w-4" />
+        <button className="size-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-md hover:bg-primary hover:text-white transition-all duration-300">
+          <Heart className="size-4" />
         </button>
       }
       contentRight={
         <div className="flex items-center gap-1 bg-green-700 text-white px-2 py-0.5 rounded text-[10px] font-bold shadow-sm">
-          {restaurant.rating} <Star className="h-2.5 w-2.5 fill-current" />
+          {restaurant.rating} <Star className="size-2.5 fill-current" />
         </div>
       }
       footerFull={
         <div className="flex items-center gap-4 text-[11px] font-bold text-muted-foreground/80">
           <div className="flex items-center gap-1.5">
-            <Clock className="h-3.5 w-3.5 text-primary" />
+            <Clock className="size-3.5 text-primary" />
             <span>{restaurant.deliveryTime}</span>
           </div>
           <div className="flex items-center gap-1.5">
-            <Truck className="h-3.5 w-3.5 text-primary" />
+            <Truck className="size-3.5 text-primary" />
             <span>{restaurant.deliveryFee}</span>
           </div>
         </div>

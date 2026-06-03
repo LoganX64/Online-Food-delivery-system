@@ -109,7 +109,7 @@ export function SavedAddresses() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="flex flex-col gap-6">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h2 className="text-2xl font-bold">Saved Addresses</h2>
@@ -119,15 +119,15 @@ export function SavedAddresses() {
         <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
           <DialogTrigger asChild>
             <Button onClick={() => handleOpenDialog()} className="shrink-0 bg-primary hover:bg-primary/90 text-primary-foreground">
-              <PlusIcon className="mr-2 h-4 w-4" /> Add New Address
+              <PlusIcon className="mr-2 size-4" /> Add New Address
             </Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-md max-h-[90vh] overflow-y-auto">
             <DialogHeader>
               <DialogTitle>{editingId ? "Edit Address" : "Add Address"}</DialogTitle>
             </DialogHeader>
-            <div className="space-y-4 py-2">
-              <div className="space-y-1.5">
+            <div className="flex flex-col gap-4 py-2">
+              <div className="flex flex-col gap-1.5">
                 <Label htmlFor="addr-label">Label</Label>
                 <select
                   id="addr-label"
@@ -140,7 +140,7 @@ export function SavedAddresses() {
                   <option value="other">Other</option>
                 </select>
               </div>
-              <div className="space-y-1.5">
+              <div className="flex flex-col gap-1.5">
                 <Label htmlFor="addr-line">Address Line</Label>
                 <Input
                   id="addr-line"
@@ -150,7 +150,7 @@ export function SavedAddresses() {
                 />
               </div>
               <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-1.5">
+                <div className="flex flex-col gap-1.5">
                   <Label htmlFor="addr-city">City</Label>
                   <Input
                     id="addr-city"
@@ -159,7 +159,7 @@ export function SavedAddresses() {
                     placeholder="City"
                   />
                 </div>
-                <div className="space-y-1.5">
+                <div className="flex flex-col gap-1.5">
                   <Label htmlFor="addr-state">State</Label>
                   <Input
                     id="addr-state"
@@ -169,7 +169,7 @@ export function SavedAddresses() {
                   />
                 </div>
               </div>
-              <div className="space-y-1.5">
+              <div className="flex flex-col gap-1.5">
                 <Label htmlFor="addr-pincode">Pincode</Label>
                 <Input
                   id="addr-pincode"
@@ -183,7 +183,7 @@ export function SavedAddresses() {
                   type="checkbox"
                   checked={form.isDefault}
                   onChange={(e) => setForm({ ...form, isDefault: e.target.checked })}
-                  className="accent-primary h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
+                  className="accent-primary size-4 rounded border-gray-300 text-primary focus:ring-primary"
                 />
                 Set as default delivery address
               </label>
@@ -205,8 +205,8 @@ export function SavedAddresses() {
           {[1, 2].map((i) => <Skeleton key={i} className="h-44 rounded-xl" />)}
         </div>
       ) : addresses.length === 0 ? (
-        <div className="py-16 text-center space-y-3 border rounded-xl bg-muted/20">
-          <MapPinIcon className="h-10 w-10 mx-auto text-muted-foreground" />
+        <div className="py-16 text-center flex flex-col gap-3 border rounded-xl bg-muted/20">
+          <MapPinIcon className="size-10 mx-auto text-muted-foreground" />
           <p className="font-medium text-muted-foreground">No addresses saved</p>
           <p className="text-sm text-muted-foreground">Add an address to start ordering.</p>
         </div>
@@ -217,29 +217,29 @@ export function SavedAddresses() {
               <CardHeader className="pb-2">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2 capitalize">
-                    <MapPinIcon className={`h-4 w-4 ${address.isDefault ? "text-primary" : "text-muted-foreground"}`} />
+                    <MapPinIcon className={`size-4 ${address.isDefault ? "text-primary" : "text-muted-foreground"}`} />
                     <CardTitle className="text-base font-bold">{address.label}</CardTitle>
                     {address.isDefault && (
                       <Badge variant="secondary" className="bg-primary/10 text-primary hover:bg-primary/20 text-[10px] h-5 px-2">Default</Badge>
                     )}
                   </div>
                   <div className="flex items-center gap-1">
-                    <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-foreground" onClick={() => handleOpenDialog(address)}>
-                      <EditIcon className="h-4 w-4" />
+                    <Button variant="ghost" size="icon" className="size-8 text-muted-foreground hover:text-foreground" onClick={() => handleOpenDialog(address)}>
+                      <EditIcon className="size-4" />
                     </Button>
                     <ConfirmDeleteDialog 
                       onConfirm={() => handleDelete(address._id, address.label)}
                       title={`Delete ${address.label} address?`}
                     >
-                      <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-destructive">
-                        <Trash2Icon className="h-4 w-4" />
+                      <Button variant="ghost" size="icon" className="size-8 text-muted-foreground hover:text-destructive">
+                        <Trash2Icon className="size-4" />
                       </Button>
                     </ConfirmDeleteDialog>
                   </div>
                 </div>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="text-sm space-y-1">
+              <CardContent className="flex flex-col gap-4">
+                <div className="text-sm flex flex-col gap-1">
                   <p className="font-medium text-foreground">{address.addressLine}</p>
                   <p className="text-muted-foreground">{address.city}, {address.state} {address.pincode}</p>
                 </div>
@@ -250,7 +250,7 @@ export function SavedAddresses() {
                     size="sm"
                     onClick={() => handleSetDefault(address._id)}
                   >
-                    <StarIcon className="h-3 w-3 mr-1" /> Set as Default
+                    <StarIcon className="size-3 mr-1" /> Set as Default
                   </Button>
                 )}
               </CardContent>

@@ -37,16 +37,16 @@ export default function ResetPassword() {
   return (
     <div className="min-h-[70vh] flex items-center justify-center px-4 py-12">
       <Card className="w-full max-w-md">
-        <CardHeader className="text-center space-y-2">
+        <CardHeader className="text-center flex flex-col gap-2">
           <div className="mx-auto bg-primary/10 p-3 rounded-full w-fit">
-            <LockIcon className="h-8 w-8 text-primary" />
+            <LockIcon className="size-8 text-primary" />
           </div>
           <CardTitle className="text-2xl font-bold">Reset Password</CardTitle>
           <CardDescription>Enter your new password below.</CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-1.5">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+            <div className="flex flex-col gap-1.5">
               <Label htmlFor="reset-pwd">New Password</Label>
               <div className="relative">
                 <Input
@@ -59,11 +59,11 @@ export default function ResetPassword() {
                 />
                 <button type="button" onClick={() => setShowPwd(!showPwd)}
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground">
-                  {showPwd ? <EyeOffIcon className="h-4 w-4" /> : <EyeIcon className="h-4 w-4" />}
+                  {showPwd ? <EyeOffIcon className="size-4" /> : <EyeIcon className="size-4" />}
                 </button>
               </div>
             </div>
-            <div className="space-y-1.5">
+            <div className="flex flex-col gap-1.5">
               <Label htmlFor="reset-confirm">Confirm Password</Label>
               <div className="relative">
                 <Input
@@ -76,7 +76,7 @@ export default function ResetPassword() {
                 />
                 <button type="button" onClick={() => setShowConfirm(!showConfirm)}
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground">
-                  {showConfirm ? <EyeOffIcon className="h-4 w-4" /> : <EyeIcon className="h-4 w-4" />}
+                  {showConfirm ? <EyeOffIcon className="size-4" /> : <EyeIcon className="size-4" />}
                 </button>
               </div>
               {form.confirm && form.confirm !== form.password && (

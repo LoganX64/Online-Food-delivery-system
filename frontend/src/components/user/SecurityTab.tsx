@@ -68,12 +68,12 @@ export function SecurityTab() {
   const strengthColor = ["", "bg-red-500", "bg-orange-500", "bg-yellow-500", "bg-blue-500", "bg-green-500"][strength]
 
   return (
-    <div className="space-y-6 max-w-xl">
+    <div className="flex flex-col gap-6 max-w-xl">
       <Card>
         <CardHeader>
           <div className="flex items-center gap-3">
             <div className="bg-primary/10 p-2 rounded-lg">
-              <LockIcon className="h-5 w-5 text-primary" />
+              <LockIcon className="size-5 text-primary" />
             </div>
             <div>
               <CardTitle className="text-xl font-bold">Change Password</CardTitle>
@@ -83,9 +83,9 @@ export function SecurityTab() {
         </CardHeader>
 
         <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-5">
             {/* Current password */}
-            <div className="space-y-1.5">
+            <div className="flex flex-col gap-1.5">
               <Label htmlFor="current-password">Current Password</Label>
               <div className="relative">
                 <Input
@@ -101,13 +101,13 @@ export function SecurityTab() {
                   onClick={() => toggle("current")}
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
                 >
-                  {show.current ? <EyeOffIcon className="h-4 w-4" /> : <EyeIcon className="h-4 w-4" />}
+                  {show.current ? <EyeOffIcon className="size-4" /> : <EyeIcon className="size-4" />}
                 </button>
               </div>
             </div>
 
             {/* New password */}
-            <div className="space-y-1.5">
+            <div className="flex flex-col gap-1.5">
               <Label htmlFor="new-password">New Password</Label>
               <div className="relative">
                 <Input
@@ -123,11 +123,11 @@ export function SecurityTab() {
                   onClick={() => toggle("newPwd")}
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
                 >
-                  {show.newPwd ? <EyeOffIcon className="h-4 w-4" /> : <EyeIcon className="h-4 w-4" />}
+                  {show.newPwd ? <EyeOffIcon className="size-4" /> : <EyeIcon className="size-4" />}
                 </button>
               </div>
               {form.newPassword && (
-                <div className="space-y-1 pt-1">
+                <div className="flex flex-col gap-1 pt-1">
                   <div className="flex gap-1">
                     {[1, 2, 3, 4, 5].map((i) => (
                       <div
@@ -146,7 +146,7 @@ export function SecurityTab() {
             </div>
 
             {/* Confirm password */}
-            <div className="space-y-1.5">
+            <div className="flex flex-col gap-1.5">
               <Label htmlFor="confirm-password">Confirm New Password</Label>
               <div className="relative">
                 <Input
@@ -166,7 +166,7 @@ export function SecurityTab() {
                   onClick={() => toggle("confirm")}
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
                 >
-                  {show.confirm ? <EyeOffIcon className="h-4 w-4" /> : <EyeIcon className="h-4 w-4" />}
+                  {show.confirm ? <EyeOffIcon className="size-4" /> : <EyeIcon className="size-4" />}
                 </button>
               </div>
               {form.confirmPassword && form.confirmPassword !== form.newPassword && (
@@ -179,7 +179,7 @@ export function SecurityTab() {
               disabled={saving}
               className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
             >
-              <LockIcon className="h-4 w-4 mr-2" />
+              <LockIcon className="size-4 mr-2" />
               {saving ? "Updating…" : "Update Password"}
             </Button>
           </form>
@@ -189,11 +189,11 @@ export function SecurityTab() {
       <Card className="bg-primary/5 border-dashed border-primary/20">
         <CardContent className="flex items-center gap-4 py-5">
           <div className="bg-white p-2.5 rounded-full shadow-sm shrink-0">
-            <ShieldIcon className="h-5 w-5 text-primary" />
+            <ShieldIcon className="size-5 text-primary" />
           </div>
           <div>
             <p className="font-semibold text-primary text-sm">Password Requirements</p>
-            <ul className="text-xs text-muted-foreground mt-1 space-y-0.5">
+            <ul className="text-xs text-muted-foreground mt-1 flex flex-col gap-0.5">
               <li>• Minimum 8 characters</li>
               <li>• At least one uppercase letter (A–Z)</li>
               <li>• At least one lowercase letter (a–z)</li>

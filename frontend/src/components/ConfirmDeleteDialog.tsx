@@ -34,7 +34,7 @@ export function ConfirmDeleteDialog({
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-destructive">
-            <AlertTriangleIcon className="h-5 w-5" />
+            <AlertTriangleIcon className="size-5" />
             {title}
           </DialogTitle>
           <DialogDescription className="pt-2">

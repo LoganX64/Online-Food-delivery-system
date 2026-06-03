@@ -75,7 +75,7 @@ export function PaymentMethods() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="flex flex-col gap-6">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h2 className="text-2xl font-bold">Payment Methods</h2>
@@ -84,13 +84,13 @@ export function PaymentMethods() {
         <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
           <DialogTrigger asChild>
             <Button className="shrink-0 bg-primary hover:bg-primary/90 text-primary-foreground">
-              <PlusIcon className="mr-2 h-4 w-4" /> Add New Card
+              <PlusIcon className="mr-2 size-4" /> Add New Card
             </Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-md">
             <DialogHeader><DialogTitle>Add Payment Method</DialogTitle></DialogHeader>
-            <div className="space-y-4 py-2">
-              <div className="space-y-1.5">
+            <div className="flex flex-col gap-4 py-2">
+              <div className="flex flex-col gap-1.5">
                 <Label htmlFor="pm-provider">Provider</Label>
                 <select id="pm-provider" value={form.provider}
                   onChange={(e) => setForm((f) => ({ ...f, provider: e.target.value }))}
@@ -98,12 +98,12 @@ export function PaymentMethods() {
                   {PROVIDERS.map((p) => <option key={p}>{p}</option>)}
                 </select>
               </div>
-              <div className="space-y-1.5">
+              <div className="flex flex-col gap-1.5">
                 <Label htmlFor="pm-last4">Last 4 Digits (optional)</Label>
                 <Input id="pm-last4" value={form.last4} maxLength={4} placeholder="4242"
                   onChange={(e) => setForm((f) => ({ ...f, last4: e.target.value.slice(0, 4) }))} />
               </div>
-              <div className="space-y-1.5">
+              <div className="flex flex-col gap-1.5">
                 <Label htmlFor="pm-token">Reference / Token *</Label>
                 <Input id="pm-token" value={form.token} placeholder="tok_visa_xxx"
                   onChange={(e) => setForm((f) => ({ ...f, token: e.target.value }))} />
@@ -130,8 +130,8 @@ export function PaymentMethods() {
           {[1, 2].map((i) => <Skeleton key={i} className="h-44 rounded-xl" />)}
         </div>
       ) : methods.length === 0 ? (
-        <div className="py-16 text-center space-y-3 border rounded-xl bg-muted/20">
-          <CreditCardIcon className="h-10 w-10 mx-auto text-muted-foreground" />
+        <div className="py-16 text-center flex flex-col gap-3 border rounded-xl bg-muted/20">
+          <CreditCardIcon className="size-10 mx-auto text-muted-foreground" />
           <p className="font-medium text-muted-foreground">No payment methods saved</p>
           <p className="text-sm text-muted-foreground">Add a card or UPI to get started.</p>
         </div>
@@ -141,12 +141,12 @@ export function PaymentMethods() {
             <Card key={method._id} className={`overflow-hidden p-0 ${method.isDefault ? "ring-2 ring-primary/30" : ""}`}>
               <div className="bg-muted/40 px-6 py-4 flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <CreditCardIcon className="h-5 w-5 text-primary" />
+                  <CreditCardIcon className="size-5 text-primary" />
                   <span className="font-bold">{method.provider}</span>
                 </div>
                 {method.isDefault && <Badge className="bg-green-100 text-green-700 border-green-200">Default</Badge>}
               </div>
-              <CardContent className="p-6 space-y-3">
+              <CardContent className="p-6 flex flex-col gap-3">
                 {method.last4 && (
                   <p className="text-lg font-mono tracking-widest font-semibold">
                     **** **** **** {method.last4}
@@ -157,7 +157,7 @@ export function PaymentMethods() {
                   {!method.isDefault && (
                     <Button variant="outline" className="flex-1 text-xs" size="sm"
                       onClick={() => handleSetDefault(method._id)}>
-                      <StarIcon className="h-3 w-3 mr-1" /> Set Default
+                      <StarIcon className="size-3 mr-1" /> Set Default
                     </Button>
                   )}
                   <ConfirmDeleteDialog 
@@ -165,7 +165,7 @@ export function PaymentMethods() {
                     title={`Remove ${method.provider}?`}
                   >
                     <Button variant="outline" size="sm" className="flex-1 text-xs text-destructive hover:text-destructive">
-                      <Trash2Icon className="h-3 w-3 mr-2" /> Remove
+                      <Trash2Icon className="size-3 mr-2" /> Remove
                     </Button>
                   </ConfirmDeleteDialog>
                 </div>
@@ -178,7 +178,7 @@ export function PaymentMethods() {
       <Card className="bg-primary/5 border-dashed border-primary/20">
         <CardContent className="flex items-center gap-4 py-6">
           <div className="bg-white p-3 rounded-full shadow-sm">
-            <ShieldCheckIcon className="h-6 w-6 text-primary" />
+            <ShieldCheckIcon className="size-6 text-primary" />
           </div>
           <div>
             <p className="font-semibold text-primary">Secure Payments</p>

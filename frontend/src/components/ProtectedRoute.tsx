@@ -16,7 +16,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, allowe
   if (isLoading) {
     return (
       <div className="min-h-[70vh] flex flex-col items-center justify-center gap-4">
-        <Loader2 className="h-10 w-10 animate-spin text-primary" />
+        <Loader2 className="size-10 animate-spin text-primary" />
         <p className="text-muted-foreground font-medium text-sm animate-pulse">
           Verifying secure session...
         </p>
@@ -41,8 +41,8 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, allowe
   if (allowedRoles && role && !allowedRoles.includes(role)) {
     return (
       <div className="min-h-[70vh] flex flex-col items-center justify-center p-6 text-center">
-        <div className="w-16 h-16 rounded-full bg-destructive/10 flex items-center justify-center mb-6">
-          <AlertCircle className="h-8 w-8 text-destructive" />
+        <div className="size-16 rounded-full bg-destructive/10 flex items-center justify-center mb-6">
+          <AlertCircle className="size-8 text-destructive" />
         </div>
         <h2 className="text-2xl font-bold tracking-tight mb-2">Access Restricted</h2>
         <p className="text-muted-foreground max-w-md mb-8">

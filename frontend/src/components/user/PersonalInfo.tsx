@@ -75,7 +75,7 @@ export function PersonalInfo() {
 
   if (!user) {
     return (
-      <div className="space-y-4">
+      <div className="flex flex-col gap-4">
         <Skeleton className="h-48 w-full rounded-xl" />
         <Skeleton className="h-24 w-full rounded-xl" />
       </div>
@@ -83,24 +83,24 @@ export function PersonalInfo() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="flex flex-col gap-6">
       <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+        <CardHeader className="flex flex-row items-center justify-between flex flex-col gap-0 pb-2">
           <div>
             <CardTitle className="text-xl font-bold">Personal Information</CardTitle>
             <CardDescription>Manage your profile details</CardDescription>
           </div>
           {!editing ? (
             <Button variant="outline" size="sm" onClick={() => setEditing(true)}>
-              <Edit2Icon className="h-4 w-4 mr-2" /> Edit
+              <Edit2Icon className="size-4 mr-2" /> Edit
             </Button>
           ) : (
             <div className="flex gap-2">
               <Button variant="outline" size="sm" onClick={handleCancel} disabled={saving}>
-                <XIcon className="h-4 w-4 mr-1" /> Cancel
+                <XIcon className="size-4 mr-1" /> Cancel
               </Button>
               <Button size="sm" onClick={handleSave} disabled={saving} className="bg-primary text-primary-foreground">
-                <SaveIcon className="h-4 w-4 mr-1" />
+                <SaveIcon className="size-4 mr-1" />
                 {saving ? "Saving…" : "Save"}
               </Button>
             </div>
@@ -111,10 +111,10 @@ export function PersonalInfo() {
           <div className="flex flex-col sm:flex-row items-center gap-6 py-4">
             {/* Avatar + upload */}
             <div className="relative shrink-0">
-              <Avatar className="h-24 w-24 border-4 border-primary/10">
+              <Avatar className="size-24 border-4 border-primary/10">
                 {uploading ? (
                   <AvatarFallback>
-                    <div className="animate-spin h-6 w-6 border-2 border-primary border-t-transparent rounded-full" />
+                    <div className="animate-spin size-6 border-2 border-primary border-t-transparent rounded-full" />
                   </AvatarFallback>
                 ) : (
                   <>
@@ -132,7 +132,7 @@ export function PersonalInfo() {
                 className="absolute -bottom-1 -right-1 bg-primary text-primary-foreground rounded-full p-1.5 shadow-md hover:bg-primary/90 transition-colors disabled:opacity-50"
                 title="Change profile photo"
               >
-                <CameraIcon className="h-3.5 w-3.5" />
+                <CameraIcon className="size-3.5" />
               </button>
               <input
                 ref={fileInputRef}
@@ -144,12 +144,12 @@ export function PersonalInfo() {
             </div>
 
             {/* Form fields */}
-            <div className="flex-1 w-full space-y-4">
+            <div className="flex-1 w-full flex flex-col gap-4">
               {editing ? (
                 <>
-                  <div className="space-y-1.5">
+                  <div className="flex flex-col gap-1.5">
                     <Label htmlFor="profile-name" className="flex items-center gap-1.5 text-sm font-medium">
-                      <UserIcon className="h-3.5 w-3.5" /> Full Name
+                      <UserIcon className="size-3.5" /> Full Name
                     </Label>
                     <Input
                       id="profile-name"
@@ -158,9 +158,9 @@ export function PersonalInfo() {
                       placeholder="Your full name"
                     />
                   </div>
-                  <div className="space-y-1.5">
+                  <div className="flex flex-col gap-1.5">
                     <Label htmlFor="profile-phone" className="flex items-center gap-1.5 text-sm font-medium">
-                      <PhoneIcon className="h-3.5 w-3.5" /> Phone Number
+                      <PhoneIcon className="size-3.5" /> Phone Number
                     </Label>
                     <Input
                       id="profile-phone"

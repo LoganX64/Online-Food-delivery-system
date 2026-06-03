@@ -28,7 +28,7 @@ export function UserNav({ activeTab, setActiveTab }: UserNavProps) {
     <Card className="h-fit sticky top-20 shadow-lg border-primary/10 overflow-hidden p-0 gap-0">
       <CardHeader className="bg-primary/5 pt-6 pb-4 px-6 rounded-t-xl">
         <CardTitle className="text-lg font-bold flex items-center gap-2">
-          <UserIcon className="h-5 w-5 text-primary" />
+          <UserIcon className="size-5 text-primary" />
           My Account
         </CardTitle>
       </CardHeader>
@@ -46,16 +46,16 @@ export function UserNav({ activeTab, setActiveTab }: UserNavProps) {
               )}
             >
               <div className="flex items-center gap-3">
-                <item.icon className={cn("h-5 w-5 transition-colors", activeTab === item.id ? "text-primary" : "group-hover:text-primary")} />
+                <item.icon className={cn("size-5 transition-colors", activeTab === item.id ? "text-primary" : "group-hover:text-primary")} />
                 <span className="font-semibold">{item.label}</span>
               </div>
-              <ChevronRightIcon className={cn("h-4 w-4 transition-transform", activeTab === item.id ? "translate-x-1" : "opacity-0 group-hover:opacity-100")} />
+              <ChevronRightIcon className={cn("size-4 transition-transform", activeTab === item.id ? "translate-x-1" : "opacity-0 group-hover:opacity-100")} />
             </button>
           ))}
           <button
             className="flex items-center gap-3 px-6 py-4 text-sm font-mono font-semibold text-destructive transition-all hover:bg-destructive/5"
           >
-            <LogOutIcon className="h-5 w-5" />
+            <LogOutIcon className="size-5" />
             <span>Logout</span>
           </button>
         </nav>

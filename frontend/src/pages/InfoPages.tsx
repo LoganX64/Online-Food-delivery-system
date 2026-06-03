@@ -6,7 +6,7 @@ function PageLayout({ title, children }: { title: string; children: React.ReactN
     <div className="container mx-auto px-4 py-12 max-w-4xl">
       <h1 className="text-4xl font-extrabold tracking-tight mb-8 text-center">{title}</h1>
       <Card className="shadow-md border-primary/10">
-        <CardContent className="p-6 md:p-10 space-y-6 text-muted-foreground leading-relaxed">
+        <CardContent className="p-6 md:p-10 flex flex-col gap-6 text-muted-foreground leading-relaxed">
           {children}
         </CardContent>
       </Card>
@@ -27,12 +27,12 @@ export function AboutUs() {
       </p>
       <div className="mt-8 grid sm:grid-cols-2 gap-6">
         <div className="flex flex-col items-center text-center p-4 bg-muted/30 rounded-xl">
-          <MapPinIcon className="h-8 w-8 text-primary mb-3" />
+          <MapPinIcon className="size-8 text-primary mb-3" />
           <h3 className="font-bold text-foreground">Global Reach</h3>
           <p className="text-sm">Connecting thousands of restaurants across major cities worldwide.</p>
         </div>
         <div className="flex flex-col items-center text-center p-4 bg-muted/30 rounded-xl">
-          <ShieldCheckIcon className="h-8 w-8 text-primary mb-3" />
+          <ShieldCheckIcon className="size-8 text-primary mb-3" />
           <h3 className="font-bold text-foreground">Quality Assured</h3>
           <p className="text-sm">We strictly vet all our partner restaurants to ensure food hygiene and quality.</p>
         </div>
@@ -55,7 +55,7 @@ export function Careers() {
           Ready to make an impact? Send your resume, portfolio, and a brief cover letter directly to our hiring team:
         </p>
         <a href="mailto:loganxtream@gmail.com" className="flex items-center gap-2 text-primary font-bold hover:underline">
-          <MailIcon className="h-5 w-5" /> loganxtream@gmail.com
+          <MailIcon className="size-5" /> loganxtream@gmail.com
         </a>
       </div>
     </PageLayout>
@@ -69,16 +69,16 @@ export function Contact() {
         Have a question or need to get in touch with a human? We'd love to hear from you.
         Our customer support team is available 24/7 to assist you.
       </p>
-      <div className="space-y-4 mt-6">
+      <div className="flex flex-col gap-4 mt-6">
         <div className="flex items-center gap-3">
-          <div className="bg-primary/10 p-3 rounded-full"><MailIcon className="h-5 w-5 text-primary" /></div>
+          <div className="bg-primary/10 p-3 rounded-full"><MailIcon className="size-5 text-primary" /></div>
           <div>
             <p className="font-bold text-foreground">Email</p>
             <p className="text-sm">support@flavorswift.com</p>
           </div>
         </div>
         <div className="flex items-center gap-3">
-          <div className="bg-primary/10 p-3 rounded-full"><PhoneIcon className="h-5 w-5 text-primary" /></div>
+          <div className="bg-primary/10 p-3 rounded-full"><PhoneIcon className="size-5 text-primary" /></div>
           <div>
             <p className="font-bold text-foreground">Phone</p>
             <p className="text-sm">+1 (555) 123-4567</p>
@@ -110,7 +110,7 @@ export function Support() {
       <p>
         Need assistance with a recent order? Our dedicated support staff is here to resolve your issues as quickly as possible.
       </p>
-      <ul className="list-disc pl-5 mt-4 space-y-2">
+      <ul className="list-disc pl-5 mt-4 flex flex-col gap-2">
         <li>Track your order in real-time through the Orders tab.</li>
         <li>Request a refund for missing or incorrect items.</li>
         <li>Update your account settings and preferences.</li>
@@ -130,7 +130,7 @@ export function SafetyConcerns() {
         If you suspect any tampering, severe allergies, or other safety violations with your delivery, please contact our emergency hotline immediately.
       </p>
       <div className="bg-destructive/10 text-destructive p-4 rounded-xl mt-6 border border-destructive/20 font-medium flex items-center gap-2">
-        <ShieldCheckIcon className="h-5 w-5" /> Safety Hotline: +1 (800) 999-0000
+        <ShieldCheckIcon className="size-5" /> Safety Hotline: +1 (800) 999-0000
       </div>
     </PageLayout>
   )
@@ -139,7 +139,7 @@ export function SafetyConcerns() {
 export function FAQs() {
   return (
     <PageLayout title="Frequently Asked Questions">
-      <div className="space-y-6">
+      <div className="flex flex-col gap-6">
         <div>
           <h3 className="font-bold text-foreground text-lg">How do I track my order?</h3>
           <p className="mt-1">You can track your order in real-time by going to the "Order History" section in your Profile.</p>

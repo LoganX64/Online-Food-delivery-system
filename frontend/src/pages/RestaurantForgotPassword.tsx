@@ -31,12 +31,12 @@ export default function RestaurantForgotPassword() {
   return (
     <div className="min-h-[70vh] flex items-center justify-center px-4 py-12">
       <Card className="w-full max-w-md">
-        <CardHeader className="text-center space-y-2">
+        <CardHeader className="text-center flex flex-col gap-2">
           <div className="mx-auto bg-primary/10 p-3 rounded-full w-fit">
             {sent ? (
-              <CheckCircle2Icon className="h-8 w-8 text-green-600" />
+              <CheckCircle2Icon className="size-8 text-green-600" />
             ) : (
-              <MailIcon className="h-8 w-8 text-primary" />
+              <MailIcon className="size-8 text-primary" />
             )}
           </div>
           <CardTitle className="text-2xl font-bold">
@@ -51,7 +51,7 @@ export default function RestaurantForgotPassword() {
 
         <CardContent>
           {sent ? (
-            <div className="space-y-4 text-center">
+            <div className="flex flex-col gap-4 text-center">
               <p className="text-sm text-muted-foreground">
                 Didn't receive the email? Check your spam folder or try again.
               </p>
@@ -61,14 +61,14 @@ export default function RestaurantForgotPassword() {
                 </Button>
                 <Link to="/restaurant/login">
                   <Button variant="ghost" className="w-full text-primary">
-                    <ArrowLeftIcon className="h-4 w-4 mr-2" /> Back to Partner Login
+                    <ArrowLeftIcon className="size-4 mr-2" /> Back to Partner Login
                   </Button>
                 </Link>
               </div>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="space-y-1.5">
+            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+              <div className="flex flex-col gap-1.5">
                 <Label htmlFor="forgot-email">Business Email Address</Label>
                 <Input
                   id="forgot-email"
@@ -89,7 +89,7 @@ export default function RestaurantForgotPassword() {
               <div className="text-center">
                 <Link to="/restaurant/login">
                   <Button variant="ghost" size="sm" className="text-primary">
-                    <ArrowLeftIcon className="h-4 w-4 mr-2" /> Back to Partner Login
+                    <ArrowLeftIcon className="size-4 mr-2" /> Back to Partner Login
                   </Button>
                 </Link>
               </div>

@@ -77,11 +77,11 @@ export function OrderPage() {
   const getStatusBadge = (status: string) => {
     switch (status) {
       case "in_progress":
-        return <Badge variant="default" className="bg-blue-500 hover:bg-blue-600 flex items-center gap-1.5"><Clock className="h-3.5 w-3.5" /> In Progress</Badge>
+        return <Badge variant="default" className="bg-blue-500 hover:bg-blue-600 flex items-center gap-1.5"><Clock className="size-3.5" /> In Progress</Badge>
       case "delivered":
-        return <Badge variant="default" className="bg-green-600 hover:bg-green-700 flex items-center gap-1.5"><CheckCircle2 className="h-3.5 w-3.5" /> Delivered</Badge>
+        return <Badge variant="default" className="bg-green-600 hover:bg-green-700 flex items-center gap-1.5"><CheckCircle2 className="size-3.5" /> Delivered</Badge>
       case "cancelled":
-        return <Badge variant="destructive" className="flex items-center gap-1.5"><XCircle className="h-3.5 w-3.5" /> Cancelled</Badge>
+        return <Badge variant="destructive" className="flex items-center gap-1.5"><XCircle className="size-3.5" /> Cancelled</Badge>
       default:
         return <Badge variant="secondary">{status}</Badge>
     }
@@ -117,9 +117,9 @@ export function OrderPage() {
           
           {/* Desktop Filters Sidebar */}
           <div className="hidden md:flex flex-col w-64 shrink-0 sticky top-24">
-            <div className="bg-card p-5 rounded-xl border shadow-sm flex flex-col space-y-2">
+            <div className="bg-card p-5 rounded-xl border shadow-sm flex flex-col gap-2">
               <h3 className="font-semibold text-lg mb-3 flex items-center gap-2">
-                <Filter className="h-5 w-5 text-muted-foreground" /> Filters
+                <Filter className="size-5 text-muted-foreground" /> Filters
               </h3>
               
               <Button 
@@ -154,11 +154,11 @@ export function OrderPage() {
           </div>
 
           {/* Orders List */}
-          <div className="flex-1 w-full space-y-4 sm:space-y-6">
+          <div className="flex-1 w-full flex flex-col gap-4 sm:gap-6">
             {filteredOrders.length === 0 ? (
               <div className="bg-card border border-dashed border-muted-foreground/30 rounded-3xl p-12 flex flex-col items-center justify-center text-center">
                 <div className="bg-muted p-4 rounded-full mb-4">
-                  <PackageSearch className="h-10 w-10 text-muted-foreground" />
+                  <PackageSearch className="size-10 text-muted-foreground" />
                 </div>
                 <h3 className="text-xl font-bold mb-2">No orders found</h3>
                 <p className="text-muted-foreground max-w-md">You don't have any orders matching the selected filter.</p>
@@ -184,7 +184,7 @@ export function OrderPage() {
                         <img
                           src={order.image}
                           alt={order.restaurant}
-                          className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl object-cover shadow-sm"
+                          className="size-16 sm:size-20 rounded-2xl object-cover shadow-sm"
                         />
                       </div>
                       <div className="flex-1 min-w-0">
@@ -219,14 +219,14 @@ export function OrderPage() {
             {/* Pagination */}
             {filteredOrders.length > 0 && (
               <div className="flex justify-center items-center gap-2 pt-8 pb-4">
-                <Button variant="outline" size="icon" className="w-10 h-10 rounded-xl" disabled>
-                  <ChevronLeft className="w-5 h-5" />
+                <Button variant="outline" size="icon" className="size-10 rounded-xl" disabled>
+                  <ChevronLeft className="size-5" />
                 </Button>
-                <Button variant="default" size="icon" className="w-10 h-10 rounded-xl font-bold">1</Button>
-                <Button variant="ghost" size="icon" className="w-10 h-10 rounded-xl font-bold">2</Button>
-                <Button variant="ghost" size="icon" className="w-10 h-10 rounded-xl font-bold">3</Button>
-                <Button variant="outline" size="icon" className="w-10 h-10 rounded-xl">
-                  <ChevronRight className="w-5 h-5" />
+                <Button variant="default" size="icon" className="size-10 rounded-xl font-bold">1</Button>
+                <Button variant="ghost" size="icon" className="size-10 rounded-xl font-bold">2</Button>
+                <Button variant="ghost" size="icon" className="size-10 rounded-xl font-bold">3</Button>
+                <Button variant="outline" size="icon" className="size-10 rounded-xl">
+                  <ChevronRight className="size-5" />
                 </Button>
               </div>
             )}

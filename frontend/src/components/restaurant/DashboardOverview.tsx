@@ -97,12 +97,12 @@ export function DashboardOverview() {
   ]
 
   return (
-    <div className="space-y-6 animate-in fade-in duration-500">
+    <div className="flex flex-col gap-6 animate-in fade-in duration-500">
       {/* Summary Cards */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         {stats.map((stat) => (
           <Card key={stat.title} className="border shadow-none p-0">
-            <CardHeader className="flex flex-row items-center justify-between p-6 pb-2 space-y-0">
+            <CardHeader className="flex flex-row items-center justify-between p-6 pb-2 flex flex-col gap-0">
               <CardTitle className="text-xs font-medium text-muted-foreground uppercase tracking-wider">{stat.title}</CardTitle>
               <Badge variant="outline" className="text-[10px] bg-muted/50 font-bold border-none">
                 {stat.change}

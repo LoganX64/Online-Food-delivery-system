@@ -248,7 +248,7 @@ export function MenuEditor({ isAddDialogOpen, onAddDialogChange }: MenuEditorPro
   return (
     <div className="flex flex-col lg:flex-row gap-8 min-h-[600px] animate-in fade-in duration-700 -ml-2">
       {/* Sidebar - Categories */}
-      <div className="w-full lg:w-48 shrink-0 space-y-6">
+      <div className="w-full lg:w-48 shrink-0 flex flex-col gap-6">
         <div className="flex items-center justify-between px-1">
           <h2 className="text-lg font-bold text-slate-800 tracking-tight">Categories</h2>
           <Dialog open={isCatDialogOpen} onOpenChange={setIsCatDialogOpen}>
@@ -337,7 +337,7 @@ export function MenuEditor({ isAddDialogOpen, onAddDialogChange }: MenuEditorPro
       </div>
 
       {/* Main Content - Items */}
-      <div className="flex-1 space-y-6">
+      <div className="flex-1 flex flex-col gap-6">
         <div className="flex flex-col md:flex-row gap-4 items-start md:items-center justify-between">
           <div>
             <h2 className="text-2xl font-black tracking-tight text-slate-900">{activeCategory?.name || "All Items"}</h2>
@@ -453,7 +453,7 @@ export function MenuEditor({ isAddDialogOpen, onAddDialogChange }: MenuEditorPro
                 {/* Item Details */}
                 <div className="flex-1 p-5 flex flex-col justify-center gap-2">
                   <div className="flex items-start justify-between gap-4">
-                    <div className="space-y-1">
+                    <div className="flex flex-col gap-1">
                       <div className="flex items-baseline gap-2.5">
                         <h3 className="text-[17px] font-bold text-slate-900 group-hover:text-primary transition-colors tracking-tight">
                           {item.name}

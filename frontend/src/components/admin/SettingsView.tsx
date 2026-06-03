@@ -11,12 +11,12 @@ export function SettingsView() {
           <CardTitle>Platform Settings</CardTitle>
           <CardDescription>Manage global configuration and admin preferences.</CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="space-y-2">
+        <CardContent className="flex flex-col gap-4">
+          <div className="flex flex-col gap-2">
             <Label htmlFor="siteName">Site Name</Label>
             <Input id="siteName" defaultValue="Online Food Delivery System" />
           </div>
-          <div className="space-y-2">
+          <div className="flex flex-col gap-2">
             <Label htmlFor="adminEmail">Admin Contact Email</Label>
             <Input id="adminEmail" type="email" defaultValue="admin@example.com" />
           </div>

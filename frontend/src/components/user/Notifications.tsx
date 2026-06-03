@@ -10,10 +10,10 @@ import { ConfirmDeleteDialog } from "@/components/ConfirmDeleteDialog"
 
 function getIcon(type: Notification["type"]) {
   switch (type) {
-    case "success":   return <CheckCircle2Icon className="h-5 w-5 text-green-600" />
-    case "warning":   return <ClockIcon className="h-5 w-5 text-yellow-600" />
-    case "promotion": return <TagIcon className="h-5 w-5 text-primary" />
-    default:          return <InfoIcon className="h-5 w-5 text-blue-600" />
+    case "success":   return <CheckCircle2Icon className="size-5 text-green-600" />
+    case "warning":   return <ClockIcon className="size-5 text-yellow-600" />
+    case "promotion": return <TagIcon className="size-5 text-primary" />
+    default:          return <InfoIcon className="size-5 text-blue-600" />
   }
 }
 
@@ -70,14 +70,14 @@ export function Notifications() {
     })
 
   return (
-    <div className="space-y-6">
+    <div className="flex flex-col gap-6">
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-bold">Notifications</h2>
           <p className="text-muted-foreground">
             Stay updated with your orders and offers
             {unreadCount > 0 && (
-              <span className="ml-2 inline-flex items-center justify-center rounded-full bg-primary text-primary-foreground text-xs w-5 h-5">
+              <span className="ml-2 inline-flex items-center justify-center rounded-full bg-primary text-primary-foreground text-xs size-5">
                 {unreadCount}
               </span>
             )}
@@ -96,19 +96,19 @@ export function Notifications() {
       </div>
 
       {loading ? (
-        <div className="space-y-3">
+        <div className="flex flex-col gap-3">
           {[1, 2, 3].map((i) => <Skeleton key={i} className="h-24 w-full rounded-xl" />)}
         </div>
       ) : notifications.length === 0 ? (
-        <div className="py-20 text-center space-y-4">
-          <div className="bg-muted w-16 h-16 rounded-full flex items-center justify-center mx-auto">
-            <BellIcon className="h-8 w-8 text-muted-foreground" />
+        <div className="py-20 text-center flex flex-col gap-4">
+          <div className="bg-muted size-16 rounded-full flex items-center justify-center mx-auto">
+            <BellIcon className="size-8 text-muted-foreground" />
           </div>
           <p className="font-medium text-muted-foreground">No notifications available</p>
           <p className="text-sm text-muted-foreground">You're all caught up!</p>
         </div>
       ) : (
-        <div className="space-y-3">
+        <div className="flex flex-col gap-3">
           {notifications.map((n) => (
             <Card
               key={n._id}
@@ -124,7 +124,7 @@ export function Notifications() {
                   <div className="mt-0.5 bg-muted/50 p-2 rounded-full shrink-0">
                     {getIcon(n.type)}
                   </div>
-                  <div className="flex-1 min-w-0 space-y-1">
+                  <div className="flex-1 min-w-0 flex flex-col gap-1">
                     <div className="flex items-start justify-between gap-2">
                       <h3 className={`font-bold text-sm ${!n.isRead ? "text-foreground" : "text-muted-foreground"}`}>
                         {n.title}
@@ -151,7 +151,7 @@ export function Notifications() {
                           size="sm"
                           className="h-7 text-xs text-destructive hover:text-destructive hover:bg-destructive/10"
                         >
-                          <Trash2Icon className="mr-1 h-3 w-3" /> Delete
+                          <Trash2Icon className="mr-1 size-3" /> Delete
                         </Button>
                       </ConfirmDeleteDialog>
                     </div>

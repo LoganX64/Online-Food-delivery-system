@@ -25,7 +25,7 @@ export function BottomNav() {
               isActive ? "text-primary" : "text-muted-foreground hover:text-primary"
             )}
           >
-            <item.icon className={cn("h-5 w-5", isActive && "fill-current")} />
+            <item.icon className={cn("size-5", isActive && "fill-current")} />
             <span className="text-[10px] font-medium">{item.label}</span>
           </Link>
         )

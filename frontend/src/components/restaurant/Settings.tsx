@@ -175,7 +175,7 @@ export function Settings() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto space-y-8 pb-10">
+    <div className="max-w-4xl mx-auto flex flex-col gap-8 pb-10">
       <Card className="border shadow-sm overflow-hidden p-0">
         <CardHeader className="bg-muted/50 p-8 pb-8 rounded-t-none">
           <div className="flex flex-col md:flex-row items-center gap-6">
@@ -185,7 +185,7 @@ export function Settings() {
                 {restaurant?.name?.substring(0, 2).toUpperCase() || "RE"}
               </AvatarFallback>
             </Avatar>
-            <div className="text-center md:text-left space-y-1">
+            <div className="text-center md:text-left flex flex-col gap-1">
               <CardTitle className="text-2xl font-bold tracking-tight">{restaurant?.name || "Restaurant Name"}</CardTitle>
               <CardDescription className="text-base font-medium">Manage your restaurant profile and account settings.</CardDescription>
               <div className="flex flex-wrap justify-center md:justify-start gap-3 mt-2">
@@ -199,57 +199,57 @@ export function Settings() {
             </div>
           </div>
         </CardHeader>
-        <CardContent className="p-6 md:p-8 space-y-8">
+        <CardContent className="p-6 md:p-8 flex flex-col gap-8">
           <div className="grid gap-8 md:grid-cols-2">
-            <div className="space-y-4">
+            <div className="flex flex-col gap-4">
               <h3 className="font-bold flex items-center gap-2 text-primary text-lg">
                 <StoreIcon className="size-5" />
                 Account & Restaurant Profile
               </h3>
-              <div className="space-y-2">
+              <div className="flex flex-col gap-2">
                 <Label htmlFor="userName" className="font-semibold text-muted-foreground">Owner Name</Label>
                 <Input id="userName" value={formData.userName} onChange={handleInputChange} className="rounded-md border bg-muted/20 h-12 focus-visible:ring-primary/20" />
               </div>
-              <div className="space-y-2">
+              <div className="flex flex-col gap-2">
                 <Label htmlFor="userEmail" className="font-semibold text-muted-foreground">Login Email</Label>
                 <div className="relative">
                   <MailIcon className="absolute left-4 top-1/2 -translate-y-1/2 size-5 text-muted-foreground" />
                   <Input id="userEmail" disabled value={formData.userEmail} className="pl-12 rounded-md border bg-muted/20 h-12 text-muted-foreground cursor-not-allowed" />
                 </div>
               </div>
-              <div className="space-y-2">
+              <div className="flex flex-col gap-2">
                 <Label htmlFor="userPhone" className="font-semibold text-muted-foreground">Contact Phone</Label>
                 <div className="relative">
                   <PhoneIcon className="absolute left-4 top-1/2 -translate-y-1/2 size-5 text-muted-foreground" />
                   <Input id="userPhone" value={formData.userPhone} onChange={handleInputChange} className="pl-12 rounded-md border bg-muted/20 h-12 focus-visible:ring-primary/20" />
                 </div>
               </div>
-              <div className="space-y-2 pt-4">
+              <div className="flex flex-col gap-2 pt-4">
                 <Label htmlFor="restaurantName" className="font-semibold text-muted-foreground">Restaurant Name</Label>
                 <Input id="restaurantName" value={formData.restaurantName} onChange={handleInputChange} className="rounded-md border bg-muted/20 h-12 focus-visible:ring-primary/20" />
               </div>
             </div>
 
-            <div className="space-y-4">
+            <div className="flex flex-col gap-4">
               <h3 className="font-bold flex items-center gap-2 text-primary text-lg">
                 <MapPinIcon className="size-5" />
                 Address Details
               </h3>
-              <div className="space-y-2">
+              <div className="flex flex-col gap-2">
                 <Label htmlFor="addressLine" className="font-semibold text-muted-foreground">Street Address</Label>
                 <Input id="addressLine" value={formData.addressLine} onChange={handleInputChange} className="rounded-md border bg-muted/20 h-12 focus-visible:ring-primary/20" />
               </div>
               <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
+                <div className="flex flex-col gap-2">
                   <Label htmlFor="city" className="font-semibold text-muted-foreground">City</Label>
                   <Input id="city" value={formData.city} onChange={handleInputChange} className="rounded-md border bg-muted/20 h-12 focus-visible:ring-primary/20" />
                 </div>
-                <div className="space-y-2">
+                <div className="flex flex-col gap-2">
                   <Label htmlFor="state" className="font-semibold text-muted-foreground">State</Label>
                   <Input id="state" value={formData.state} onChange={handleInputChange} className="rounded-md border bg-muted/20 h-12 focus-visible:ring-primary/20" />
                 </div>
               </div>
-              <div className="space-y-2">
+              <div className="flex flex-col gap-2">
                 <Label htmlFor="pincode" className="font-semibold text-muted-foreground">Zip Code</Label>
                 <Input id="pincode" value={formData.pincode} onChange={handleInputChange} className="rounded-md border bg-muted/20 h-12 focus-visible:ring-primary/20" />
               </div>
@@ -278,9 +278,9 @@ export function Settings() {
             </div>
           </div>
         </CardHeader>
-        <CardContent className="p-6 md:p-8 pt-0 md:pt-0 space-y-5">
-          <div className="max-w-md space-y-4">
-            <div className="space-y-2">
+        <CardContent className="p-6 md:p-8 pt-0 md:pt-0 flex flex-col gap-5">
+          <div className="max-w-md flex flex-col gap-4">
+            <div className="flex flex-col gap-2">
               <Label htmlFor="currentPassword" className="font-semibold text-muted-foreground">Current Password</Label>
               <div className="relative">
                 <Input
@@ -297,7 +297,7 @@ export function Settings() {
                 </button>
               </div>
             </div>
-            <div className="space-y-2">
+            <div className="flex flex-col gap-2">
               <Label htmlFor="newPassword" className="font-semibold text-muted-foreground">New Password</Label>
               <div className="relative">
                 <Input
@@ -314,7 +314,7 @@ export function Settings() {
                 </button>
               </div>
             </div>
-            <div className="space-y-2">
+            <div className="flex flex-col gap-2">
               <Label htmlFor="confirmPassword" className="font-semibold text-muted-foreground">Confirm New Password</Label>
               <Input
                 id="confirmPassword"
