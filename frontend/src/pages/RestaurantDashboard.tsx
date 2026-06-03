@@ -1,15 +1,19 @@
-import { useState } from "react"
-import { useNavigate } from "react-router-dom"
-import { SidebarProvider, SidebarTrigger, SidebarInset } from "@/components/ui/sidebar"
-import { RestaurantSidebar } from "../components/restaurant/RestaurantSidebar"
-import { DashboardOverview } from "../components/restaurant/DashboardOverview"
-import { LiveOrders } from "../components/restaurant/LiveOrders"
-import { MenuEditor } from "../components/restaurant/MenuEditor"
-import { OrderHistory } from "../components/restaurant/OrderHistory"
-import { Settings } from "../components/restaurant/Settings"
-import { useAuth } from "@/hooks/useAuth"
-import { cn } from "@/lib/utils"
-import { Toaster } from "@/components/ui/sonner"
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import {
+  SidebarProvider,
+  SidebarTrigger,
+  SidebarInset,
+} from "@/components/ui/sidebar";
+import { RestaurantSidebar } from "../components/restaurant/RestaurantSidebar";
+import { DashboardOverview } from "../components/restaurant/DashboardOverview";
+import { LiveOrders } from "../components/restaurant/LiveOrders";
+import { MenuEditor } from "../components/restaurant/MenuEditor";
+import { OrderHistory } from "../components/restaurant/OrderHistory";
+import { Settings } from "../components/restaurant/Settings";
+import { useAuth } from "@/hooks/useAuth";
+import { cn } from "@/lib/utils";
+import { Toaster } from "@/components/ui/sonner";
 import {
   SearchIcon,
   BellIcon,
@@ -17,10 +21,11 @@ import {
   ShoppingBagIcon,
   UtensilsIcon,
   Settings2Icon,
-} from "lucide-react"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { Separator } from "@/components/ui/separator"
+} from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { ModeToggle } from "@/components/mode-toggle";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -28,45 +33,56 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb"
+} from "@/components/ui/breadcrumb";
 
 const mobileNavItems = [
-  { id: "Dashboard",     label: "Dashboard", icon: LayoutDashboardIcon },
-  { id: "Live Orders",   label: "Orders",    icon: ShoppingBagIcon },
-  { id: "Menu editor",   label: "Menu",      icon: UtensilsIcon },
-  { id: "Settings",      label: "Settings",  icon: Settings2Icon },
-]
+  { id: "Dashboard", label: "Dashboard", icon: LayoutDashboardIcon },
+  { id: "Live Orders", label: "Orders", icon: ShoppingBagIcon },
+  { id: "Menu editor", label: "Menu", icon: UtensilsIcon },
+  { id: "Settings", label: "Settings", icon: Settings2Icon },
+];
 
 export default function RestaurantDashboard() {
-  const navigate = useNavigate()
-  const { logout } = useAuth()
-  const [activeTab, setActiveTab] = useState("Dashboard")
-  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false)
+  const navigate = useNavigate();
+  const { logout } = useAuth();
+  const [activeTab, setActiveTab] = useState("Dashboard");
+  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
 
   const handleQuickCreate = () => {
-    setActiveTab("Menu editor")
-    setIsAddDialogOpen(true)
-  }
+    setActiveTab("Menu editor");
+    setIsAddDialogOpen(true);
+  };
 
   const handleLogout = async () => {
     try {
-      await logout()
-      navigate("/restaurant/login", { replace: true })
+      await logout();
+      navigate("/restaurant/login", { replace: true });
     } catch (error) {
-      console.error("Failed to logout", error)
+      console.error("Failed to logout", error);
     }
-  }
+  };
 
   const renderContent = () => {
     switch (activeTab) {
-      case "Dashboard":     return <DashboardOverview />
-      case "Live Orders":   return <LiveOrders />
-      case "Menu editor":   return <MenuEditor isAddDialogOpen={isAddDialogOpen} onAddDialogChange={setIsAddDialogOpen} />
-      case "Orders history":return <OrderHistory />
-      case "Settings":      return <Settings />
-      default:              return <DashboardOverview />
+      case "Dashboard":
+        return <DashboardOverview />;
+      case "Live Orders":
+        return <LiveOrders />;
+      case "Menu editor":
+        return (
+          <MenuEditor
+            isAddDialogOpen={isAddDialogOpen}
+            onAddDialogChange={setIsAddDialogOpen}
+          />
+        );
+      case "Orders history":
+        return <OrderHistory />;
+      case "Settings":
+        return <Settings />;
+      default:
+        return <DashboardOverview />;
     }
-  }
+  };
 
   return (
     <SidebarProvider>
@@ -81,13 +97,14 @@ export default function RestaurantDashboard() {
         />
 
         <SidebarInset className="flex flex-col flex-1 w-full pb-16 md:pb-0 overflow-x-hidden">
-
           {/* ── Top Header ─────────────────────────────────────── */}
           <header className="flex h-16 shrink-0 items-center gap-2 border-b bg-background px-4 lg:px-6 sticky top-0 z-30">
-
             {/* Hamburger — visible on all screen sizes */}
             <SidebarTrigger className="-ml-1" />
-            <Separator orientation="vertical" className="mr-2 h-4 hidden md:block" />
+            <Separator
+              orientation="vertical"
+              className="mr-2 h-4 hidden md:block"
+            />
 
             {/* Breadcrumb — current section */}
             <Breadcrumb>
@@ -116,8 +133,13 @@ export default function RestaurantDashboard() {
                 </div>
               )}
 
+              <ModeToggle />
               {/* Bell — always visible */}
-              <Button variant="ghost" size="icon" className="size-9 rounded-full">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="size-9 rounded-full"
+              >
                 <BellIcon className="size-4" />
               </Button>
 
@@ -140,7 +162,6 @@ export default function RestaurantDashboard() {
               {renderContent()}
             </div>
           </main>
-
         </SidebarInset>
 
         {/* ── Mobile Bottom Navbar ──────────────────────────────── */}
@@ -152,7 +173,9 @@ export default function RestaurantDashboard() {
               onClick={() => setActiveTab(item.id)}
               className={cn(
                 "flex flex-col items-center justify-center flex-1 h-full gap-0.5 transition-colors",
-                activeTab === item.id ? "text-primary" : "text-muted-foreground hover:text-foreground"
+                activeTab === item.id
+                  ? "text-primary"
+                  : "text-muted-foreground hover:text-foreground",
               )}
             >
               <item.icon className="size-5" />
@@ -160,8 +183,7 @@ export default function RestaurantDashboard() {
             </button>
           ))}
         </nav>
-
       </div>
     </SidebarProvider>
-  )
+  );
 }
